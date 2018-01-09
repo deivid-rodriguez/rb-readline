@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require 'readline'
+require 'open3'
 
 class TestReadline < Minitest::Test
   def setup
@@ -20,6 +21,13 @@ class TestReadline < Minitest::Test
     assert thread.alive?
   ensure
     thread.kill
+  end
+
+  def test_readline_with_popen_echoes_stdin_data
+    stdout, status = Open3.capture2e("ruby -Ilib -rreadline -e \"Readline.readline('[prompt] ')\"", stdin_data: 'ls')
+
+    assert_includes stdout, '[prompt] ls'
+    assert_equal true, status.success?
   end
 
   def test_input_basic

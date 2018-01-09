@@ -709,12 +709,6 @@ module RbReadline
   @ibuffer_len = @ibuffer.length - 1
 
 
-  # Non-zero means echo characters as they are read.  Defaults to no echo
-  #   set to 1 if there is a controlling terminal, we can get its attributes,
-  #   and the attributes include `echo'.  Look at rltty.c:prepare_terminal_settings
-  #   for the code that sets it.
-  @readline_echoing_p = false
-
   # Current prompt.
   @rl_prompt = nil
   @rl_visible_prompt_length = 0
@@ -1516,12 +1510,10 @@ module RbReadline
   end
 
   def _rl_clean_up_for_exit()
-    if @readline_echoing_p
-      _rl_move_vert(@_rl_vis_botlin)
-      @_rl_vis_botlin = 0
-      @rl_outstream.flush
-      rl_restart_output(1, 0)
-    end
+    _rl_move_vert(@_rl_vis_botlin)
+    @_rl_vis_botlin = 0
+    @rl_outstream.flush
+    rl_restart_output(1, 0)
   end
 
   # Move the cursor from _rl_last_c_pos to NEW, which are buffer indices.
@@ -3170,8 +3162,6 @@ module RbReadline
 
   # Basic redisplay algorithm.
   def rl_redisplay()
-    return if !@readline_echoing_p
-
     _rl_wrapped_multicolumn = 0
 
     @rl_display_prompt ||= ""
@@ -3987,23 +3977,12 @@ module RbReadline
       send(@rl_startup_hook)
     end
 
-    # If we're not echoing, we still want to at least print a prompt, because
-    #   rl_redisplay will not do it for us.  If the calling application has a
-    #   custom redisplay function, though, let that function handle it.
-    if (!@readline_echoing_p && @rl_redisplay_function == :rl_redisplay)
-      if (@rl_prompt && !@rl_already_prompted)
-        nprompt = _rl_strip_prompt(@rl_prompt)
-        @_rl_out_stream.write(nprompt)
-        @_rl_out_stream.flush
-      end
+    if (@rl_prompt && @rl_already_prompted)
+      rl_on_new_line_with_prompt()
     else
-      if (@rl_prompt && @rl_already_prompted)
-        rl_on_new_line_with_prompt()
-      else
-        rl_on_new_line()
-      end
-      send(@rl_redisplay_function)
+      rl_on_new_line()
     end
+    send(@rl_redisplay_function)
 
     if (@rl_editing_mode == @vi_mode)
       rl_vi_insertion_mode(1, 'i')
@@ -4024,7 +4003,7 @@ module RbReadline
   def rl_ding()
     if @MessageBeep
       @MessageBeep.Call(0)
-    elsif @readline_echoing_p
+    else
       if @_rl_bell_preference == VISIBLE_BELL
         if (@_rl_visible_bell)
           @_rl_out_stream.write(@_rl_visible_bell.chr)
@@ -4866,7 +4845,7 @@ module RbReadline
     rl_set_prompt(prompt)
 
     rl_initialize()
-    @readline_echoing_p = true
+
     if (@rl_prep_term_function)
       send(@rl_prep_term_function,@_rl_meta_flag)
     end
@@ -5776,9 +5755,7 @@ module RbReadline
     if (@rl_erase_empty_line && @rl_point == 0 && @rl_end == 0)
       return 0
     end
-    if @readline_echoing_p
-      _rl_update_final()
-    end
+    _rl_update_final()
     0
   end
 
@@ -6997,10 +6974,6 @@ module RbReadline
   end
 
   def prepare_terminal_settings(meta_flag)
-    retry_if_interrupted do
-      @readline_echoing_p = (`stty -a`.scan(/-*echo\b/).first == 'echo')
-    end
-
     # First, the basic settings to put us into character-at-a-time, no-echo
     #   input mode.
     setting = " -echo -icrnl cbreak"
@@ -7049,10 +7022,7 @@ module RbReadline
   end
 
   def rl_prep_terminal(meta_flag)
-    if no_terminal?
-      @readline_echoing_p = true
-      return
-    end
+    return if no_terminal?
 
     return if (@terminal_prepped)
 
@@ -8880,13 +8850,11 @@ module RbReadline
   end
 
   def rl_resize_terminal()
-    if @readline_echoing_p
-      _rl_get_screen_size(@rl_instream.fileno, 1)
-      if @rl_redisplay_function != :rl_redisplay
-        rl_forced_update_display()
-      else
-        _rl_redisplay_after_sigwinch()
-      end
+    _rl_get_screen_size(@rl_instream.fileno, 1)
+    if @rl_redisplay_function != :rl_redisplay
+      rl_forced_update_display()
+    else
+      _rl_redisplay_after_sigwinch()
     end
   end
 
