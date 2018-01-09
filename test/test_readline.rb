@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require 'readline'
+require 'open3'
 
 class TestReadline < Minitest::Test
   def setup
@@ -20,6 +21,23 @@ class TestReadline < Minitest::Test
     assert thread.alive?
   ensure
     thread.kill
+  end
+
+  def test_readline_with_popen_echoes_stdin_data
+    stdout, status = Open3.capture2e("ruby -Ilib -rreadline -e \"Readline.readline('[prompt] ')\"", stdin_data: 'ls')
+
+    assert_includes stdout, '[prompt] ls'
+    assert_equal true, status.success?
+  end
+
+  def test_readline_does_not_shell_out_to_stty_when_input_not_attached_to_a_terminal
+    stdout, status = Open3.capture2e(
+      { "LC_ALL" => "C" },
+      "ruby -Ilib -rreadline -e \"Readline.readline('[prompt] ')\"", stdin_data: 'ls'
+    )
+
+    refute_includes stdout, 'Inappropriate ioctl for device'
+    assert_equal true, status.success?
   end
 
   def test_input_basic
