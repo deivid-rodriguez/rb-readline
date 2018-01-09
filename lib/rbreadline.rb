@@ -4872,9 +4872,17 @@ module RbReadline
     if (@rl_prep_term_function)
       send(@rl_prep_term_function,@_rl_meta_flag)
     end
+
+    at_exit do
+      if (@rl_deprep_term_function)
+        send(@rl_deprep_term_function)
+      end
+    end
+
     rl_set_signals()
 
     value = readline_internal()
+
     if(@rl_deprep_term_function)
       send(@rl_deprep_term_function)
     end
