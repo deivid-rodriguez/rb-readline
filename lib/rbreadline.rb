@@ -4494,6 +4494,8 @@ module RbReadline
     end
 
     def rl_getc(stream)
+      return stream.getc || EOF if no_tty?
+
       while (@kbhit.Call == 0)
         # If there is no input, yield the processor for other threads
         sleep(@_keyboard_input_timeout)
@@ -8929,7 +8931,14 @@ module RbReadline
   private :no_terminal?
 
   def no_tty?
-    !rl_instream.respond_to?(:tty?) || !rl_instream.tty?
+    require "io/console"
+
+    begin
+      STDOUT.winsize
+      false
+    rescue
+      true
+    end
   end
   private :no_tty?
 end
