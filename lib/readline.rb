@@ -46,7 +46,6 @@ module Readline
     rescue Exception => e
       buff = nil
       RbReadline.rl_cleanup_after_signal()
-      RbReadline.rl_deprep_terminal()
       raise e
     end
 
