@@ -1861,14 +1861,12 @@ module RbReadline
       @_rl_screenwidth = wc
       @_rl_screenheight = wr
     else
-      unless no_tty?
-        wr, wc = 0
-        retry_if_interrupted do
-          wr, wc = `stty size`.split(' ').map { |x| x.to_i }
-        end
-        @_rl_screenwidth = wc
-        @_rl_screenheight = wr
+      wr, wc = 0
+      retry_if_interrupted do
+        wr, wc = `stty size`.split(' ').map { |x| x.to_i }
       end
+      @_rl_screenwidth = wc
+      @_rl_screenheight = wr
       if ignore_env==0 && ENV['LINES']
         @_rl_screenheight = ENV['LINES'].to_i
       end
@@ -2557,7 +2555,7 @@ module RbReadline
     _rl_init_terminal_io(@rl_terminal_name)
 
     # Bind tty characters to readline functions.
-    readline_default_bindings() unless no_tty?
+    readline_default_bindings()
 
     # Decide whether we should automatically go into eight-bit mode.
     _rl_init_eightbit()
@@ -4477,7 +4475,9 @@ module RbReadline
     end
 
     def rl_getc(stream)
-      return stream.getc || EOF if no_tty?
+      if no_tty?
+        return stream.getc || EOF
+      end
 
       while (@kbhit.Call == 0)
         # If there is no input, yield the processor for other threads
@@ -4865,7 +4865,7 @@ module RbReadline
       end
     end
 
-    rl_set_signals() unless no_tty?
+    rl_set_signals()
 
     value = readline_internal()
 
@@ -4873,7 +4873,7 @@ module RbReadline
       send(@rl_deprep_term_function)
     end
 
-    rl_clear_signals() unless no_tty?
+    rl_clear_signals()
 
     value
   end
@@ -7034,7 +7034,7 @@ module RbReadline
   end
 
   def rl_prep_terminal(meta_flag)
-    if no_terminal? || no_tty?
+    if no_terminal?
       @readline_echoing_p = true
       return
     end
@@ -7057,7 +7057,6 @@ module RbReadline
     save_tty_chars()
 
     rl_setstate(RL_STATE_TTYCSAVED)
-
     if (@_rl_bind_stty_chars)
 
       # If editing in vi mode, make sure we set the bindings in the
@@ -7083,7 +7082,7 @@ module RbReadline
 
   # Restore the terminal's normal settings and modes.
   def rl_deprep_terminal
-    return if no_terminal? || no_tty?
+    return if ENV["TERM"].nil?
     return if (!@terminal_prepped)
 
     # Try to keep this function from being interrupted.
