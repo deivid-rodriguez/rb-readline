@@ -41,7 +41,6 @@ def File.dir?(path)
   File.directory?((path[-1,1] == '/') ? path : path + '/')
 end
 
-
 class ConfigTable
 
   include Enumerable
@@ -531,7 +530,6 @@ class ConfigTable
 
 end   # class ConfigTable
 
-
 # This module requires: #verbose?, #no_harm?
 module FileOperations
 
@@ -684,7 +682,6 @@ module FileOperations
 
 end
 
-
 # This module requires: #srcdir_root, #objdir_root, #relpath
 module HookScriptAPI
 
@@ -746,7 +743,6 @@ module HookScriptAPI
   end
 
 end
-
 
 class ToplevelInstaller
 
@@ -1020,7 +1016,6 @@ class ToplevelInstaller
 
 end   # class ToplevelInstaller
 
-
 class ToplevelInstallerMulti < ToplevelInstaller
 
   include FileOperations
@@ -1153,7 +1148,6 @@ class ToplevelInstallerMulti < ToplevelInstaller
   end
 
 end   # class ToplevelInstallerMulti
-
 
 class Installer
 
@@ -1565,7 +1559,6 @@ class Installer
   end
 
 end   # class Installer
-
 
 class SetupError < StandardError; end
 

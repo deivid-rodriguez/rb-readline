@@ -1,0 +1,11 @@
+---
+
+AllCops:
+  DisabledByDefault: true
+
+  DisplayCopNames: true
+
+  StyleGuideCopsOnly: false
+
+Layout/EmptyLines:
+  Enabled: true

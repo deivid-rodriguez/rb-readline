@@ -649,7 +649,6 @@ module RbReadline
   #   By default, it is the standard emacs keymap.
   @_rl_keymap = @emacs_standard_keymap
 
-
   # The current style of editing.
   @rl_editing_mode = @emacs_mode
 
@@ -709,7 +708,6 @@ module RbReadline
   @push_index = 0
   @ibuffer = 0.chr * 512
   @ibuffer_len = @ibuffer.length - 1
-
 
   # Non-zero means echo characters as they are read.  Defaults to no echo
   #   set to 1 if there is a controlling terminal, we can get its attributes,
@@ -1085,7 +1083,6 @@ module RbReadline
   @if_stack = []
   @if_stack_depth = 0
 
-
   # The last key bindings file read.
   @last_readline_init_file = nil
 
@@ -1426,7 +1423,6 @@ module RbReadline
     return matches
   end
 
-
   # This is a NOOP until the rest of Vi-mode is working.
   def rl_vi_editing_mode(count, key)
     0
@@ -1464,7 +1460,6 @@ module RbReadline
     end
     0
   end
-
 
   # A function for simple tilde expansion.
   def rl_tilde_expand(ignore, key)
@@ -1615,7 +1610,6 @@ module RbReadline
     @_rl_last_c_pos = dpos
   end
 
-
   # PWP: move the cursor up or down.
   def _rl_move_vert(to)
     if (@_rl_last_v_pos == to || to > @_rl_screenheight)
@@ -1751,7 +1745,6 @@ module RbReadline
     vlp = physchars
     return [ret,lp,lip,niflp,vlp]
   end
-
 
   #*
   #* Expand the prompt string into the various display components, if
@@ -1933,7 +1926,6 @@ module RbReadline
     rl_generic_bind(ISFUNC, keyseq, function, map)
   end
 
-
   # Bind key sequence KEYSEQ to DEFAULT_FUNC if KEYSEQ is unbound.  Right
   #   now, this is always used to attempt to bind the arrow keys, hence the
   #   check for rl_vi_movement_mode.
@@ -2083,7 +2075,6 @@ module RbReadline
   def _rl_init_eightbit
 
   end
-
 
   # Do key bindings from a file.  If FILENAME is NULL it defaults
   #   to the first non-null filename from this list:
@@ -2258,7 +2249,6 @@ module RbReadline
     #_rl_init_file_error("unknown parser directive")
     return 1
   end
-
 
   def rl_variable_bind(name,value)
     case name
@@ -2478,7 +2468,6 @@ module RbReadline
     0
   end
 
-
   def _rl_enable_meta_key
     if(@term_has_meta && @_rl_term_mm)
       @_rl_out_stream.write(@_rl_term_mm)
@@ -2610,7 +2599,6 @@ module RbReadline
     @_rl_saved_line_for_history = nil
   end
 
-
   def cr_faster(new, cur)
     (new + 1) < (cur - new)
   end
@@ -2711,7 +2699,6 @@ module RbReadline
   def m_offset(margin, offset)
     ((margin) == 0 ? offset : 0)
   end
-
 
   # PWP: update_line() is based on finding the middle difference of each
   #   line on the screen; vis:
@@ -2872,7 +2859,6 @@ module RbReadline
       end
     end
 
-
     # Move to the end of the screen line.  ND and OD are used to keep track
     #   of the distance between ne and new and oe and old, respectively, to
     #   move a subtraction out of each loop.
@@ -2890,7 +2876,6 @@ module RbReadline
     if (ofd == oe && nfd == ne)
       return
     end
-
 
     wsatend = true       # flag for trailing whitespace
 
@@ -4347,7 +4332,6 @@ module RbReadline
     rl_clear_message()
   end
 
-
   def _rl_isearch_cleanup(cxt, r)
     if (r >= 0)
       _rl_isearch_fini(cxt)
@@ -4366,7 +4350,6 @@ module RbReadline
     @_rl_dispatching_keymap = map
     return _rl_dispatch_subseq(key, map, false)
   end
-
 
   def _rl_dispatch_subseq(key, map, got_subseq)
     func = map[key]
@@ -4592,7 +4575,6 @@ module RbReadline
 
     return (c)
   end
-
 
   # Return the amount of space available in the buffer for stuffing
   #   characters.
@@ -4959,7 +4941,6 @@ module RbReadline
     @rl_undo_list = temp
   end
 
-
   # Delete the string between FROM and TO.  FROM is inclusive, TO is not.
   #   Returns the number of characters deleted.
   def rl_delete_text(from, to)
@@ -5061,7 +5042,6 @@ module RbReadline
     end
     _rl_fix_point(true)
   end
-
 
   # Replace the DATA in the specified history entries, replacing OLD with
   #   NEW.  WHICH says which one(s) to replace:  WHICH == -1 means to replace
@@ -5356,7 +5336,6 @@ module RbReadline
     send(@rl_redisplay_function)
     0
   end
-
 
   # Clear the current line.  Numeric argument to C-l does this.
   def rl_refresh_line(ignore1, ignore2)
@@ -5665,7 +5644,6 @@ module RbReadline
      _rl_overwrite_char(count, c))
   end
 
-
   # Insert the next typed character verbatim.
   def _rl_insert_next(count)
     rl_setstate(RL_STATE_MOREINPUT)
@@ -5764,7 +5742,6 @@ module RbReadline
     @rl_outstream.flush
     @rl_display_fixed = true if !@rl_display_fixed
   end
-
 
   # What to do when a NEWLINE is pressed.  We accept the whole line.
   #   KEY is the key that invoked this command.  I guess it could have
@@ -5868,7 +5845,6 @@ module RbReadline
     end
     _rl_rubout_char(count, key)
   end
-
 
   # Quick redisplay hack when erasing characters at the end of the line.
   def _rl_erase_at_end_of_line(l)
@@ -6272,7 +6248,6 @@ module RbReadline
       #   completion, so use the word break characters to find the
       #   substring on which to complete.
 
-
       while (@rl_point =  !@rl_byte_oriented ?
              _rl_find_prev_mbchar(@rl_line_buffer, @rl_point, MB_FIND_ANY):(@rl_point-1))>0
 
@@ -6469,7 +6444,6 @@ module RbReadline
     replacement
   end
 
-
   def insert_match(match, start, mtype, qc)
     oqc = qc
     replacement = make_quoted_replacement(match, mtype, qc)
@@ -6588,7 +6562,6 @@ module RbReadline
     return '*' if File.executable?(filename)
     nil
   end
-
 
   # Output TO_PRINT to rl_outstream.  If VISIBLE_STATS is defined and we
   #   are using it, check for and output a single character for `special'
@@ -7720,8 +7693,6 @@ module RbReadline
 
     1
   end
-
-
 
   # Do some undoing of things that were done.
   def rl_undo_command(count, key)
@@ -8908,8 +8879,6 @@ module RbReadline
     rl_resize_terminal()
     rl_unsetstate(RL_STATE_SIGHANDLER)
   end
-
-
 
   module_function :rl_attempted_completion_function,:rl_deprep_term_function,
     :rl_event_hook,:rl_attempted_completion_over,:rl_basic_quote_characters,
