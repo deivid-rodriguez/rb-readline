@@ -1130,18 +1130,18 @@ module RbReadline
         @directory = nil
       end
 
-      text.delete!(0.chr)
-      if text.empty?
+      text_without_zeros = text.delete(0.chr)
+      if text_without_zeros.empty?
         @dirname = "."
         @filename = ""
-      elsif text.rindex(File::SEPARATOR) == text.length - 1
-        @dirname = text
+      elsif text_without_zeros.rindex(File::SEPARATOR) == text_without_zeros.length - 1
+        @dirname = text_without_zeros
         @filename = ""
       else
-        @dirname, @filename = File.split(text)
+        @dirname, @filename = File.split(text_without_zeros)
 
         # This preserves the "./" when the user types "./dirname<tab>".
-        if @dirname == "." && text[0, 2] == ".#{File::SEPARATOR}"
+        if @dirname == "." && text_without_zeros[0, 2] == ".#{File::SEPARATOR}"
           @dirname += File::SEPARATOR
         end
       end
@@ -2346,10 +2346,10 @@ module RbReadline
 
     until ss.eos?
       char = ss.getch
-      next new_seq << char unless char == '\\'
+      next new_seq += char unless char == '\\'
 
       char = ss.getch
-      new_seq << case char
+      new_seq += case char
                  when "a"
                    "\007"
                  when "b"
@@ -6706,7 +6706,7 @@ module RbReadline
     #   use it for the meta-key.  If only one of even or odd parity is
     #  specified, then the terminal is using parity, and we cannot.
     retry_if_interrupted do
-      setting << " pass8" if `stty -a`.scan(/-parenb\b/).first == "-parenb"
+      setting += " pass8" if `stty -a`.scan(/-parenb\b/).first == "-parenb"
     end
 
     setting << " -ixoff"

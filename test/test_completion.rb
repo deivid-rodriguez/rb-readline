@@ -52,7 +52,7 @@ class TestCompletion < Minitest::Test
   def set_line_buffer(text)
     @rl_line_buffer = text
     @rl_point = @rl_line_buffer.size
-    @rl_line_buffer << 0.chr
+    @rl_line_buffer += 0.chr
   end
 
   def test__find_completion_word_doesnt_hang_on_completer_quote_character
