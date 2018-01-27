@@ -1,0 +1,85 @@
+#!/usr/bin/env ruby
+
+require 'open3'
+
+#
+# Adds RuboCop to a project, one cop per commit
+#
+class RuboCoper
+  def run
+    autocorrect_all
+
+    autocorrect_leftovers
+
+    generate_todo_config
+  end
+
+  private
+
+  #
+  # Generates an offense free _todo_ configuration
+  #
+  def generate_todo_config
+    puts 'Generating todo config...'
+    run_cmd('bin/rubocop --auto-gen-config')
+
+    File.open('.rubocop.yml', 'a') do |f|
+      f.puts "\ninherit_from: .rubocop_todo.yml"
+    end
+
+    commit('Add RuboCop offense free configuration')
+  end
+
+  #
+  # Some cop autocorrections introduce offenses that are expected to be
+  # fixed by other autocorrections. So do a final pass to fix those.
+  #
+  def autocorrect_leftovers
+    puts 'Autocorrecting leftover offenses...'
+    run_cmd('bin/rubocop --auto-correct')
+    commit('Remove leftover RuboCop offenses')
+  end
+
+  #
+  # Iterate through each offense, try to autocorrect it and add a commit if
+  # something was corrected.
+  #
+  def autocorrect_all
+    run_cmd('bin/rubocop --format=offenses').split("\n").each do |line|
+      match_result = line.match(%r{\d+\s+(?<cop_name>\w+/\w+)})
+      next unless match_result
+
+      puts "Autocorrecting #{match_result[:cop_name]}..."
+      autocorrect(match_result[:cop_name])
+    end
+  end
+
+  #
+  # Autocorrects a single offense
+  #
+  def autocorrect(cop_name)
+    run_cmd("bin/rubocop --only #{cop_name} --auto-correct")
+    commit("Fix #{cop_name} offenses")
+  end
+
+  #
+  # Runs a given command and rises if it fails
+  #
+  def run_cmd(command)
+    out, err, status = Open3.capture3(command)
+
+    print(err) unless status.success?
+
+    out
+  end
+
+  #
+  # Commits changes in current working tree with given message
+  #
+  def commit(message)
+    run_cmd('git add .')
+    run_cmd("git commit -m '#{message}'")
+  end
+end
+
+RuboCoper.new.run
