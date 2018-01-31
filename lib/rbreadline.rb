@@ -1637,7 +1637,7 @@ module RbReadline
 
   def rl_set_signals
     if Signal.list["WINCH"]
-      @def_proc = trap "WINCH", Proc.new { rl_sigwinch_handler(0) }
+      @def_proc = trap "WINCH", proc { rl_sigwinch_handler(0) }
     end
   end
 

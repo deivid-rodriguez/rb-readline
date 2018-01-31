@@ -182,7 +182,7 @@ class TestReadline < Minitest::Test
   end
 
   def test_attempted_comp_func_case_folding
-    Readline.completion_proc = Proc.new do |word|
+    Readline.completion_proc = proc do |word|
       %w[123456 123abc abc123].grep(/^#{word}/i)
     end
 
@@ -199,7 +199,7 @@ class TestReadline < Minitest::Test
   end
 
   def test_attempted_comp_func_removes_replacement_from_possible_matches
-    Readline.completion_proc = Proc.new do |word|
+    Readline.completion_proc = proc do |word|
       %w[123456 123abc abc123].grep(/^#{word}/)
     end
 
