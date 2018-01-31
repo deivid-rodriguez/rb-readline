@@ -2,7 +2,7 @@
 require "readline.rb"
 
 loop do
-  line = Readline::readline("> ")
+  line = Readline.readline("> ")
   Readline::HISTORY.push(line)
   puts "You typed: #{line}"
 
