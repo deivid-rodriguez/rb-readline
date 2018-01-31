@@ -29,8 +29,8 @@ spec = Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.5"
 
   # development dependencies
-  s.add_development_dependency "rake"
   s.add_development_dependency "minitest", "~> 5.2"
+  s.add_development_dependency "rake"
 
   # components, files and paths
   s.files = Dir[
