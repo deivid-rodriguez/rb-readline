@@ -390,8 +390,6 @@ module Readline
     def self.pop
       if RbReadline.history_length > 0
         rb_remove_history(RbReadline.history_length - 1)
-      else
-        nil
       end
     end
 
@@ -400,8 +398,6 @@ module Readline
     def self.shift
       if RbReadline.history_length > 0
         rb_remove_history(0)
-      else
-        nil
       end
     end
 
