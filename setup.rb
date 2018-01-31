@@ -289,7 +289,7 @@ class ConfigTable
     "ruby"             => "rubyprog",
     "make-prog"        => "makeprog",
     "make"             => "makeprog"
-  }
+  }.freeze
 
   def fixup
     ALIASES.each do |ali, name|
@@ -672,7 +672,7 @@ module FileOperations
     }
   end
 
-  DIR_REJECT = %w( . .. CVS SCCS RCS CVS.adm .svn )
+  DIR_REJECT = %w( . .. CVS SCCS RCS CVS.adm .svn ).freeze
 
   def directories_of(dir)
     Dir.open(dir) { |d|
@@ -746,8 +746,8 @@ end
 
 class ToplevelInstaller
 
-  Version = "3.4.1"
-  Copyright = "Copyright (c) 2000-2005 Minero Aoki"
+  Version = "3.4.1".freeze
+  Copyright = "Copyright (c) 2000-2005 Minero Aoki".freeze
 
   TASKS = [
     ["all", "do config, setup, then install"],
@@ -758,7 +758,7 @@ class ToplevelInstaller
     ["test", "run all tests in test/"],
     ["clean", "does `make clean' for each extention"],
     ["distclean", "does `make distclean' for each extention"]
-  ]
+  ].freeze
 
   def ToplevelInstaller.invoke
     config = ConfigTable.new(load_rbconfig)
@@ -1151,7 +1151,7 @@ end # class ToplevelInstallerMulti
 
 class Installer
 
-  FILETYPES = %w( bin lib ext data conf man )
+  FILETYPES = %w( bin lib ext data conf man ).freeze
 
   include FileOperations
   include HookScriptAPI
@@ -1404,7 +1404,7 @@ class Installer
     *~ *.old *.bak *.BAK *.orig *.rej _$* *$
 
     *.org *.in .*
-  )
+  ).freeze
 
   def existfiles
     glob_reject(JUNK_FILES, (files_of(curr_srcdir) | files_of(".")))
@@ -1431,7 +1431,7 @@ class Installer
     "$" => '\$',
     "#" => '\#',
     "*" => ".*"
-  }
+  }.freeze
 
   def globs2re(pats)
     /\A(?:#{
@@ -1443,7 +1443,7 @@ class Installer
   # TASK test
   #
 
-  TESTDIR = "test"
+  TESTDIR = "test".freeze
 
   def exec_test
     unless File.directory?("test")

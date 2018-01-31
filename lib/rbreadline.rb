@@ -17,18 +17,18 @@ end
 module RbReadline
   require "etc"
 
-  RL_LIBRARY_VERSION = "5.2"
+  RL_LIBRARY_VERSION = "5.2".freeze
   RL_READLINE_VERSION = 0x0502
 
-  EOF = "\xFF"
-  ESC = "\C-["
-  PAGE = "\C-L"
-  SPACE = "\x20"
-  RETURN = "\C-M"
-  ABORT_CHAR = "\C-G"
-  TAB = "\t"
-  RUBOUT = "\x7f"
-  NEWLINE = "\n"
+  EOF = "\xFF".freeze
+  ESC = "\C-[".freeze
+  PAGE = "\C-L".freeze
+  SPACE = "\x20".freeze
+  RETURN = "\C-M".freeze
+  ABORT_CHAR = "\C-G".freeze
+  TAB = "\t".freeze
+  RUBOUT = "\x7f".freeze
+  NEWLINE = "\n".freeze
 
   DEFAULT_BUFFER_SIZE = 256
   DEFAULT_MAX_KILLS = 10
@@ -37,8 +37,8 @@ module RbReadline
   MB_FIND_ANY = 0
   MB_LEN_MAX = 4
 
-  DEFAULT_INPUTRC = "~/.inputrc"
-  SYS_INPUTRC = "/etc/inputrc"
+  DEFAULT_INPUTRC = "~/.inputrc".freeze
+  SYS_INPUTRC = "/etc/inputrc".freeze
 
   UpCase = 1
   DownCase = 2
@@ -152,8 +152,8 @@ module RbReadline
   ISKMAP = 1
   ISMACR = 2
 
-  HISTORY_WORD_DELIMITERS = " \t\n;&()|<>"
-  HISTORY_QUOTE_CHARACTERS = "\"'`"
+  HISTORY_WORD_DELIMITERS = " \t\n;&()|<>".freeze
+  HISTORY_QUOTE_CHARACTERS = "\"'`".freeze
 
   RL_SEARCH_ISEARCH = 0x01 # incremental search
   RL_SEARCH_NSEARCH = 0x02 # non-incremental search
@@ -4305,9 +4305,9 @@ module RbReadline
     else
       require "fiddle"
       class Win32API
-        DLL = {}
-        TYPEMAP = {"0" => Fiddle::TYPE_VOID, "S" => Fiddle::TYPE_VOIDP, "I" => Fiddle::TYPE_LONG}
-        CALL_TYPE_TO_ABI = {:stdcall => 1, :cdecl => 1, nil => 1} # Taken from Fiddle::Importer
+        DLL = {}.freeze
+        TYPEMAP = {"0" => Fiddle::TYPE_VOID, "S" => Fiddle::TYPE_VOIDP, "I" => Fiddle::TYPE_LONG}.freeze
+        CALL_TYPE_TO_ABI = {:stdcall => 1, :cdecl => 1, nil => 1}.freeze # Taken from Fiddle::Importer
 
         def initialize(dllname, func, import, _export = "0", calltype = :stdcall)
           @proto = import.join.tr("VPpNnLlIi", "0SSI").chomp("0").split("")

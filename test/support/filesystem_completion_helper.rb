@@ -2,11 +2,11 @@ require "fileutils"
 
 module FilesystemCompletionHelper
   SEP = File::SEPARATOR
-  COMP_TEST_DIR = "comp_test#{SEP}"
-  SUB_DIR = "#{COMP_TEST_DIR}a_sub_dir#{SEP}"
-  SUB_SUB_DIR = "#{SUB_DIR}another_sub_dir#{SEP}"
-  DIR_WITH_SPACES = "#{COMP_TEST_DIR}dir with spaces#{SEP}"
-  SUB_DIR_WITH_SPACES = "#{DIR_WITH_SPACES}sub dir with spaces#{SEP}"
+  COMP_TEST_DIR = "comp_test#{SEP}".freeze
+  SUB_DIR = "#{COMP_TEST_DIR}a_sub_dir#{SEP}".freeze
+  SUB_SUB_DIR = "#{SUB_DIR}another_sub_dir#{SEP}".freeze
+  DIR_WITH_SPACES = "#{COMP_TEST_DIR}dir with spaces#{SEP}".freeze
+  SUB_DIR_WITH_SPACES = "#{DIR_WITH_SPACES}sub dir with spaces#{SEP}".freeze
 
   # This creates:
   #
