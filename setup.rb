@@ -1049,7 +1049,7 @@ class ToplevelInstallerMulti < ToplevelInstaller
     @selected = @installers.keys.select do |name|
                   (with.empty? || with.include?(name)) \
                       && (not without.include?(name))
-                end
+    end
   end
 
   def extract_selection(list)
