@@ -125,7 +125,7 @@ class ConfigTable
         self[k] = v.strip
       end
     rescue Errno::ENOENT
-      setup_rb_error $!.message + "\n#{File.basename($0)} config first"
+      setup_rb_error $ERROR_INFO.message + "\n#{File.basename($PROGRAM_NAME)} config first"
     end
   end
 
@@ -767,18 +767,18 @@ class ToplevelInstaller
     config.load_multipackage_entries if multipackage?
     config.fixup
     klass = (multipackage? ? ToplevelInstallerMulti : ToplevelInstaller)
-    klass.new(File.dirname($0), config).invoke
+    klass.new(File.dirname($PROGRAM_NAME), config).invoke
   end
 
   def ToplevelInstaller.multipackage?
-    File.dir?(File.dirname($0) + "/packages")
+    File.dir?(File.dirname($PROGRAM_NAME) + "/packages")
   end
 
   def ToplevelInstaller.load_rbconfig
     if arg = ARGV.detect { |arg| /\A--rbconfig=/ =~ arg }
       ARGV.delete(arg)
       load File.expand_path(arg.split(/=/, 2)[1])
-      $".push "rbconfig.rb"
+      $LOADED_FEATURES.push "rbconfig.rb"
     else
       require "rbconfig"
     end
@@ -866,7 +866,7 @@ class ToplevelInstaller
         print_usage $stdout
         exit 0
       when "--version"
-        puts "#{File.basename($0)} version #{Version}"
+        puts "#{File.basename($PROGRAM_NAME)} version #{Version}"
         exit 0
       when "--copyright"
         puts Copyright
@@ -944,13 +944,13 @@ class ToplevelInstaller
 
   def print_usage(out)
     out.puts "Typical Installation Procedure:"
-    out.puts "  $ ruby #{File.basename $0} config"
-    out.puts "  $ ruby #{File.basename $0} setup"
-    out.puts "  # ruby #{File.basename $0} install (may require root privilege)"
+    out.puts "  $ ruby #{File.basename $PROGRAM_NAME} config"
+    out.puts "  $ ruby #{File.basename $PROGRAM_NAME} setup"
+    out.puts "  # ruby #{File.basename $PROGRAM_NAME} install (may require root privilege)"
     out.puts
     out.puts "Detailed Usage:"
-    out.puts "  ruby #{File.basename $0} <global option>"
-    out.puts "  ruby #{File.basename $0} [<global options>] <task> [<task options>]"
+    out.puts "  ruby #{File.basename $PROGRAM_NAME} <global option>"
+    out.puts "  ruby #{File.basename $PROGRAM_NAME} [<global options>] <task> [<task options>]"
 
     fmt = "  %-24s %s\n"
     out.puts
@@ -1380,7 +1380,7 @@ class Installer
   def rubyextentions(_dir)
     ents = glob_select("*.#{@config.dllext}", targetfiles)
     if ents.empty?
-      setup_rb_error "no ruby extention exists: 'ruby #{$0} setup' first"
+      setup_rb_error "no ruby extention exists: 'ruby #{$PROGRAM_NAME} setup' first"
     end
     ents
   end
@@ -1555,7 +1555,7 @@ class Installer
       instance_eval File.read(path), path, 1
     rescue
       raise if $DEBUG
-      setup_rb_error "hook #{path} failed:\n" + $!.message
+      setup_rb_error "hook #{path} failed:\n" + $ERROR_INFO.message
     end
   end
 
@@ -1567,13 +1567,13 @@ def setup_rb_error(msg)
   raise SetupError, msg
 end
 
-if $0 == __FILE__
+if $PROGRAM_NAME == __FILE__
   begin
     ToplevelInstaller.invoke
   rescue SetupError
     raise if $DEBUG
-    $stderr.puts $!.message
-    $stderr.puts "Try 'ruby #{$0} --help' for detailed usage."
+    $stderr.puts $ERROR_INFO.message
+    $stderr.puts "Try 'ruby #{$PROGRAM_NAME} --help' for detailed usage."
     exit 1
   end
 end
