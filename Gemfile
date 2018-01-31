@@ -2,4 +2,4 @@ source "https://rubygems.org"
 
 gemspec
 
-gem "rubocop", "0.52.1"
+gem "rubocop", git: "https://github.com/bbatsov/rubocop"
