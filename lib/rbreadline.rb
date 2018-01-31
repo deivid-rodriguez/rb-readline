@@ -389,7 +389,7 @@ module RbReadline
   @vi_mark_chars = Array.new(26, -1)
 
   @emacs_standard_keymap = {
-      "\C-@" => :rl_set_mark,
+    "\C-@" => :rl_set_mark,
       "\C-a" => :rl_beg_of_line,
       "\C-b" => :rl_backward_char,
       "\C-d" => :rl_delete,
@@ -484,7 +484,7 @@ module RbReadline
   }
 
   @vi_movement_keymap = {
-      "\C-d" => :rl_vi_eof_maybe,
+    "\C-d" => :rl_vi_eof_maybe,
       "\C-e" => :rl_emacs_editing_mode,
       "\C-g" => :rl_abort,
       "\C-h" => :rl_backward_char,
@@ -574,7 +574,7 @@ module RbReadline
   }
 
   @vi_insertion_keymap = {
-      "\C-a" => :rl_insert,
+    "\C-a" => :rl_insert,
       "\C-b" => :rl_insert,
       "\C-c" => :rl_insert,
       "\C-d" => :rl_vi_eof_maybe,
