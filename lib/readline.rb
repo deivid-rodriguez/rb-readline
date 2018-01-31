@@ -445,7 +445,6 @@ module Readline
       end
       rb_remove_history(index)
     end
-
   end
 
   silence_warnings { HISTORY = History }

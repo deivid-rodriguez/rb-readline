@@ -43,7 +43,6 @@ def File.dir?(path)
 end
 
 class ConfigTable
-
   include Enumerable
 
   def initialize(rbconfig)
@@ -528,7 +527,6 @@ class ConfigTable
       @installer.packages = list
     end
   end
-
 end # class ConfigTable
 
 # This module requires: #verbose?, #no_harm?
@@ -746,7 +744,6 @@ module HookScriptAPI
 end
 
 class ToplevelInstaller
-
   Version = "3.4.1".freeze
   Copyright = "Copyright (c) 2000-2005 Minero Aoki".freeze
 
@@ -1014,11 +1011,9 @@ class ToplevelInstaller
   def exec_distclean
     @installer.exec_distclean
   end
-
 end # class ToplevelInstaller
 
 class ToplevelInstallerMulti < ToplevelInstaller
-
   include FileOperations
 
   def initialize(ardir_root, config)
@@ -1147,11 +1142,9 @@ class ToplevelInstallerMulti < ToplevelInstaller
   def no_harm?
     @config.no_harm?
   end
-
 end # class ToplevelInstallerMulti
 
 class Installer
-
   FILETYPES = %w[bin lib ext data conf man].freeze
 
   include FileOperations
@@ -1558,7 +1551,6 @@ class Installer
       setup_rb_error "hook #{path} failed:\n" + $ERROR_INFO.message
     end
   end
-
 end # class Installer
 
 class SetupError < StandardError; end

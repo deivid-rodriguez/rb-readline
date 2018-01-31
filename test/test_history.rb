@@ -3,7 +3,6 @@ require "minitest/autorun"
 require "readline"
 
 class TestHistory < Minitest::Test
-
   # RbReadline::HISTORY_WORD_DELIMITERS.inspect
   # => " \t\n;&()|<>"
   # RbReadline::HISTORY_QUOTE_CHARACTERS   = "\"'`"
