@@ -1776,7 +1776,7 @@ module RbReadline
 
   def get_term_capabilities(_buffer)
     hash = {}
-    `infocmp -C`.split(":").select { |x| x =~(/(.*)=(.*)/) && (hash[Regexp.last_match(1)] = Regexp.last_match(2).gsub("\\r", "\r").gsub('\\E', "\e").gsub(/\^(.)/) { (Regexp.last_match(1)[0].ord ^ ((?a..?z).include?(Regexp.last_match(1)[0]) ? 0x60 : 0x40)).chr }) }
+    `infocmp -C`.split(":").select { |x| x =~(/(.*)=(.*)/) && (hash[Regexp.last_match(1)] = Regexp.last_match(2).gsub("\\r", "\r").gsub('\\E', "\e").gsub(/\^(.)/) { (Regexp.last_match(1)[0].ord ^ (('a'..'z').include?(Regexp.last_match(1)[0]) ? 0x60 : 0x40)).chr }) }
     @_rl_term_at7 = hash["@7"]
     @_rl_term_DC = hash["DC"]
     @_rl_term_IC = hash["IC"]
@@ -2013,7 +2013,7 @@ module RbReadline
     retry_if_interrupted do
       h = Hash[*`stty -a`.scan(/(\w+) = ([^;]+);/).flatten]
     end
-    h.each { |k, v| v.gsub!(/\^(.)/) { (Regexp.last_match(1)[0].ord ^ ((?a..?z).include?(Regexp.last_match(1)[0]) ? 0x60 : 0x40)).chr } }
+    h.each { |k, v| v.gsub!(/\^(.)/) { (Regexp.last_match(1)[0].ord ^ (('a'..'z').include?(Regexp.last_match(1)[0]) ? 0x60 : 0x40)).chr } }
     kmap[h["erase"]] = :rl_rubout
     kmap[h["kill"]] = :rl_unix_line_discard
     kmap[h["werase"]] = :rl_unix_word_rubout
@@ -6673,7 +6673,7 @@ module RbReadline
     retry_if_interrupted do
       h = Hash[*`stty -a`.scan(/(\w+) = ([^;]+);/).flatten]
     end
-    h.each { |k, v| v.gsub!(/\^(.)/) { (Regexp.last_match(1)[0].ord ^ ((?a..?z).include?(Regexp.last_match(1)[0]) ? 0x60 : 0x40)).chr } }
+    h.each { |k, v| v.gsub!(/\^(.)/) { (Regexp.last_match(1)[0].ord ^ (('a'..'z').include?(Regexp.last_match(1)[0]) ? 0x60 : 0x40)).chr } }
     @_rl_tty_chars.t_erase = h["erase"]
     @_rl_tty_chars.t_kill = h["kill"]
     @_rl_tty_chars.t_intr = h["intr"]

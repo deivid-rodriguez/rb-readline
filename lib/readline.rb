@@ -198,9 +198,9 @@ module Readline
   #
   def self.completion_append_character=(char)
     RbReadline.rl_completion_append_character = if char.nil?
-      ?\0
+      "\0"
     elsif char.empty?
-      ?\0
+      "\0"
     else
       char[0].chr
                                                 end
@@ -210,7 +210,7 @@ module Readline
   # Readline.completion_proc method is called.
   #
   def self.completion_append_character
-    return nil if RbReadline.rl_completion_append_character == ?\0
+    return nil if RbReadline.rl_completion_append_character == "\0"
     RbReadline.rl_completion_append_character
   end
 
