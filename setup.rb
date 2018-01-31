@@ -93,7 +93,7 @@ class ConfigTable
   end
 
   def lookup(name)
-    @table[name] or setup_rb_error "no such config item: #{name}"
+    @table[name] || setup_rb_error("no such config item: #{name}")
   end
 
   def add(item)
@@ -133,7 +133,7 @@ class ConfigTable
     @items.each { |i| i.value }
     File.open(savefile, "w") do |f|
       @items.each do |i|
-        f.printf "%s=%s\n", i.name, i.value if i.value? and i.value
+        f.printf "%s=%s\n", i.name, i.value if i.value? && i.value
       end
     end
   end
@@ -155,10 +155,10 @@ class ConfigTable
     version = "#{major}.#{minor}"
 
     # ruby ver. >= 1.4.4?
-    newpath_p = ((major >= 2) or
-                 ((major == 1) and
-                  ((minor >= 5) or
-                   ((minor == 4) and (teeny >= 4)))))
+    newpath_p = ((major >= 2) ||
+                 ((major == 1) &&
+                  ((minor >= 5) ||
+                   ((minor == 4) && (teeny >= 4)))))
 
     if c["rubylibdir"]
       # V > 1.6.3
@@ -302,7 +302,7 @@ class ConfigTable
   end
 
   def parse_opt(opt)
-    m = @options_re.match(opt) or setup_rb_error "config: unknown option #{opt}"
+    (m = @options_re.match(opt)) || setup_rb_error("config: unknown option #{opt}")
     m.to_a[1, 2]
   end
 
@@ -651,8 +651,8 @@ module FileOperations
 
   def command(*args)
     $stderr.puts args.join(" ") if verbose?
-    system(*args) or raise RuntimeError,
-                           "system(#{args.map{ |a| a.inspect }.join(' ')}) failed"
+    system(*args) || raise(RuntimeError,
+                           "system(#{args.map{ |a| a.inspect }.join(' ')}) failed")
   end
 
   def ruby(*args)
@@ -664,7 +664,7 @@ module FileOperations
   end
 
   def extdir?(dir)
-    File.exist?("#{dir}/MANIFEST") or File.exist?("#{dir}/extconf.rb")
+    File.exist?("#{dir}/MANIFEST") || File.exist?("#{dir}/extconf.rb")
   end
 
   def files_of(dir)
@@ -1056,8 +1056,8 @@ class ToplevelInstallerMulti < ToplevelInstaller
     with = extract_selection(config("with"))
     without = extract_selection(config("without"))
     @selected = @installers.keys.select do |name|
-                  (with.empty? or with.include?(name)) \
-                      and not without.include?(name)
+                  (with.empty? || with.include?(name)) \
+                      && (not without.include?(name))
                 end
   end
 
@@ -1282,7 +1282,7 @@ class Installer
   def new_shebang(old)
     if /\Aruby/ =~ File.basename(old.cmd)
       Shebang.new(config("rubypath"), old.args)
-    elsif File.basename(old.cmd) == "env" and old.args.first == "ruby"
+    elsif (File.basename(old.cmd) == "env") && (old.args.first == "ruby")
       Shebang.new(config("rubypath"), old.args[1..-1])
     else
       return old unless config("shebang") == "all"
@@ -1512,7 +1512,7 @@ class Installer
   def exec_task_traverse(task)
     run_hook "pre-#{task}"
     FILETYPES.each do |type|
-      if type == "ext" and config("without-ext") == "yes"
+      if (type == "ext") && (config("without-ext") == "yes")
         $stderr.puts "skipping ext/* by user option" if verbose?
         next
       end

@@ -1776,7 +1776,7 @@ module RbReadline
 
   def get_term_capabilities(_buffer)
     hash = {}
-    `infocmp -C`.split(":").select{ |x| x =~ /(.*)=(.*)/ and hash[$1] = $2.gsub("\\r", "\r").gsub('\\E', "\e").gsub(/\^(.)/){ ($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr } }
+    `infocmp -C`.split(":").select{ |x| x =~(/(.*)=(.*)/) && (hash[$1] = $2.gsub("\\r", "\r").gsub('\\E', "\e").gsub(/\^(.)/){ ($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr }) }
     @_rl_term_at7 = hash["@7"]
     @_rl_term_DC = hash["DC"]
     @_rl_term_IC = hash["IC"]
@@ -4429,7 +4429,7 @@ module RbReadline
     end
   end
 
-  if Object.const_defined?("Encoding") and Encoding.respond_to?("default_external")
+  if Object.const_defined?("Encoding") && Encoding.respond_to?("default_external")
     @encoding = "X" # ruby 1.9.x or greater
     @encoding_name = Encoding.default_external
   end
@@ -7267,7 +7267,7 @@ module RbReadline
     if last_unescaped_quote_char >= last_unescaped_delimiter
       quoted_arg = _extract_last_quote(string, string[last_unescaped_quote_char, 1])
     end
-    quoted_arg or string[last_unescaped_delimiter...string.length]
+    quoted_arg || string[last_unescaped_delimiter...string.length]
   end
 
   def _extract_last_quote(string, quote_char)
