@@ -1762,7 +1762,7 @@ module RbReadline
       prompt[t] = 0.chr
       # The portion of the prompt string up to and including the
       # final newline is now null-terminated.
-      @local_prompt_prefix, @prompt_prefix_length, _, _, = expand_prompt(prompt)
+      @local_prompt_prefix, @prompt_prefix_length, = expand_prompt(prompt)
       prompt[t] = c
       @local_prompt_len = @local_prompt ? @local_prompt.length : 0
       return @prompt_prefix_length
