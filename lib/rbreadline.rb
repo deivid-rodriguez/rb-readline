@@ -1096,7 +1096,7 @@ module RbReadline
 
   ENV["HOME"] ||= "#{ENV["HOMEDRIVE"]}#{ENV["HOMEPATH"]}"
   unless File.directory? ENV["HOME"]
-    raise RuntimeError.new("HOME environment variable (or HOMEDRIVE and HOMEPATH) must be set and point to a directory")
+    raise "HOME environment variable (or HOMEDRIVE and HOMEPATH) must be set and point to a directory"
   end
 
   @directory = nil

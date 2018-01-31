@@ -649,8 +649,7 @@ module FileOperations
 
   def command(*args)
     warn args.join(" ") if verbose?
-    system(*args) || raise(RuntimeError,
-                           "system(#{args.map(&:inspect).join(' ')}) failed")
+    system(*args) || raise("system(#{args.map(&:inspect).join(' ')}) failed")
   end
 
   def ruby(*args)
