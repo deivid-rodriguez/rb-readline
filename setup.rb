@@ -805,7 +805,7 @@ class ToplevelInstaller
     else
       case task
       when "config", "test"
-        ;
+        
       when "clean", "distclean"
         @config.load_savefile if File.exist?(@config.savefile)
       else

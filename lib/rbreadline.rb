@@ -8178,7 +8178,7 @@ module RbReadline
       # DEBUGGING
       if @rl_byte_oriented
         if count != col
-          $stderr.write("readline: debug: insert_some_chars: count (#{count}) != col (#{col})\n");
+          $stderr.write("readline: debug: insert_some_chars: count (#{count}) != col (#{col})\n")
         end
       end
       # If IC is defined, then we do not have to "enter" insert mode.
