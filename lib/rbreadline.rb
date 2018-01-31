@@ -1112,7 +1112,7 @@ module RbReadline
                 :rl_filename_quote_characters, :rl_instream, :rl_library_version, :rl_outstream,
                 :rl_readline_name, :history_length, :history_base, :rl_point
 
-  module_function
+  extend self
 
   # Okay, now we write the entry_function for filename completion.  In the
   # general case.  Note that completion in the shell is a little different
