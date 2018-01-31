@@ -754,7 +754,7 @@ class ToplevelInstaller
     ["distclean", "does `make distclean' for each extention"]
   ].freeze
 
-  def ToplevelInstaller.invoke
+  def self.invoke
     config = ConfigTable.new(load_rbconfig)
     config.load_standard_entries
     config.load_multipackage_entries if multipackage?
@@ -763,11 +763,11 @@ class ToplevelInstaller
     klass.new(File.dirname($PROGRAM_NAME), config).invoke
   end
 
-  def ToplevelInstaller.multipackage?
+  def self.multipackage?
     File.dir?(File.dirname($PROGRAM_NAME) + "/packages")
   end
 
-  def ToplevelInstaller.load_rbconfig
+  def self.load_rbconfig
     if arg = ARGV.detect { |arg| /\A--rbconfig=/ =~ arg }
       ARGV.delete(arg)
       load File.expand_path(arg.split(/=/, 2)[1])
@@ -1291,7 +1291,7 @@ class Installer
   end
 
   class Shebang
-    def Shebang.load(path)
+    def self.load(path)
       line = nil
       File.open(path) do |f|
         line = f.gets
@@ -1300,7 +1300,7 @@ class Installer
       parse(line)
     end
 
-    def Shebang.parse(line)
+    def self.parse(line)
       cmd, *args = *line.strip.sub(/\A\#!/, "").split(" ")
       new(cmd, args)
     end
