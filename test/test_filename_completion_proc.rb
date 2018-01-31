@@ -51,7 +51,7 @@ class TestFilenameCompletionProc < Minitest::Test
     entries.map! { |e| "#{@sub_dir.path}#{e}" }
     assert_equal entries, Readline::FILENAME_COMPLETION_PROC.call("#{@sub_dir.path}a")
 
-    entries = @sub_sub_dir.entries - %w( . .. )
+    entries = @sub_sub_dir.entries - %w(. ..)
     entries.map! { |e| "#{@sub_sub_dir.path}#{e}" }
     assert_equal entries, Readline::FILENAME_COMPLETION_PROC.call("#{@sub_sub_dir.path}")
   end
@@ -61,13 +61,13 @@ class TestFilenameCompletionProc < Minitest::Test
     entries.map! { |e| @comp_test_dir.path + e }
     assert_equal entries, Readline::FILENAME_COMPLETION_PROC.call("#{@comp_test_dir.path}d")
 
-    entries = @dir_with_spaces.entries - %w( . .. )
+    entries = @dir_with_spaces.entries - %w(. ..)
     entries.map! { |e| @dir_with_spaces.path + e }
     assert_equal entries, Readline::FILENAME_COMPLETION_PROC.call("#{@dir_with_spaces.path}")
   end
 
   def test_list_files_in_current_directory
-    assert_equal((Dir.entries(".") - %w( . .. )).sort, Readline::FILENAME_COMPLETION_PROC.call("").sort)
+    assert_equal((Dir.entries(".") - %w(. ..)).sort, Readline::FILENAME_COMPLETION_PROC.call("").sort)
   end
 
   def test_listing_files_with_no_read_access

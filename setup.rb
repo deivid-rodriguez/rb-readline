@@ -673,7 +673,7 @@ module FileOperations
     end
   end
 
-  DIR_REJECT = %w( . .. CVS SCCS RCS CVS.adm .svn ).freeze
+  DIR_REJECT = %w(. .. CVS SCCS RCS CVS.adm .svn).freeze
 
   def directories_of(dir)
     Dir.open(dir) do |d|
@@ -1152,7 +1152,7 @@ end # class ToplevelInstallerMulti
 
 class Installer
 
-  FILETYPES = %w( bin lib ext data conf man ).freeze
+  FILETYPES = %w(bin lib ext data conf man).freeze
 
   include FileOperations
   include HookScriptAPI
@@ -1412,8 +1412,8 @@ class Installer
   end
 
   def hookfiles
-    %w( pre-%s post-%s pre-%s.rb post-%s.rb ).map do |fmt|
-      %w( config setup install clean ).map { |t| sprintf(fmt, t) }
+    %w(pre-%s post-%s pre-%s.rb post-%s.rb).map do |fmt|
+      %w(config setup install clean).map { |t| sprintf(fmt, t) }
     end.flatten
   end
 
