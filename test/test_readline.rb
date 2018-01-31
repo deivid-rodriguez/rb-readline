@@ -158,12 +158,12 @@ class TestReadline < Minitest::Test
 
   def test_some_character_methods
     expecteds = [" ", " .,|\t", ""]
-    [
-      :basic_word_break_characters,
-      :completer_word_break_characters,
-      :basic_quote_characters,
-      :completer_quote_characters,
-      :filename_quote_characters
+    %i[
+      basic_word_break_characters
+      completer_word_break_characters
+      basic_quote_characters
+      completer_quote_characters
+      filename_quote_characters
     ].each do |method|
       begin
         saved = Readline.send(method)
