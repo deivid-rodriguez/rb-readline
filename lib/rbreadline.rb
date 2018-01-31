@@ -13,7 +13,9 @@
 require "rbreadline/version"
 
 class Integer
-  def ord; self; end
+  def ord; 
+    self; 
+  end
 end
 
 module RbReadline
