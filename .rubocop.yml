@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 AllCops:
   DisplayCopNames: true
 
@@ -40,3 +42,5 @@ Style/RaiseArgs:
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+
+inherit_from: .rubocop_todo.yml
