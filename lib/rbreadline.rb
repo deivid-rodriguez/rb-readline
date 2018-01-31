@@ -4603,7 +4603,7 @@ module RbReadline
     lastc = -1
     eof_found = false
 
-    while !@rl_done
+    until @rl_done
       lk = @_rl_last_command_was_kill
 
       #  send(rl_redisplay_function)
