@@ -57,13 +57,13 @@ class TestCompletion < Minitest::Test
     set_line_buffer "#{@dir_with_spaces.path}filename\\ w"
 
     Timeout::timeout(3) do
-      assert_equal([ "\000", true, "\000" ], _rl_find_completion_word)
+      assert_equal(["\000", true, "\000"], _rl_find_completion_word)
     end
   end
 
   def test__find_completion_word_without_quote_characters
     set_line_buffer "#{@comp_test_dir.path}a"
-    assert_equal([ "\000", false, "\000" ], _rl_find_completion_word)
+    assert_equal(["\000", false, "\000"], _rl_find_completion_word)
   end
 
   def test_make_quoted_replacement_calls_filename_quoting_function
@@ -77,7 +77,7 @@ class TestCompletion < Minitest::Test
     # rl_filename_completion_function is called with an increasing state in
     # order to iterate through directory entries.
 
-    entries = [ "#{@dir_with_spaces.path}sub dir with spaces", "#{@dir_with_spaces.path}filename with spaces" ]
+    entries = ["#{@dir_with_spaces.path}sub dir with spaces", "#{@dir_with_spaces.path}filename with spaces"]
 
     assert entries.include?(rl_filename_completion_function(dir, 0))
     assert entries.include?(rl_filename_completion_function(dir, 1))

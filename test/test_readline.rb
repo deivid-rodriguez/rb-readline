@@ -103,11 +103,11 @@ class TestReadline < Minitest::Test
     orig_char = Readline.completion_append_character
     begin
       [
-        [ "x", "x" ],
-        [ "xyx", "x" ],
-        [ " ", " " ],
-        [ "\t", "\t" ],
-        [ "", nil ],
+        ["x", "x"],
+        ["xyx", "x"],
+        [" ", " "],
+        ["\t", "\t"],
+        ["", nil],
       ].each do |data, expected|
         Readline.completion_append_character = data
         assert_equal(expected, Readline.completion_append_character,
@@ -155,7 +155,7 @@ class TestReadline < Minitest::Test
   end
 
   def test_some_character_methods
-    expecteds = [ " ", " .,|\t", "" ]
+    expecteds = [" ", " .,|\t", ""]
     [
       :basic_word_break_characters,
       :completer_word_break_characters,
@@ -187,9 +187,9 @@ class TestReadline < Minitest::Test
 
     Readline.completion_case_fold = true
 
-    assert_equal [ "123", "123456", "123abc", nil ], Readline.readline_attempted_completion_function("123", 0, 3)
+    assert_equal ["123", "123456", "123abc", nil], Readline.readline_attempted_completion_function("123", 0, 3)
 
-    assert_equal [ "123abc", nil, nil ], Readline.readline_attempted_completion_function("123A", 0, 3)
+    assert_equal ["123abc", nil, nil], Readline.readline_attempted_completion_function("123A", 0, 3)
 
   ensure
     Readline.completion_case_fold = false
@@ -203,11 +203,11 @@ class TestReadline < Minitest::Test
        %w( 123456 123abc abc123 ).grep(/^#{word}/)
     end
 
-    assert_equal [ "123", "123456", "123abc", nil ], Readline.readline_attempted_completion_function("12", 0, 1)
+    assert_equal ["123", "123456", "123abc", nil], Readline.readline_attempted_completion_function("12", 0, 1)
 
-    assert_equal [ "123", "123456", "123abc", nil ], Readline.readline_attempted_completion_function("123", 0, 2)
+    assert_equal ["123", "123456", "123abc", nil], Readline.readline_attempted_completion_function("123", 0, 2)
 
-    assert_equal [ "123456", nil, nil ], Readline.readline_attempted_completion_function("1234", 0, 3)
+    assert_equal ["123456", nil, nil], Readline.readline_attempted_completion_function("1234", 0, 3)
 
   ensure
     Readline.module_eval do

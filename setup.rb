@@ -754,14 +754,14 @@ class ToplevelInstaller
   Copyright = "Copyright (c) 2000-2005 Minero Aoki"
 
   TASKS = [
-    [ "all", "do config, setup, then install" ],
-    [ "config", "saves your configurations" ],
-    [ "show", "shows current configuration" ],
-    [ "setup", "compiles ruby extentions and others" ],
-    [ "install", "installs files" ],
-    [ "test", "run all tests in test/" ],
-    [ "clean", "does `make clean' for each extention" ],
-    [ "distclean", "does `make distclean' for each extention" ]
+    ["all", "do config, setup, then install"],
+    ["config", "saves your configurations"],
+    ["show", "shows current configuration"],
+    ["setup", "compiles ruby extentions and others"],
+    ["install", "installs files"],
+    ["test", "run all tests in test/"],
+    ["clean", "does `make clean' for each extention"],
+    ["distclean", "does `make distclean' for each extention"]
   ]
 
   def ToplevelInstaller.invoke
@@ -1553,8 +1553,8 @@ class Installer
   end
 
   def run_hook(id)
-    path = [ "#{curr_srcdir}/#{id}",
-             "#{curr_srcdir}/#{id}.rb" ].detect { |cand| File.file?(cand) }
+    path = ["#{curr_srcdir}/#{id}",
+             "#{curr_srcdir}/#{id}.rb"].detect { |cand| File.file?(cand) }
     return unless path
     begin
       instance_eval File.read(path), path, 1
