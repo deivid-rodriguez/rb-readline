@@ -93,7 +93,7 @@ module Readline
 
   # Returns the current auto-completion procedure.
   #
-  def self.completion_proc()
+  def self.completion_proc
     @completion_proc
   end
 
@@ -107,7 +107,7 @@ module Readline
   # Returns whether or not the completion proc is case sensitive. The
   # default is false, i.e. completion procs are case sensitive.
   #
-  def self.completion_case_fold()
+  def self.completion_case_fold
     @completion_case_fold
   end
 
@@ -178,14 +178,14 @@ module Readline
 
   # Sets vi editing mode.
   #
-  def self.vi_editing_mode()
+  def self.vi_editing_mode
     RbReadline.rl_vi_editing_mode(1, 0)
     nil
   end
 
   # Sets emacs editing mode
   #
-  def self.emacs_editing_mode()
+  def self.emacs_editing_mode
     RbReadline.rl_emacs_editing_mode(1, 0)
     nil
   end
@@ -208,7 +208,7 @@ module Readline
   # Returns the character that is automatically appended after the
   # Readline.completion_proc method is called.
   #
-  def self.completion_append_character()
+  def self.completion_append_character
     return nil if RbReadline.rl_completion_append_character == ?\0
     return RbReadline.rl_completion_append_character
   end
@@ -223,7 +223,7 @@ module Readline
   # Returns the character string that signal a break between words for the
   # completion proc. The default is " \t\n\"\\'`@$><=|&{(".
   #
-  def self.basic_word_break_characters()
+  def self.basic_word_break_characters
     if RbReadline.rl_basic_word_break_characters.nil?
       nil
     else
@@ -241,7 +241,7 @@ module Readline
   # Returns the character string that signal the start or end of a word for
   # the completion proc.
   #
-  def self.completer_word_break_characters()
+  def self.completer_word_break_characters
     if RbReadline.rl_completer_word_break_characters.nil?
       nil
     else
@@ -258,7 +258,7 @@ module Readline
   # Returns the list of quote characters that can cause a word break.
   # The default is "'\"" (single and double quote characters).
   #
-  def self.basic_quote_characters()
+  def self.basic_quote_characters
     if RbReadline.rl_basic_quote_characters.nil?
       nil
     else
@@ -276,7 +276,7 @@ module Readline
   # Returns the list of characters that can be used to quote a substring
   # of the line, i.e. a group of characters inside quotes.
   #
-  def self.completer_quote_characters()
+  def self.completer_quote_characters
     if RbReadline.rl_completer_quote_characters.nil?
       nil
     else
@@ -294,7 +294,7 @@ module Readline
   # Returns the character string used to indicate quotes for the filename
   # completion of user input.
   #
-  def self.filename_quote_characters()
+  def self.filename_quote_characters
     if RbReadline.rl_filename_quote_characters.nil?
       nil
     else
@@ -304,7 +304,7 @@ module Readline
 
   # Returns the current offset in the current input line.
   #
-  def self.point()
+  def self.point
     RbReadline.rl_point
   end
 
@@ -387,7 +387,7 @@ module Readline
 
     # Removes and returns the last element from the history buffer.
     #
-    def self.pop()
+    def self.pop
       if RbReadline.history_length > 0
         rb_remove_history(RbReadline.history_length - 1)
       else
@@ -397,7 +397,7 @@ module Readline
 
     # Removes and returns the first element from the history buffer.
     #
-    def self.shift()
+    def self.shift
       if RbReadline.history_length > 0
         rb_remove_history(0)
       else
@@ -407,7 +407,7 @@ module Readline
 
     # Iterates over each entry in the history buffer.
     #
-    def self.each()
+    def self.each
       for i in 0 ... RbReadline.history_length
         entry = RbReadline.history_get(RbReadline.history_base + i)
         break if entry.nil?
@@ -418,20 +418,20 @@ module Readline
 
     # Returns the length of the history buffer.
     #
-    def self.length()
+    def self.length
       RbReadline.history_length
     end
 
     # Synonym for Readline.length.
     #
-    def self.size()
+    def self.size
       RbReadline.history_length
     end
 
     # Returns a bolean value indicating whether or not the history buffer
     # is empty.
     #
-    def self.empty?()
+    def self.empty?
       RbReadline.history_length == 0
     end
 
