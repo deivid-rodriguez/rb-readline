@@ -1,6 +1,6 @@
 $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib/"
-require 'rbreadline'
-require 'benchmark'
+require "rbreadline"
+require "benchmark"
 
 N = 100_000
 

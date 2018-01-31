@@ -1,7 +1,7 @@
-require 'minitest/autorun'
-require 'readline'
+require "minitest/autorun"
+require "readline"
 
-require 'fileutils'
+require "fileutils"
 require "rbconfig"
 require "support/filesystem_completion_helper"
 

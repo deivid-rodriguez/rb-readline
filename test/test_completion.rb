@@ -1,7 +1,7 @@
 require "minitest/autorun"
 require "readline"
 
-require 'timeout'
+require "timeout"
 require "support/filesystem_completion_helper"
 
 class TestCompletion < Minitest::Test

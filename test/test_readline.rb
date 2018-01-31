@@ -1,13 +1,13 @@
-require 'minitest/autorun'
-require 'readline'
+require "minitest/autorun"
+require "readline"
 
 class TestReadline < Minitest::Test
   def setup
-    @proc = proc{ |s| ['alpha', 'beta'].grep( /^#{Regexp.escape(s)}/) }
+    @proc = proc{ |s| ["alpha", "beta"].grep( /^#{Regexp.escape(s)}/) }
   end
 
   def test_version
-    assert_equal('5.2', Readline::VERSION)
+    assert_equal("5.2", Readline::VERSION)
   end
 
   def test_readline_basic
@@ -72,7 +72,7 @@ class TestReadline < Minitest::Test
 
   def test_completion_proc_expected_errors
     assert_raises(ArgumentError) { Readline.completion_proc = 1 }
-    assert_raises(ArgumentError) { Readline.completion_proc = 'a' }
+    assert_raises(ArgumentError) { Readline.completion_proc = "a" }
   end
 
   def test_vi_editing_mode_basic
@@ -88,7 +88,7 @@ class TestReadline < Minitest::Test
   end
 
   def test_completion_append_character_get
-    assert_equal(' ', Readline.completion_append_character) # default
+    assert_equal(" ", Readline.completion_append_character) # default
   end
 
   def test_completion_append_character_set_basic

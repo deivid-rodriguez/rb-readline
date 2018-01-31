@@ -7,7 +7,7 @@
 
 module Readline
 
-  require 'rbreadline'
+  require "rbreadline"
   include RbReadline
 
   @completion_proc = nil

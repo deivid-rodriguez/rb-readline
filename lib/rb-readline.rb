@@ -13,6 +13,6 @@ if (defined? Readline) && (! defined? RbReadline)
     STDERR.puts "Removing old Readline module - redefined by rb-readline."
   end
   Object.send(:remove_const, :Readline)
-  require File.join(File.dirname(__FILE__), 'readline')
+  require File.join(File.dirname(__FILE__), "readline")
 end
 
