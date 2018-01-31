@@ -342,7 +342,7 @@ class ConfigTable
     end
 
     def resolve(table)
-      @value.gsub(%r{\$([^/]+)}) { table[$1] }
+      @value.gsub(%r{\$([^/]+)}) { table[Regexp.last_match(1)] }
     end
 
     def set(val)

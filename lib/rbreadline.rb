@@ -1776,7 +1776,7 @@ module RbReadline
 
   def get_term_capabilities(_buffer)
     hash = {}
-    `infocmp -C`.split(":").select{ |x| x =~(/(.*)=(.*)/) && (hash[$1] = $2.gsub("\\r", "\r").gsub('\\E', "\e").gsub(/\^(.)/){ ($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr }) }
+    `infocmp -C`.split(":").select{ |x| x =~(/(.*)=(.*)/) && (hash[Regexp.last_match(1)] = Regexp.last_match(2).gsub("\\r", "\r").gsub('\\E', "\e").gsub(/\^(.)/){ (Regexp.last_match(1)[0].ord ^ ((?a..?z).include?(Regexp.last_match(1)[0]) ? 0x60 : 0x40)).chr }) }
     @_rl_term_at7 = hash["@7"]
     @_rl_term_DC = hash["DC"]
     @_rl_term_IC = hash["IC"]
@@ -2013,7 +2013,7 @@ module RbReadline
     retry_if_interrupted do
       h = Hash[*`stty -a`.scan(/(\w+) = ([^;]+);/).flatten]
     end
-    h.each { |k, v| v.gsub!(/\^(.)/){ ($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr } }
+    h.each { |k, v| v.gsub!(/\^(.)/){ (Regexp.last_match(1)[0].ord ^ ((?a..?z).include?(Regexp.last_match(1)[0]) ? 0x60 : 0x40)).chr } }
     kmap[h["erase"]] = :rl_rubout
     kmap[h["kill"]] = :rl_unix_line_discard
     kmap[h["werase"]] = :rl_unix_word_rubout
@@ -2411,7 +2411,7 @@ module RbReadline
     end
 
     if string =~ /"(.*)"\s*:\s*(.*)$/
-      key, funname = $1, $2
+      key, funname = Regexp.last_match(1), Regexp.last_match(2)
       func = rl_named_function(funname)
       rl_bind_key(key, func) if func
     end
@@ -6673,7 +6673,7 @@ module RbReadline
     retry_if_interrupted do
       h = Hash[*`stty -a`.scan(/(\w+) = ([^;]+);/).flatten]
     end
-    h.each { |k, v| v.gsub!(/\^(.)/){ ($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr } }
+    h.each { |k, v| v.gsub!(/\^(.)/){ (Regexp.last_match(1)[0].ord ^ ((?a..?z).include?(Regexp.last_match(1)[0]) ? 0x60 : 0x40)).chr } }
     @_rl_tty_chars.t_erase = h["erase"]
     @_rl_tty_chars.t_kill = h["kill"]
     @_rl_tty_chars.t_intr = h["intr"]
@@ -7273,7 +7273,7 @@ module RbReadline
   def _extract_last_quote(string, quote_char)
     quote_char = Regexp.escape(quote_char)
     string =~ /(#{quote_char}(?:\\.|[^#{quote_char}])+?#{quote_char}) *$/
-    $1
+    Regexp.last_match(1)
   end
 
   def _rl_char_search_internal(count, dir, smbchar, len)
