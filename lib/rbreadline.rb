@@ -1090,7 +1090,7 @@ module RbReadline
   @current_readline_init_lineno = 0
 
   ENV["HOME"] ||= "#{ENV["HOMEDRIVE"]}#{ENV["HOMEPATH"]}"
-  if !File.directory? ENV["HOME"]
+  unless File.directory? ENV["HOME"]
     raise RuntimeError.new("HOME environment variable (or HOMEDRIVE and HOMEPATH) must be set and point to a directory")
   end
 
@@ -1849,7 +1849,7 @@ module RbReadline
     #   do a pair of putenv () or setenv () calls.
     sh_set_lines_and_columns(@_rl_screenheight, @_rl_screenwidth)
 
-    @_rl_screenwidth -= 1 if !@_rl_term_autowrap
+    @_rl_screenwidth -= 1 unless @_rl_term_autowrap
     @_rl_screenchars = @_rl_screenwidth * @_rl_screenheight
   end
 
@@ -1992,7 +1992,7 @@ module RbReadline
     # Check to see if this terminal has a meta key and clear the capability
     #   variables if there is none.
     @term_has_meta = !!(tgetflag("km") || tgetflag("MT"))
-    @_rl_term_mm = @_rl_term_mo = nil if !@term_has_meta
+    @_rl_term_mm = @_rl_term_mo = nil unless @term_has_meta
 
     # Attempt to find and bind the arrow keys.  Do not override already
     #   bound keys in an overzealous attempt, however.
@@ -2821,7 +2821,7 @@ module RbReadline
       nls = _rl_find_prev_mbchar(new, ne, MB_FIND_ANY)
       while (ols > ofd) && (nls > nfd)
 
-        break if !_rl_compare_chars(old, ostart + ols, new, nls)
+        break unless _rl_compare_chars(old, ostart + ols, new, nls)
         wsatend = false if old[ostart + ols, 1] == " "
 
         ols = _rl_find_prev_mbchar(old, ols + ostart, MB_FIND_ANY) - ostart
@@ -3061,7 +3061,7 @@ module RbReadline
           # to account for the wrap offset and set cpos_adjusted accordingly.
           _rl_output_some_chars(new, nfd, temp)
           @_rl_last_c_pos += col_temp # XXX
-          if !@rl_byte_oriented
+          unless @rl_byte_oriented
             if current_line == 0 && @wrap_offset && nfd <= @prompt_last_invisible
               @_rl_last_c_pos -= @wrap_offset
               @cpos_adjusted = true
@@ -3089,7 +3089,7 @@ module RbReadline
 
   # Basic redisplay algorithm.
   def rl_redisplay
-    return if !@readline_echoing_p
+    return unless @readline_echoing_p
 
     _rl_wrapped_multicolumn = 0
 
@@ -3289,7 +3289,7 @@ module RbReadline
         @rl_end = _in
         break
       end
-      if !@rl_byte_oriented
+      unless @rl_byte_oriented
         wc_width = case @encoding
         when "U"
           wc && wc.unpack("U").first >= 0x1000 ? 2 : 1
@@ -3743,7 +3743,7 @@ module RbReadline
   def rl_initialize
     # If we have never been called before, initialize the
     #   terminal and data structures.
-    if !@rl_initialized
+    unless @rl_initialized
       rl_setstate(RL_STATE_INITIALIZING)
       readline_initialize_everything
       rl_unsetstate(RL_STATE_INITIALIZING)
@@ -3935,7 +3935,7 @@ module RbReadline
     rl_setstate(RL_STATE_MOREINPUT)
     c = cxt.lastc = rl_read_key
     rl_unsetstate(RL_STATE_MOREINPUT)
-    if !@rl_byte_oriented
+    unless @rl_byte_oriented
       cxt.mb = ""
       c = cxt.lastc = _rl_read_mbstring(cxt.lastc, cxt.mb, MB_LEN_MAX)
     end
@@ -4080,7 +4080,7 @@ module RbReadline
               end
           while n < @rl_end
             cval = _rl_char_value(@rl_line_buffer, n)
-            break if !_rl_walphabetic(cval)
+            break unless _rl_walphabetic(cval)
             n = if !@rl_byte_oriented
               _rl_find_next_mbchar(@rl_line_buffer, n, 1, MB_FIND_NONZERO)
             else
@@ -4590,7 +4590,7 @@ module RbReadline
       rl_newline(1, "\n")
     end
 
-    if !@rl_done
+    unless @rl_done
       send(@rl_redisplay_function)
       @_rl_want_redisplay = false
     end
@@ -4757,7 +4757,7 @@ module RbReadline
     @rl_line_buffer[@rl_point, 0] = string
 
     # Remember how to undo this if we aren't undoing something.
-    if !@_rl_doing_an_undo
+    unless @_rl_doing_an_undo
       # If possible and desirable, concatenate the undos.
       if (l == 1) &&
           @rl_undo_list &&
@@ -5043,7 +5043,7 @@ module RbReadline
       # Then, move forward until we hit a non-alphabetic character.
       c = _rl_char_value(@rl_line_buffer, @rl_point)
 
-      if !_rl_walphabetic(c)
+      unless _rl_walphabetic(c)
         if !@rl_byte_oriented
           @rl_point = _rl_find_next_mbchar(@rl_line_buffer, @rl_point, 1, MB_FIND_NONZERO)
         else
@@ -5069,7 +5069,7 @@ module RbReadline
       end
       while @rl_point < @rl_end
         c = _rl_char_value(@rl_line_buffer, @rl_point)
-        break if !_rl_walphabetic(c)
+        break unless _rl_walphabetic(c)
         if !@rl_byte_oriented
           @rl_point = _rl_find_next_mbchar(@rl_line_buffer, @rl_point, 1, MB_FIND_NONZERO)
         else
@@ -5091,7 +5091,7 @@ module RbReadline
       # just before point.
       _p = !@rl_byte_oriented ? _rl_find_prev_mbchar(@rl_line_buffer, @rl_point, MB_FIND_NONZERO) : (@rl_point - 1)
       c = _rl_char_value(@rl_line_buffer, _p)
-      if !_rl_walphabetic(c)
+      unless _rl_walphabetic(c)
         @rl_point = _p
         while @rl_point > 0
           _p = !@rl_byte_oriented ? _rl_find_prev_mbchar(@rl_line_buffer, @rl_point, MB_FIND_NONZERO) : (@rl_point - 1)
@@ -5138,7 +5138,7 @@ module RbReadline
   def rl_forced_update_display
     @visible_line.gsub!(/[^\x00]/, 0.chr) if @visible_line
     rl_on_new_line
-    @forced_display = true if !@forced_display
+    @forced_display = true unless @forced_display
     send(@rl_redisplay_function)
     0
   end
@@ -5522,7 +5522,7 @@ module RbReadline
     @_rl_vis_botlin = 0
     rl_crlf
     @rl_outstream.flush
-    @rl_display_fixed = true if !@rl_display_fixed
+    @rl_display_fixed = true unless @rl_display_fixed
   end
 
   # What to do when a NEWLINE is pressed.  We accept the whole line.
@@ -5623,7 +5623,7 @@ module RbReadline
     _rl_backspace(l)
     @_rl_last_c_pos -= l
     @visible_line[@_rl_last_c_pos, l] = 0.chr * l
-    @rl_display_fixed = true if !@rl_display_fixed
+    @rl_display_fixed = true unless @rl_display_fixed
   end
 
   def _rl_rubout_char(count, key)
@@ -5737,7 +5737,7 @@ module RbReadline
   def rl_kill_text(from, to)
     # Is there anything to kill?
     if from == to
-      @_rl_last_command_was_kill = true if !@_rl_last_command_was_kill
+      @_rl_last_command_was_kill = true unless @_rl_last_command_was_kill
       return 0
     end
     text = rl_copy_text(from, to)
@@ -5745,7 +5745,7 @@ module RbReadline
     # Delete the copied text from the line.
     rl_delete_text(from, to)
     _rl_copy_to_kill_ring(text, from < to)
-    @_rl_last_command_was_kill = true if !@_rl_last_command_was_kill
+    @_rl_last_command_was_kill = true unless @_rl_last_command_was_kill
     0
   end
 
@@ -6006,7 +6006,7 @@ module RbReadline
              _rl_find_prev_mbchar(@rl_line_buffer, @rl_point, MB_FIND_ANY) : (@rl_point - 1)) > 0
 
         scan = @rl_line_buffer[@rl_point, 1]
-        next if !brkchars.include?(scan)
+        next unless brkchars.include?(scan)
         # Call the application-specific function to tell us whether
         #   this word break character is quoted and should be skipped.
         if @rl_char_is_quoted_p && found_quote != 0 &&
@@ -6218,7 +6218,7 @@ module RbReadline
   #   for the previous slash and return the portion following that.  If
   #   there's no previous slash, we just return what we were passed.
   def printable_part(pathname)
-    return pathname if !@rl_filename_completion_desired # don't need to do anything
+    return pathname unless @rl_filename_completion_desired # don't need to do anything
 
     temp = pathname.rindex("/")
     return pathname if temp.nil?
@@ -6291,7 +6291,7 @@ module RbReadline
   #     `%' for character special devices
   #     `#' for block special devices
   def stat_char(filename)
-    return nil if !File.exists?(filename)
+    return nil unless File.exists?(filename)
 
     return "/" if File.directory?(filename)
     return "%" if File.chardev?(filename)
@@ -6561,7 +6561,7 @@ module RbReadline
         if what_to_do == "!"
           display_matches(matches)
         elsif what_to_do == "@"
-          display_matches(matches) if !nontrivial_lcd
+          display_matches(matches) unless nontrivial_lcd
         elsif @rl_editing_mode != @vi_mode
           rl_ding # There are other matches remaining.
         end
@@ -6651,7 +6651,7 @@ module RbReadline
   end
 
   def release_sigint
-    return if !@sigint_blocked
+    return unless @sigint_blocked
     Signal.trap("INT", @sigint_proc)
     @sigint_blocked = false
   end
@@ -6743,7 +6743,7 @@ module RbReadline
   #   systems.
   def rl_tty_unset_default_bindings(kmap)
     # Don't bother before we've saved the tty special chars at least once.
-    return if !rl_isstate(RL_STATE_TTYCSAVED)
+    return unless rl_isstate(RL_STATE_TTYCSAVED)
 
     kmap[@_rl_tty_chars.t_erase] = :rl_insert
     kmap[@_rl_tty_chars.t_kill] = :rl_insert
@@ -6799,7 +6799,7 @@ module RbReadline
   # Restore the terminal's normal settings and modes.
   def rl_deprep_terminal
     return if ENV["TERM"].nil?
-    return if !@terminal_prepped
+    return unless @terminal_prepped
 
     # Try to keep this function from being interrupted.
     block_sigint
@@ -7508,7 +7508,7 @@ module RbReadline
       if rl_isstate(RL_STATE_CALLBACK)
         # At worst, this will cause an extra redisplay.  Otherwise,
         #   we have to wait until the next character comes in.
-        send(@rl_redisplay_function) if !@rl_done
+        send(@rl_redisplay_function) unless @rl_done
         r = 0
       end
       return r
@@ -7637,7 +7637,7 @@ module RbReadline
         start + 1
               end
 
-      if !_rl_walphabetic(c)
+      unless _rl_walphabetic(c)
         inword = false
         start = _next
         next
@@ -8031,7 +8031,7 @@ module RbReadline
     #     0 < len <= limit  implies  count = 1.
 
     # Sort the items if they are not already sorted.
-    matches[1, len] = matches[1, len].sort if !@rl_ignore_completion_duplicates
+    matches[1, len] = matches[1, len].sort unless @rl_ignore_completion_duplicates
     rl_crlf
 
     lines = 0
