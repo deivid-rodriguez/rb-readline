@@ -1022,7 +1022,7 @@ module RbReadline
   #   Called with the text to quote, the type of match found (single or multiple)
   #   and a pointer to the quoting character to be used, which the function can
   #   reset if desired.
-  #rl_filename_quoting_function = rl_quote_filename
+  # rl_filename_quoting_function = rl_quote_filename
 
   # Function to call to remove quoting characters from a filename.  Called
   #   before completion is attempted, so the embedded quotes do not interfere
@@ -1120,7 +1120,7 @@ module RbReadline
     # If we don't have any state, then do some initialization.
     if state == 0
       # If we were interrupted before closing the directory or reading
-      #all of its contents, close it.
+      # all of its contents, close it.
       if(@directory)
         @directory.close
         @directory = nil
@@ -1188,7 +1188,7 @@ module RbReadline
       d_name = entry
       # Special case for no filename.  If the user has disabled the
       #   `match-hidden-files' variable, skip filenames beginning with `.'.
-      #All other entries except "." and ".." match.
+      # All other entries except "." and ".." match.
       if @filename_len == 0
         next if !@_rl_match_hidden_files && d_name[0, 1] == "."
         break if d_name != "." && d_name != ".."
@@ -1264,11 +1264,11 @@ module RbReadline
     end
   end
 
-  #*************************************************************
+  # *************************************************************
   #
   #  Application-callable completion match generator functions
   #
-  #*************************************************************
+  # *************************************************************
 
   # Return an array of (char *) which is a list of completions for TEXT.
   #   If there are no completions, return a NULL pointer.
@@ -1476,7 +1476,7 @@ module RbReadline
     _end -= 1 if whitespace(@rl_line_buffer[_end, 1]) || _end >= @rl_end
 
     # If the first character of the current word is a tilde, perform
-    #tilde expansion and insert the result.  If not a tilde, do
+    # tilde expansion and insert the result.  If not a tilde, do
     #   nothing.
     if @rl_line_buffer[start, 1] == "~"
 
@@ -1671,7 +1671,7 @@ module RbReadline
     last = ninvis = physchars = 0
     for pi in 0 ... pmt.length
       # This code strips the invisible character string markers
-      #RL_PROMPT_START_IGNORE and RL_PROMPT_END_IGNORE
+      # RL_PROMPT_START_IGNORE and RL_PROMPT_END_IGNORE
       if !ignoring && pmt[pi, 1] == RL_PROMPT_START_IGNORE # XXX - check ignoring?
         ignoring = true
         igstart = pi
@@ -1723,23 +1723,23 @@ module RbReadline
   end
 
 
-  #*
-  #* Expand the prompt string into the various display components, if
-  #* necessary.
-  #*
-  #* local_prompt = expanded last line of string in rl_display_prompt
-  #*          (portion after the final newline)
-  #* local_prompt_prefix = portion before last newline of rl_display_prompt,
-  #*             expanded via expand_prompt
-  #* prompt_visible_length = number of visible characters in local_prompt
-  #* prompt_prefix_length = number of visible characters in local_prompt_prefix
-  #*
-  #* This function is called once per call to readline().  It may also be
-  #* called arbitrarily to expand the primary prompt.
-  #*
-  #* The return value is the number of visible characters on the last line
-  #* of the (possibly multi-line) prompt.
-  #*
+  # *
+  # * Expand the prompt string into the various display components, if
+  # * necessary.
+  # *
+  # * local_prompt = expanded last line of string in rl_display_prompt
+  # *          (portion after the final newline)
+  # * local_prompt_prefix = portion before last newline of rl_display_prompt,
+  # *             expanded via expand_prompt
+  # * prompt_visible_length = number of visible characters in local_prompt
+  # * prompt_prefix_length = number of visible characters in local_prompt_prefix
+  # *
+  # * This function is called once per call to readline().  It may also be
+  # * called arbitrarily to expand the primary prompt.
+  # *
+  # * The return value is the number of visible characters on the last line
+  # * of the (possibly multi-line) prompt.
+  # *
   def rl_expand_prompt(prompt)
     @local_prompt = @local_prompt_prefix = nil
     @local_prompt_len = 0
@@ -1763,7 +1763,7 @@ module RbReadline
       c = prompt[t]
       prompt[t] = 0.chr
       # The portion of the prompt string up to and including the
-      #final newline is now null-terminated.
+      # final newline is now null-terminated.
       @local_prompt_prefix, @prompt_prefix_length, _, _, = expand_prompt(prompt)
       prompt[t] = c
       @local_prompt_len = @local_prompt ? @local_prompt.length : 0
@@ -1954,7 +1954,7 @@ module RbReadline
       @_rl_term_autowrap = false # used by _rl_get_screen_size
 
       # Allow calling application to set default height and width, using
-      #rl_set_screen_size
+      # rl_set_screen_size
       if @_rl_screenwidth <= 0 || @_rl_screenheight <= 0
         _rl_get_screen_size(tty, 0)
       end
@@ -2118,9 +2118,9 @@ module RbReadline
       tname = @rl_terminal_name.downcase.gsub(/-.*$/, "")
 
       # Test the `long' and `short' forms of the terminal name so that
-      #if someone has a `sun-cmd' and does not want to have bindings
-      #that will be executed if the terminal is a `sun', they can put
-      #`$if term=sun-cmd' into their .inputrc.
+      # if someone has a `sun-cmd' and does not want to have bindings
+      # that will be executed if the terminal is a `sun', they can put
+      # `$if term=sun-cmd' into their .inputrc.
       @_rl_parsing_conditionalized_out = (args[5..-1] != tname && args[5..-1] != @rl_terminal_name.downcase)
     elsif args =~ /^mode=/
       if args[5..-1] == "emacs"
@@ -2144,7 +2144,7 @@ module RbReadline
   # Invert the current parser state if there is anything on the stack.
   def parser_else(_args)
     if @if_stack.empty?
-      #_rl_init_file_error ("$else found without matching $if")
+      # _rl_init_file_error ("$else found without matching $if")
       return 0
     end
 
@@ -2163,7 +2163,7 @@ module RbReadline
     if @if_stack.length > 0
       @_rl_parsing_conditionalized_out = @if_stack.pop
     else
-      #_rl_init_file_error ("$endif without matching $if")
+      # _rl_init_file_error ("$endif without matching $if")
     end
     0
   end
@@ -2205,7 +2205,7 @@ module RbReadline
       return 0
     end
 
-    #_rl_init_file_error("unknown parser directive")
+    # _rl_init_file_error("unknown parser directive")
     return 1
   end
 
@@ -2561,7 +2561,7 @@ module RbReadline
     (new + 1) < (cur - new)
   end
 
-  #* _rl_last_c_pos is an absolute cursor position in multibyte locales and a
+  # * _rl_last_c_pos is an absolute cursor position in multibyte locales and a
   #   buffer index in others.  This macro is used when deciding whether the
   #   current cursor position is in the middle of a prompt string containing
   #   invisible characters.
@@ -3183,7 +3183,7 @@ module RbReadline
         if @forced_display
           _rl_output_some_chars(@rl_display_prompt, 0, pmtlen)
           # Make sure we are at column zero even after a newline,
-          #regardless of the state of terminal output processing.
+          # regardless of the state of terminal output processing.
           if pmtlen < 2 || @rl_display_prompt[prompt_this_line - 2, 1] != "\r"
             cr
           end
@@ -3513,7 +3513,7 @@ module RbReadline
         linenum = 0
         while linenum <= inv_botlin
           # This can lead us astray if we execute a program that changes
-          #the locale from a non-multibyte to a multibyte one.
+          # the locale from a non-multibyte to a multibyte one.
           o_cpos = @_rl_last_c_pos
           @cpos_adjusted = false
           update_line(@visible_line, vis_pos(linenum), inv_line(linenum), linenum,
@@ -3652,7 +3652,7 @@ module RbReadline
       t = @_rl_screenwidth / 3
 
       # If the number of characters had already exceeded the screenwidth,
-      #last_lmargin will be > 0.
+      # last_lmargin will be > 0.
 
       # If the number of characters to be displayed is more than the screen
       # width, compute the starting offset so that the cursor is about
@@ -3675,7 +3675,7 @@ module RbReadline
       end
 
       # If the first character on the screen isn't the first character
-      #in the display line, indicate this with a special character.
+      # in the display line, indicate this with a special character.
       line[lmargin, 1] = "<" if lmargin > 0
 
       # If SCREENWIDTH characters starting at LMARGIN do not encompass
@@ -4001,14 +4001,14 @@ module RbReadline
     #   value is "\033\012" (ESC and C-J).
     if cxt.lastc.class == String && cxt.search_terminators.include?(cxt.lastc)
       # ESC still terminates the search, but if there is pending
-      #input or if input arrives within 0.1 seconds (on systems
-      #with select(2)) it is used as a prefix character
-      #with rl_execute_next.  WATCH OUT FOR THIS!  This is intended
-      #to allow the arrow keys to be used like ^F and ^B are used
-      #to terminate the search and execute the movement command.
-      #XXX - since _rl_input_available depends on the application-
-      #settable keyboard timeout value, this could alternatively
-      #use _rl_input_queued(100000)
+      # input or if input arrives within 0.1 seconds (on systems
+      # with select(2)) it is used as a prefix character
+      # with rl_execute_next.  WATCH OUT FOR THIS!  This is intended
+      # to allow the arrow keys to be used like ^F and ^B are used
+      # to terminate the search and execute the movement command.
+      # XXX - since _rl_input_available depends on the application-
+      # settable keyboard timeout value, this could alternatively
+      # use _rl_input_queued(100000)
       rl_execute_next(ESC) if cxt.lastc == ESC && _rl_input_available
       return 0
     end
@@ -4324,7 +4324,7 @@ module RbReadline
       class Win32API
         DLL = {}
         TYPEMAP = {"0" => Fiddle::TYPE_VOID, "S" => Fiddle::TYPE_VOIDP, "I" => Fiddle::TYPE_LONG}
-        CALL_TYPE_TO_ABI = {:stdcall => 1, :cdecl => 1, nil => 1} #Taken from Fiddle::Importer
+        CALL_TYPE_TO_ABI = {:stdcall => 1, :cdecl => 1, nil => 1} # Taken from Fiddle::Importer
 
         def initialize(dllname, func, import, _export = "0", calltype = :stdcall)
           @proto = import.join.tr("VPpNnLlIi", "0SSI").chomp("0").split("")
@@ -4641,8 +4641,8 @@ module RbReadline
       c = rl_read_key
       rl_unsetstate(RL_STATE_READCMD)
       # look at input.c:rl_getc() for the circumstances under which this will
-      #be returned; punt immediately on read error without converting it to
-      #a newline.
+      # be returned; punt immediately on read error without converting it to
+      # a newline.
       if c == READERR
         eof_found = true
         break
@@ -4652,7 +4652,7 @@ module RbReadline
       c = NEWLINE if c == EOF && @rl_end != 0
 
       # The character _rl_eof_char typed to blank line, and not as the
-      #previous character is interpreted as EOF.
+      # previous character is interpreted as EOF.
       if ((c == @_rl_eof_char && lastc != c) || c == EOF) && @rl_end == 0
         eof_found = true
         break
@@ -4661,8 +4661,8 @@ module RbReadline
       next if _rl_dispatch(c, @_rl_keymap) == -1
 
       # If there was no change in _rl_last_command_was_kill, then no kill
-      #has taken place.  Note that if input is pending we are reading
-      #a prefix command, so nothing has changed yet.
+      # has taken place.  Note that if input is pending we are reading
+      # a prefix command, so nothing has changed yet.
       if @rl_pending_input == 0 && lk == @_rl_last_command_was_kill
         @_rl_last_command_was_kill = false
       end
@@ -4682,7 +4682,7 @@ module RbReadline
     rl_unsetstate(RL_STATE_MACRODEF)
 
     @rl_last_func = nil
-    #throw :readline_top_level
+    # throw :readline_top_level
     send(@rl_redisplay_function)
     @_rl_want_redisplay = false
     0
@@ -4807,7 +4807,7 @@ module RbReadline
     temp
   end
 
-  #* Remember how to undo something.  Concatenate some undos if that
+  # * Remember how to undo something.  Concatenate some undos if that
   #   seems right.
   def rl_add_undo(what, start, _end, text)
     temp = alloc_undo_entry(what, start, _end, text)
@@ -5405,9 +5405,9 @@ module RbReadline
 
     if @rl_byte_oriented
       # We are inserting a single character.
-      #If there is pending input, then make a string of all of the
-      #pending characters that are bound to rl_insert, and insert
-      #them all.
+      # If there is pending input, then make a string of all of the
+      # pending characters that are bound to rl_insert, and insert
+      # them all.
       if _rl_any_typein
         _rl_insert_typein(c)
       else
@@ -6749,7 +6749,7 @@ module RbReadline
     rl_bind_key(@_rl_tty_chars.t_start, :rl_restart_output) unless @_rl_tty_chars.t_start.nil?
     @_rl_eof_char = @_rl_tty_chars.t_eof
 
-    #setting << " -isig"
+    # setting << " -isig"
 
     retry_if_interrupted do
       `stty #{setting}`
@@ -7513,7 +7513,7 @@ module RbReadline
       end
     end
 
-    #c = (c[0].ord & ~0x80).chr
+    # c = (c[0].ord & ~0x80).chr
     r = c[1, 1]
     if r >= "0" && r <= "9"
       r = r.to_i
@@ -7956,10 +7956,10 @@ module RbReadline
       @noninc_search_string = @rl_line_buffer.dup
 
       # If we don't want the subsequent undo list generated by the search
-      #matching a history line to include the contents of the search string,
-      #we need to clear rl_line_buffer here.  For now, we just clear the
-      #undo list generated by reading the search string.  (If the search
-      #fails, the old undo list will be restored by rl_maybe_unsave_line.)
+      # matching a history line to include the contents of the search string,
+      # we need to clear rl_line_buffer here.  For now, we just clear the
+      # undo list generated by reading the search string.  (If the search
+      # fails, the old undo list will be restored by rl_maybe_unsave_line.)
       rl_free_undo_list
     end
 
@@ -8221,11 +8221,11 @@ module RbReadline
         end
       end
       # If IC is defined, then we do not have to "enter" insert mode.
-      #if (@_rl_term_IC)
+      # if (@_rl_term_IC)
       #   buffer = tgoto(@_rl_term_IC, 0, col)
       #   @_rl_out_stream.write(buffer)
       #   _rl_output_some_chars(string,0,count)
-      #else
+      # else
       # If we have to turn on insert-mode, then do so.
       @_rl_out_stream.write(@_rl_term_im) if @_rl_term_im
       # If there is a special command for inserting characters, then
@@ -8238,7 +8238,7 @@ module RbReadline
       # If there is a string to turn off insert mode, we had best use
       # it now.
       @_rl_out_stream.write(@_rl_term_ei) if @_rl_term_ei
-      #end
+      # end
     end
   end
 
@@ -8247,12 +8247,12 @@ module RbReadline
     return if count > @_rl_screenwidth # XXX
 
     if @hConsoleHandle.nil?
-      #if (@_rl_term_DC)
+      # if (@_rl_term_DC)
       #   buffer = tgoto(_rl_term_DC, count, count);
       #   @_rl_out_stream.write(buffer * count)
-      #else
+      # else
       @_rl_out_stream.write(@_rl_term_dc * count) if @_rl_term_dc
-      #end
+      # end
     end
   end
 
