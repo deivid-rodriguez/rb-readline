@@ -4307,8 +4307,8 @@ module RbReadline
       require "fiddle"
       class Win32API
         DLL = {}.freeze
-        TYPEMAP = {"0" => Fiddle::TYPE_VOID, "S" => Fiddle::TYPE_VOIDP, "I" => Fiddle::TYPE_LONG}.freeze
-        CALL_TYPE_TO_ABI = {:stdcall => 1, :cdecl => 1, nil => 1}.freeze # Taken from Fiddle::Importer
+        TYPEMAP = { "0" => Fiddle::TYPE_VOID, "S" => Fiddle::TYPE_VOIDP, "I" => Fiddle::TYPE_LONG }.freeze
+        CALL_TYPE_TO_ABI = { :stdcall => 1, :cdecl => 1, nil => 1 }.freeze # Taken from Fiddle::Importer
 
         def initialize(dllname, func, import, _export = "0", calltype = :stdcall)
           @proto = import.join.tr("VPpNnLlIi", "0SSI").chomp("0").split("")
