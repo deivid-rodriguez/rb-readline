@@ -18,7 +18,7 @@ module RbReadline
   require "etc"
 
   RL_LIBRARY_VERSION = "5.2"
-  RL_READLINE_VERSION  = 0x0502
+  RL_READLINE_VERSION = 0x0502
 
   EOF = "\xFF"
   ESC = "\C-["
@@ -46,10 +46,10 @@ module RbReadline
 
   # Possible history errors passed to hist_error.
   EVENT_NOT_FOUND = 0
-  BAD_WORD_SPEC  = 1
-  SUBST_FAILED   = 2
-  BAD_MODIFIER   = 3
-  NO_PREV_SUBST  = 4
+  BAD_WORD_SPEC = 1
+  SUBST_FAILED = 2
+  BAD_MODIFIER = 3
+  NO_PREV_SUBST = 4
 
   # Possible definitions for history starting point specification.
   ANCHORED_SEARCH = 1
@@ -64,17 +64,17 @@ module RbReadline
   READERR = 0xFE.chr
 
   # Definitions available for use by readline clients.
-  RL_PROMPT_START_IGNORE    = 1.chr
-  RL_PROMPT_END_IGNORE    = 2.chr
+  RL_PROMPT_START_IGNORE = 1.chr
+  RL_PROMPT_END_IGNORE = 2.chr
 
   # Possible values for do_replace argument to rl_filename_quoting_function,
   #   called by rl_complete_internal.
-  NO_MATCH      =  0
-  SINGLE_MATCH  =  1
-  MULT_MATCH    =  2
+  NO_MATCH = 0
+  SINGLE_MATCH = 1
+  MULT_MATCH = 2
 
   # Callback data for reading numeric arguments
-  NUM_SAWMINUS   = 0x01
+  NUM_SAWMINUS = 0x01
   NUM_SAWDIGITS = 0x02
   NUM_READONE = 0x04
 
@@ -85,33 +85,33 @@ module RbReadline
   KSEQ_RECURSIVE = 0x04
 
   # Possible state values for rl_readline_state
-  RL_STATE_NONE        = 0x000000        # no state before first call
+  RL_STATE_NONE = 0x000000 # no state before first call
 
-  RL_STATE_INITIALIZING =    0x000001    # initializing
-  RL_STATE_INITIALIZED  =    0x000002    # initialization done
-  RL_STATE_TERMPREPPED  =    0x000004    # terminal is prepped
-  RL_STATE_READCMD =    0x000008    # reading a command key
-  RL_STATE_METANEXT =    0x000010    # reading input after ESC
-  RL_STATE_DISPATCHING =    0x000020    # dispatching to a command
-  RL_STATE_MOREINPUT    = 0x000040    # reading more input in a command function
-  RL_STATE_ISEARCH    = 0x000080    # doing incremental search
-  RL_STATE_NSEARCH    = 0x000100    # doing non-inc search
-  RL_STATE_SEARCH        = 0x000200    # doing a history search
-  RL_STATE_NUMERICARG    = 0x000400    # reading numeric argument
-  RL_STATE_MACROINPUT    = 0x000800    # getting input from a macro
-  RL_STATE_MACRODEF    = 0x001000    # defining keyboard macro
-  RL_STATE_OVERWRITE    = 0x002000    # overwrite mode
-  RL_STATE_COMPLETING    = 0x004000    # doing completion
-  RL_STATE_SIGHANDLER    = 0x008000    # in readline sighandler
-  RL_STATE_UNDOING    = 0x010000    # doing an undo
-  RL_STATE_INPUTPENDING =    0x020000    # rl_execute_next called
-  RL_STATE_TTYCSAVED     = 0x040000    # tty special chars saved
-  RL_STATE_CALLBACK     = 0x080000    # using the callback interface
-  RL_STATE_VIMOTION     = 0x100000    # reading vi motion arg
-  RL_STATE_MULTIKEY     = 0x200000    # reading multiple-key command
-  RL_STATE_VICMDONCE     = 0x400000    # entered vi command mode at least once
+  RL_STATE_INITIALIZING = 0x000001 # initializing
+  RL_STATE_INITIALIZED = 0x000002 # initialization done
+  RL_STATE_TERMPREPPED = 0x000004 # terminal is prepped
+  RL_STATE_READCMD = 0x000008 # reading a command key
+  RL_STATE_METANEXT = 0x000010 # reading input after ESC
+  RL_STATE_DISPATCHING = 0x000020 # dispatching to a command
+  RL_STATE_MOREINPUT = 0x000040 # reading more input in a command function
+  RL_STATE_ISEARCH = 0x000080 # doing incremental search
+  RL_STATE_NSEARCH = 0x000100 # doing non-inc search
+  RL_STATE_SEARCH = 0x000200 # doing a history search
+  RL_STATE_NUMERICARG = 0x000400 # reading numeric argument
+  RL_STATE_MACROINPUT = 0x000800 # getting input from a macro
+  RL_STATE_MACRODEF = 0x001000 # defining keyboard macro
+  RL_STATE_OVERWRITE = 0x002000 # overwrite mode
+  RL_STATE_COMPLETING = 0x004000 # doing completion
+  RL_STATE_SIGHANDLER = 0x008000 # in readline sighandler
+  RL_STATE_UNDOING = 0x010000 # doing an undo
+  RL_STATE_INPUTPENDING = 0x020000 # rl_execute_next called
+  RL_STATE_TTYCSAVED = 0x040000 # tty special chars saved
+  RL_STATE_CALLBACK = 0x080000 # using the callback interface
+  RL_STATE_VIMOTION = 0x100000 # reading vi motion arg
+  RL_STATE_MULTIKEY = 0x200000 # reading multiple-key command
+  RL_STATE_VICMDONCE = 0x400000 # entered vi command mode at least once
 
-  RL_STATE_DONE        = 0x800000    # done accepted line
+  RL_STATE_DONE = 0x800000 # done accepted line
 
   NO_BELL = 0
   AUDIBLE_BELL = 1
@@ -119,21 +119,21 @@ module RbReadline
   # The actions that undo knows how to undo.  Notice that UNDO_DELETE means
   #   to insert some text, and UNDO_INSERT means to delete some text.   I.e.,
   #   the code tells undo what to undo, not how to undo it.
-  UNDO_DELETE, UNDO_INSERT, UNDO_BEGIN, UNDO_END  = 0, 1, 2, 3
+  UNDO_DELETE, UNDO_INSERT, UNDO_BEGIN, UNDO_END = 0, 1, 2, 3
 
   # Definitions used when searching the line for characters.
   # NOTE: it is necessary that opposite directions are inverses
-  FTO   =  1     # forward to
-  BTO   = -1     # backward to
-  FFIND =  2     # forward find
-  BFIND = -2     # backward find
+  FTO = 1 # forward to
+  BTO = -1 # backward to
+  FFIND = 2 # forward find
+  BFIND = -2 # backward find
 
   # Possible values for the found_quote flags word used by the completion
   #   functions.  It says what kind of (shell-like) quoting we found anywhere
   #   in the line.
-  RL_QF_SINGLE_QUOTE   = 0x01
-  RL_QF_DOUBLE_QUOTE   = 0x02
-  RL_QF_BACKSLASH      = 0x04
+  RL_QF_SINGLE_QUOTE = 0x01
+  RL_QF_DOUBLE_QUOTE = 0x02
+  RL_QF_BACKSLASH = 0x04
   RL_QF_OTHER_QUOTE = 0x08
 
   KEYMAP_SIZE = 257
@@ -142,9 +142,9 @@ module RbReadline
   @hConsoleHandle = nil
   @MessageBeep = nil
 
-  RL_IM_INSERT    = 1
-  RL_IM_OVERWRITE    = 0
-  RL_IM_DEFAULT    = RL_IM_INSERT
+  RL_IM_INSERT = 1
+  RL_IM_OVERWRITE = 0
+  RL_IM_DEFAULT = RL_IM_INSERT
   @no_mode = -1
   @vi_mode = 0
   @emacs_mode = 1
@@ -152,17 +152,17 @@ module RbReadline
   ISKMAP = 1
   ISMACR = 2
 
-  HISTORY_WORD_DELIMITERS    = " \t\n;&()|<>"
-  HISTORY_QUOTE_CHARACTERS   = "\"'`"
+  HISTORY_WORD_DELIMITERS = " \t\n;&()|<>"
+  HISTORY_QUOTE_CHARACTERS = "\"'`"
 
-  RL_SEARCH_ISEARCH = 0x01      # incremental search
-  RL_SEARCH_NSEARCH = 0x02      # non-incremental search
-  RL_SEARCH_CSEARCH = 0x04      # intra-line char search
+  RL_SEARCH_ISEARCH = 0x01 # incremental search
+  RL_SEARCH_NSEARCH = 0x02 # non-incremental search
+  RL_SEARCH_CSEARCH = 0x04 # intra-line char search
 
   # search flags
-  SF_REVERSE     = 0x01
-  SF_FOUND    = 0x02
-  SF_FAILED      = 0x04
+  SF_REVERSE = 0x01
+  SF_FOUND = 0x02
+  SF_FAILED = 0x04
 
   @slashify_in_quotes = "\\`\"$"
 
@@ -174,7 +174,7 @@ module RbReadline
 
   @_rl_history_saved_point = -1
 
-  @rl_max_kills =  DEFAULT_MAX_KILLS
+  @rl_max_kills = DEFAULT_MAX_KILLS
   @rl_kill_ring = nil
   @rl_kill_index = 0
   @rl_kill_ring_length = 0
@@ -306,7 +306,7 @@ module RbReadline
 
   @saved_local_prompt = nil
   @saved_local_prefix = nil
-  @saved_last_invisible =  0
+  @saved_last_invisible = 0
   @saved_visible_length = 0
   @saved_prefix_length = 0
   @saved_local_length = 0
@@ -337,7 +337,7 @@ module RbReadline
   # If HISTORY_STIFLED is non-zero, then this is the maximum number of
   #   entries to remember.
   @history_max_entries = 0
-  @max_input_history = 0  # backwards compatibility
+  @max_input_history = 0 # backwards compatibility
 
   # The current location of the interactive history pointer.  Just makes
   #   life easier for outside callers.
@@ -385,97 +385,97 @@ module RbReadline
   @vi_mark_chars = Array.new(26, -1)
 
   @emacs_standard_keymap = {
-      "\C-@" => :rl_set_mark  ,
-      "\C-a" => :rl_beg_of_line  ,
-      "\C-b" => :rl_backward_char  ,
-      "\C-d" => :rl_delete  ,
-      "\C-e" => :rl_end_of_line  ,
-      "\C-f" => :rl_forward_char  ,
-      "\C-g" => :rl_abort  ,
-      "\C-h" => :rl_rubout  ,
-      "\C-i" => :rl_complete  ,
-      "\C-j" => :rl_newline  ,
-      "\C-k" => :rl_kill_line  ,
-      "\C-l" => :rl_clear_screen  ,
-      "\C-m" => :rl_newline  ,
-      "\C-n" => :rl_get_next_history  ,
-      "\C-p" => :rl_get_previous_history  ,
-      "\C-q" => :rl_quoted_insert  ,
-      "\C-r" => :rl_reverse_search_history  ,
-      "\C-s" => :rl_forward_search_history  ,
-      "\C-t" => :rl_transpose_chars  ,
-      "\C-u" => :rl_unix_line_discard  ,
-      "\C-v" => :rl_quoted_insert  ,
-      "\C-w" => :rl_unix_word_rubout  ,
-      "\C-y" => :rl_yank  ,
-      "\C-]" => :rl_char_search  ,
-      "\C-_" => :rl_undo_command  ,
+      "\C-@" => :rl_set_mark ,
+      "\C-a" => :rl_beg_of_line ,
+      "\C-b" => :rl_backward_char ,
+      "\C-d" => :rl_delete ,
+      "\C-e" => :rl_end_of_line ,
+      "\C-f" => :rl_forward_char ,
+      "\C-g" => :rl_abort ,
+      "\C-h" => :rl_rubout ,
+      "\C-i" => :rl_complete ,
+      "\C-j" => :rl_newline ,
+      "\C-k" => :rl_kill_line ,
+      "\C-l" => :rl_clear_screen ,
+      "\C-m" => :rl_newline ,
+      "\C-n" => :rl_get_next_history ,
+      "\C-p" => :rl_get_previous_history ,
+      "\C-q" => :rl_quoted_insert ,
+      "\C-r" => :rl_reverse_search_history ,
+      "\C-s" => :rl_forward_search_history ,
+      "\C-t" => :rl_transpose_chars ,
+      "\C-u" => :rl_unix_line_discard ,
+      "\C-v" => :rl_quoted_insert ,
+      "\C-w" => :rl_unix_word_rubout ,
+      "\C-y" => :rl_yank ,
+      "\C-]" => :rl_char_search ,
+      "\C-_" => :rl_undo_command ,
       "\x7F" => :rl_rubout ,
-      "\e\C-g" => :rl_abort  ,
-      "\e\C-h" => :rl_backward_kill_word  ,
-      "\e\C-i" => :rl_tab_insert  ,
-      "\e\C-j" => :rl_vi_editing_mode  ,
-      "\e\C-m" => :rl_vi_editing_mode  ,
-      "\e\C-r" => :rl_revert_line  ,
-      "\e\C-y" => :rl_yank_nth_arg  ,
-      "\e\C-[" => :rl_complete  ,
-      "\e\C-]" => :rl_backward_char_search  ,
-      "\e " => :rl_set_mark  ,
-      "\e#" => :rl_insert_comment  ,
-      "\e&" => :rl_tilde_expand  ,
-      "\e*" => :rl_insert_completions  ,
-      "\e-" => :rl_digit_argument  ,
+      "\e\C-g" => :rl_abort ,
+      "\e\C-h" => :rl_backward_kill_word ,
+      "\e\C-i" => :rl_tab_insert ,
+      "\e\C-j" => :rl_vi_editing_mode ,
+      "\e\C-m" => :rl_vi_editing_mode ,
+      "\e\C-r" => :rl_revert_line ,
+      "\e\C-y" => :rl_yank_nth_arg ,
+      "\e\C-[" => :rl_complete ,
+      "\e\C-]" => :rl_backward_char_search ,
+      "\e " => :rl_set_mark ,
+      "\e#" => :rl_insert_comment ,
+      "\e&" => :rl_tilde_expand ,
+      "\e*" => :rl_insert_completions ,
+      "\e-" => :rl_digit_argument ,
       "\e." => :rl_yank_last_arg ,
-      "\e0" => :rl_digit_argument  ,
-      "\e1" => :rl_digit_argument  ,
-      "\e2" => :rl_digit_argument  ,
-      "\e3" => :rl_digit_argument  ,
-      "\e4" => :rl_digit_argument  ,
-      "\e5" => :rl_digit_argument  ,
-      "\e6" => :rl_digit_argument  ,
-      "\e7" => :rl_digit_argument  ,
-      "\e8" => :rl_digit_argument  ,
-      "\e9" => :rl_digit_argument  ,
-      "\e<" => :rl_beginning_of_history  ,
-      "\e=" => :rl_possible_completions  ,
-      "\e>" => :rl_end_of_history  ,
-      "\e?" => :rl_possible_completions  ,
-      "\eB" => :rl_backward_word  ,
-      "\eC" => :rl_capitalize_word  ,
-      "\eD" => :rl_kill_word  ,
-      "\eF" => :rl_forward_word  ,
-      "\eL" => :rl_downcase_word  ,
-      "\eN" => :rl_noninc_forward_search  ,
-      "\eP" => :rl_noninc_reverse_search  ,
-      "\eR" => :rl_revert_line  ,
-      "\eT" => :rl_transpose_words  ,
-      "\eU" => :rl_upcase_word  ,
-      "\eY" => :rl_yank_pop  ,
-      "\e\\" => :rl_delete_horizontal_space  ,
-      "\e_" => :rl_yank_last_arg  ,
-      "\eb" => :rl_backward_word  ,
-      "\ec" => :rl_capitalize_word  ,
-      "\ed" => :rl_kill_word  ,
-      "\ef" => :rl_forward_word  ,
-      "\el" => :rl_downcase_word  ,
-      "\en" => :rl_noninc_forward_search  ,
-      "\ep" => :rl_noninc_reverse_search  ,
-      "\er" => :rl_revert_line  ,
-      "\et" => :rl_transpose_words  ,
-      "\eu" => :rl_upcase_word  ,
-      "\ey" => :rl_yank_pop  ,
-      "\e~" => :rl_tilde_expand  ,
-      "\377" => :rl_backward_kill_word  ,
+      "\e0" => :rl_digit_argument ,
+      "\e1" => :rl_digit_argument ,
+      "\e2" => :rl_digit_argument ,
+      "\e3" => :rl_digit_argument ,
+      "\e4" => :rl_digit_argument ,
+      "\e5" => :rl_digit_argument ,
+      "\e6" => :rl_digit_argument ,
+      "\e7" => :rl_digit_argument ,
+      "\e8" => :rl_digit_argument ,
+      "\e9" => :rl_digit_argument ,
+      "\e<" => :rl_beginning_of_history ,
+      "\e=" => :rl_possible_completions ,
+      "\e>" => :rl_end_of_history ,
+      "\e?" => :rl_possible_completions ,
+      "\eB" => :rl_backward_word ,
+      "\eC" => :rl_capitalize_word ,
+      "\eD" => :rl_kill_word ,
+      "\eF" => :rl_forward_word ,
+      "\eL" => :rl_downcase_word ,
+      "\eN" => :rl_noninc_forward_search ,
+      "\eP" => :rl_noninc_reverse_search ,
+      "\eR" => :rl_revert_line ,
+      "\eT" => :rl_transpose_words ,
+      "\eU" => :rl_upcase_word ,
+      "\eY" => :rl_yank_pop ,
+      "\e\\" => :rl_delete_horizontal_space ,
+      "\e_" => :rl_yank_last_arg ,
+      "\eb" => :rl_backward_word ,
+      "\ec" => :rl_capitalize_word ,
+      "\ed" => :rl_kill_word ,
+      "\ef" => :rl_forward_word ,
+      "\el" => :rl_downcase_word ,
+      "\en" => :rl_noninc_forward_search ,
+      "\ep" => :rl_noninc_reverse_search ,
+      "\er" => :rl_revert_line ,
+      "\et" => :rl_transpose_words ,
+      "\eu" => :rl_upcase_word ,
+      "\ey" => :rl_yank_pop ,
+      "\e~" => :rl_tilde_expand ,
+      "\377" => :rl_backward_kill_word ,
       "\e\x7F" => :rl_backward_kill_word,
 
-      "\C-x\C-g" => :rl_abort  ,
-      "\C-x\C-r" => :rl_re_read_init_file  ,
-      "\C-x\C-u" => :rl_undo_command  ,
-      "\C-x\C-x" => :rl_exchange_point_and_mark  ,
-      "\C-x(" => :rl_start_kbd_macro  ,
-      "\C-x)" => :rl_end_kbd_macro   ,
-      "\C-xE" => :rl_call_last_kbd_macro  ,
-      "\C-xe" => :rl_call_last_kbd_macro  ,
+      "\C-x\C-g" => :rl_abort ,
+      "\C-x\C-r" => :rl_re_read_init_file ,
+      "\C-x\C-u" => :rl_undo_command ,
+      "\C-x\C-x" => :rl_exchange_point_and_mark ,
+      "\C-x(" => :rl_start_kbd_macro ,
+      "\C-x)" => :rl_end_kbd_macro ,
+      "\C-xE" => :rl_call_last_kbd_macro ,
+      "\C-xe" => :rl_call_last_kbd_macro ,
       "\C-x\x7F" => :rl_backward_kill_line
   }
 
@@ -570,37 +570,37 @@ module RbReadline
   }
 
   @vi_insertion_keymap = {
-      "\C-a" => :rl_insert  ,
-      "\C-b" => :rl_insert  ,
-      "\C-c" => :rl_insert  ,
-      "\C-d" => :rl_vi_eof_maybe  ,
-      "\C-e" => :rl_insert  ,
-      "\C-f" => :rl_insert  ,
-      "\C-g" => :rl_insert  ,
-      "\C-h" => :rl_rubout  ,
-      "\C-i" => :rl_complete  ,
-      "\C-j" => :rl_newline  ,
-      "\C-k" => :rl_insert  ,
-      "\C-l" => :rl_insert  ,
-      "\C-m" => :rl_newline  ,
-      "\C-n" => :rl_insert  ,
-      "\C-o" => :rl_insert  ,
-      "\C-p" => :rl_insert  ,
-      "\C-q" => :rl_insert  ,
-      "\C-r" => :rl_reverse_search_history  ,
-      "\C-s" => :rl_forward_search_history  ,
-      "\C-t" => :rl_transpose_chars  ,
-      "\C-u" => :rl_unix_line_discard  ,
-      "\C-v" => :rl_quoted_insert  ,
-      "\C-w" => :rl_unix_word_rubout  ,
-      "\C-x" => :rl_insert  ,
-      "\C-y" => :rl_yank  ,
-      "\C-z" => :rl_insert  ,
-      "\C-[" => :rl_vi_movement_mode  ,
-      "\C-\\" => :rl_insert  ,
-      "\C-]" => :rl_insert  ,
-      "\C-^" => :rl_insert  ,
-      "\C-_" => :rl_vi_undo  ,
+      "\C-a" => :rl_insert ,
+      "\C-b" => :rl_insert ,
+      "\C-c" => :rl_insert ,
+      "\C-d" => :rl_vi_eof_maybe ,
+      "\C-e" => :rl_insert ,
+      "\C-f" => :rl_insert ,
+      "\C-g" => :rl_insert ,
+      "\C-h" => :rl_rubout ,
+      "\C-i" => :rl_complete ,
+      "\C-j" => :rl_newline ,
+      "\C-k" => :rl_insert ,
+      "\C-l" => :rl_insert ,
+      "\C-m" => :rl_newline ,
+      "\C-n" => :rl_insert ,
+      "\C-o" => :rl_insert ,
+      "\C-p" => :rl_insert ,
+      "\C-q" => :rl_insert ,
+      "\C-r" => :rl_reverse_search_history ,
+      "\C-s" => :rl_forward_search_history ,
+      "\C-t" => :rl_transpose_chars ,
+      "\C-u" => :rl_unix_line_discard ,
+      "\C-v" => :rl_quoted_insert ,
+      "\C-w" => :rl_unix_word_rubout ,
+      "\C-x" => :rl_insert ,
+      "\C-y" => :rl_yank ,
+      "\C-z" => :rl_insert ,
+      "\C-[" => :rl_vi_movement_mode ,
+      "\C-\\" => :rl_insert ,
+      "\C-]" => :rl_insert ,
+      "\C-^" => :rl_insert ,
+      "\C-_" => :rl_vi_undo ,
       "\x7F" => :rl_rubout
   }
 
@@ -866,8 +866,8 @@ module RbReadline
   @_rl_term_kI = nil
 
   # Cursor control
-  @_rl_term_vs = nil    # very visible
-  @_rl_term_ve = nil    # normal
+  @_rl_term_vs = nil # very visible
+  @_rl_term_ve = nil # normal
 
   # Variables that hold the screen dimensions, used by the display code.
   @_rl_screenwidth = @_rl_screenheight = @_rl_screenchars = 0
@@ -1303,7 +1303,7 @@ module RbReadline
     # lowest common denominator.  That then becomes match_list[0].
     if matches!=0
       compute_lcd_of_matches(match_list, matches, text)
-    else                # There were no matches.
+    else # There were no matches.
       match_list = nil
     end
     return (match_list)
@@ -1539,7 +1539,7 @@ module RbReadline
       # Use NEW when comparing against the last invisible character in the
       # prompt string, since they're both buffer indices and DPOS is a desired
       # display position.
-      if new > @prompt_last_invisible     # XXX - don't use woff here
+      if new > @prompt_last_invisible # XXX - don't use woff here
         dpos -= woff
         # Since this will be assigned to _rl_last_c_pos at the end (more
         #   precisely, _rl_last_c_pos == dpos when this function returns),
@@ -1629,7 +1629,7 @@ module RbReadline
         @rl_outstream.write(@_rl_term_up*(-delta))
       end
     end
-    @_rl_last_v_pos = to        # Now TO is here
+    @_rl_last_v_pos = to # Now TO is here
   end
 
   def rl_setstate(x)
@@ -1686,8 +1686,8 @@ module RbReadline
 
     l = pmt.length
     ret = ""
-    invfl = 0    # invisible chars in first line of prompt
-    invflset = 0    # we only want to set invfl once
+    invfl = 0 # invisible chars in first line of prompt
+    invflset = 0 # we only want to set invfl once
 
     igstart = 0
     rl = 0
@@ -1696,7 +1696,7 @@ module RbReadline
     for pi in 0 ... pmt.length
       # This code strips the invisible character string markers
       #RL_PROMPT_START_IGNORE and RL_PROMPT_END_IGNORE
-      if !ignoring && pmt[pi, 1] == RL_PROMPT_START_IGNORE        # XXX - check ignoring?
+      if !ignoring && pmt[pi, 1] == RL_PROMPT_START_IGNORE # XXX - check ignoring?
         ignoring = true
         igstart = pi
         next
@@ -1722,14 +1722,14 @@ module RbReadline
           else
             ninvis += ind - pind
           end
-          pi-=1       # compensate for later increment
+          pi-=1 # compensate for later increment
         else
           ret << pmt[pi]
           if !ignoring
-            rl+=1            # visible length byte counter
+            rl+=1 # visible length byte counter
             physchars+=1
           else
-            ninvis+=1        # invisible chars byte counter
+            ninvis+=1 # invisible chars byte counter
           end
 
           if invflset == 0 && rl >= @_rl_screenwidth
@@ -1813,35 +1813,35 @@ module RbReadline
   def get_term_capabilities(buffer)
     hash = {}
       `infocmp -C`.split(":").select{|x| x =~ /(.*)=(.*)/ and hash[$1]=$2.gsub("\\r", "\r").gsub('\\E', "\e").gsub(/\^(.)/){($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr}}
-      @_rl_term_at7          =     hash["@7"]
-      @_rl_term_DC           =     hash["DC"]
-      @_rl_term_IC           =     hash["IC"]
-      @_rl_term_clreol       =     hash["ce"]
-      @_rl_term_clrpag       =     hash["cl"]
-      @_rl_term_cr           =     hash["cr"]
-      @_rl_term_dc           =     hash["dc"]
-      @_rl_term_ei           =     hash["ei"]
-      @_rl_term_ic           =     hash["ic"]
-      @_rl_term_im           =     hash["im"]
-      @_rl_term_kD           =     hash["kD"]
-      @_rl_term_kH           =     hash["kH"]
-      @_rl_term_kI           =     hash["kI"]
-      @_rl_term_kd           =     hash["kd"]
-      @_rl_term_ke           =     hash["ke"]
-      @_rl_term_kh           =     hash["kh"]
-      @_rl_term_kl           =     hash["kl"]
-      @_rl_term_kr           =     hash["kr"]
-      @_rl_term_ks           =     hash["ks"]
-      @_rl_term_ku           =     hash["ku"]
-      @_rl_term_backspace    =     hash["le"]
-      @_rl_term_mm           =     hash["mm"]
-      @_rl_term_mo           =     hash["mo"]
-      @_rl_term_forward_char =     hash["nd"]
-      @_rl_term_pc           =     hash["pc"]
-      @_rl_term_up           =     hash["up"]
-      @_rl_visible_bell      =     hash["vb"]
-      @_rl_term_vs           =     hash["vs"]
-      @_rl_term_ve           =     hash["ve"]
+      @_rl_term_at7 = hash["@7"]
+      @_rl_term_DC = hash["DC"]
+      @_rl_term_IC = hash["IC"]
+      @_rl_term_clreol = hash["ce"]
+      @_rl_term_clrpag = hash["cl"]
+      @_rl_term_cr = hash["cr"]
+      @_rl_term_dc = hash["dc"]
+      @_rl_term_ei = hash["ei"]
+      @_rl_term_ic = hash["ic"]
+      @_rl_term_im = hash["im"]
+      @_rl_term_kD = hash["kD"]
+      @_rl_term_kH = hash["kH"]
+      @_rl_term_kI = hash["kI"]
+      @_rl_term_kd = hash["kd"]
+      @_rl_term_ke = hash["ke"]
+      @_rl_term_kh = hash["kh"]
+      @_rl_term_kl = hash["kl"]
+      @_rl_term_kr = hash["kr"]
+      @_rl_term_ks = hash["ks"]
+      @_rl_term_ku = hash["ku"]
+      @_rl_term_backspace = hash["le"]
+      @_rl_term_mm = hash["mm"]
+      @_rl_term_mo = hash["mo"]
+      @_rl_term_forward_char = hash["nd"]
+      @_rl_term_pc = hash["pc"]
+      @_rl_term_up = hash["up"]
+      @_rl_visible_bell = hash["vb"]
+      @_rl_term_vs = hash["vs"]
+      @_rl_term_ve = hash["ve"]
       @tcap_initialized = true
   end
 
@@ -1960,7 +1960,7 @@ module RbReadline
     rl_bind_keyseq_if_unbound(@_rl_term_kl, :rl_backward_char)
 
     rl_bind_keyseq_if_unbound(@_rl_term_kh, :rl_beg_of_line) # Home
-    rl_bind_keyseq_if_unbound(@_rl_term_at7, :rl_end_of_line)   # End
+    rl_bind_keyseq_if_unbound(@_rl_term_at7, :rl_end_of_line) # End
 
     rl_bind_keyseq_if_unbound(@_rl_term_kD, :rl_delete)
     rl_bind_keyseq_if_unbound(@_rl_term_kI, :rl_overwrite_mode)
@@ -1989,7 +1989,7 @@ module RbReadline
     if tgetent_ret <= 0
       buffer = @term_buffer = @term_string_buffer = nil
 
-      @_rl_term_autowrap = false    # used by _rl_get_screen_size
+      @_rl_term_autowrap = false # used by _rl_get_screen_size
 
       # Allow calling application to set default height and width, using
       #rl_set_screen_size
@@ -2351,7 +2351,7 @@ module RbReadline
       return :rl_rubout
     when "character-search"
       return :rl_char_search
-    when  "character-search-backward"
+    when "character-search-backward"
       return :rl_backward_char_search
     when "copy-region-as-kill"
       return :rl_copy_region_to_kill
@@ -2507,10 +2507,10 @@ module RbReadline
     if RUBY_PLATFORM =~ /mswin|mingw/
       rl_bind_keyseq_if_unbound("\340H", :rl_get_previous_history) # Up
       rl_bind_keyseq_if_unbound("\340P", :rl_get_next_history) # Down
-      rl_bind_keyseq_if_unbound("\340M", :rl_forward_char)  # Right
+      rl_bind_keyseq_if_unbound("\340M", :rl_forward_char) # Right
       rl_bind_keyseq_if_unbound("\340K", :rl_backward_char) # Left
-      rl_bind_keyseq_if_unbound("\340G", :rl_beg_of_line)   # Home
-      rl_bind_keyseq_if_unbound("\340O", :rl_end_of_line)   # End
+      rl_bind_keyseq_if_unbound("\340G", :rl_beg_of_line) # Home
+      rl_bind_keyseq_if_unbound("\340O", :rl_end_of_line) # End
       rl_bind_keyseq_if_unbound("\340s", :rl_backward_word) # Ctrl-Left
       rl_bind_keyseq_if_unbound("\340t", :rl_forward_word) # Ctrl-Right
       rl_bind_keyseq_if_unbound("\340S", :rl_delete) # Delete
@@ -2635,7 +2635,7 @@ module RbReadline
       end
       @visible_line = 0.chr * @line_size
       @invisible_line = 0.chr * @line_size # 1.chr
-    elsif @line_size < minsize  # ensure it can hold MINSIZE chars
+    elsif @line_size < minsize # ensure it can hold MINSIZE chars
       @line_size *= 2
       if @line_size < minsize
         @line_size = minsize
@@ -2888,7 +2888,7 @@ module RbReadline
     end
 
 
-    wsatend = true       # flag for trailing whitespace
+    wsatend = true # flag for trailing whitespace
 
     if !@rl_byte_oriented
 
@@ -2907,7 +2907,7 @@ module RbReadline
         nls = _rl_find_prev_mbchar(new, nls, MB_FIND_ANY)
       end
     else
-      ols = oe - 1         # find last same
+      ols = oe - 1 # find last same
       nls = ne - 1
       while (ols > ofd) && (nls > nfd) && old[ostart+ols, 1] == new[nls, 1]
         if old[ostart+ols, 1] != " "
@@ -2922,7 +2922,7 @@ module RbReadline
       ols = oe
       nls = ne
     elsif !_rl_compare_chars(old, ostart+ols, new, nls)
-      if old[ostart+ols, 1] != 0.chr         # don't step past the NUL
+      if old[ostart+ols, 1] != 0.chr # don't step past the NUL
         if !@rl_byte_oriented
           ols = _rl_find_next_mbchar(old, ostart+ols, 1, MB_FIND_ANY) - ostart
         else
@@ -3100,7 +3100,7 @@ module RbReadline
         #   characters) we need to adjust _rl_last_c_pos, since it represents
         #   a physical character position.
       end
-    else           # Delete characters from line.
+    else # Delete characters from line.
       # If possible and inexpensive to use terminal deletion, then do so.
       if @_rl_term_dc && (2 * col_temp) >= -col_lendiff
 
@@ -3141,7 +3141,7 @@ module RbReadline
           # the prompt, we need to adjust _rl_last_c_pos in a multibyte locale
           # to account for the wrap offset and set cpos_adjusted accordingly.
           _rl_output_some_chars(new, nfd, temp)
-          @_rl_last_c_pos += col_temp      # XXX
+          @_rl_last_c_pos += col_temp # XXX
           if !@rl_byte_oriented
             if current_line == 0 && @wrap_offset && nfd <= @prompt_last_invisible
               @_rl_last_c_pos -= @wrap_offset
@@ -3382,7 +3382,7 @@ module RbReadline
           wc_width = wc ? wc.length : 1
         end
       end
-      if out + 8 >= @line_size    # XXX - 8 for \t
+      if out + 8 >= @line_size # XXX - 8 for \t
         @line_size *= 2
         if @visible_line.length>=@line_size
           @visible_line = @visible_line[0, @line_size]
@@ -3707,7 +3707,7 @@ module RbReadline
         end
       end
 
-    else           # Do horizontal scrolling.
+    else # Do horizontal scrolling.
 
       # Always at top line.
       @_rl_last_v_pos = 0
@@ -3717,7 +3717,7 @@ module RbReadline
 
       # The number of characters that will be displayed before the cursor.
       ndisp = @cpos_buffer_position - @wrap_offset
-      nleft  = @prompt_visible_length + @wrap_offset
+      nleft = @prompt_visible_length + @wrap_offset
       # Where the new cursor position will be on the screen.  This can be
       # longer than SCREENWIDTH; if it is, lmargin will be adjusted.
       phys_c_pos = @cpos_buffer_position - (@last_lmargin!=0 ? @last_lmargin : @wrap_offset)
@@ -3739,7 +3739,7 @@ module RbReadline
         if @wrap_offset!=0 && lmargin > 0 && lmargin < nleft
           lmargin = nleft
         end
-      elsif ndisp < @_rl_screenwidth - 2      # XXX - was -1
+      elsif ndisp < @_rl_screenwidth - 2 # XXX - was -1
         lmargin = 0
       elsif phys_c_pos < 1
         # If we are moving back towards the beginning of the line and
@@ -3974,7 +3974,7 @@ module RbReadline
     @vis_lbreaks[newlines] = l
     @visible_wrap_offset = 0
 
-    @rl_display_prompt = @rl_prompt  # XXX - make sure it's set
+    @rl_display_prompt = @rl_prompt # XXX - make sure it's set
 
     return 0
   end
@@ -4084,9 +4084,9 @@ module RbReadline
         cxt.lastc = -3
       elsif c == "\C-G"
         cxt.lastc = -4
-      elsif c == "\C-W"  # XXX
+      elsif c == "\C-W" # XXX
         cxt.lastc = -5
-      elsif c == "\C-Y"  # XXX
+      elsif c == "\C-Y" # XXX
         cxt.lastc = -6
       end
     end
@@ -4157,7 +4157,7 @@ module RbReadline
         cxt.sflags &= ~SF_REVERSE
       end
       # delete character from search string.
-    when -3  # C-H, DEL
+    when -3 # C-H, DEL
       # This is tricky.  To do this right, we need to keep a
       # stack of search positions for the current search, with
       # sentinels marking the beginning and end.  But this will
@@ -4168,14 +4168,14 @@ module RbReadline
         cxt.search_string_index -= 1
         cxt.search_string.chop!
       end
-    when -4  # C-G, abort
+    when -4 # C-G, abort
       rl_replace_line(cxt.lines[cxt.save_line], false)
       @rl_point = cxt.save_point
       @rl_mark = cxt.save_mark
       rl_restore_prompt()
       rl_clear_message()
       return -1
-    when -5  # C-W
+    when -5 # C-W
       # skip over portion of line we already matched and yank word
       wstart = @rl_point + cxt.search_string_index
       if wstart >= @rl_end
@@ -4209,7 +4209,7 @@ module RbReadline
         end
       end
 
-    when -6  # C-Y
+    when -6 # C-Y
       # skip over portion of line we already matched and yank rest
       wstart = @rl_point + cxt.search_string_index
       if wstart >= @rl_end
@@ -4447,17 +4447,17 @@ module RbReadline
     end
 
     STD_OUTPUT_HANDLE = -11
-    STD_INPUT_HANDLE  = -10
+    STD_INPUT_HANDLE = -10
     KEY_EVENT = 1
     VK_SHIFT = 0x10
     VK_MENU = 0x12
     VK_LMENU = 0xA4
     VK_RMENU = 0xA5
 
-    LEFT_CTRL_PRESSED         = 0x0008
-    RIGHT_CTRL_PRESSED        = 0x0004
-    LEFT_ALT_PRESSED          = 0x0002
-    RIGHT_ALT_PRESSED         = 0x0001
+    LEFT_CTRL_PRESSED = 0x0008
+    RIGHT_CTRL_PRESSED = 0x0004
+    LEFT_ALT_PRESSED = 0x0002
+    RIGHT_ALT_PRESSED = 0x0001
 
     @getch = Win32API.new("msvcrt", "_getch", [], "I")
     @kbhit = Win32API.new("msvcrt", "_kbhit", [], "I")
@@ -4470,7 +4470,7 @@ module RbReadline
     @GetKeyboardState = Win32API.new("user32", "GetKeyboardState", ["P"], "L")
     @GetKeyState = Win32API.new("user32", "GetKeyState", ["L"], "L")
     @hConsoleHandle = @GetStdHandle.Call(STD_OUTPUT_HANDLE)
-    @hConsoleInput =  @GetStdHandle.Call(STD_INPUT_HANDLE)
+    @hConsoleInput = @GetStdHandle.Call(STD_INPUT_HANDLE)
     @pending_count = 0
     @pending_key = nil
 
@@ -4517,7 +4517,7 @@ module RbReadline
       return 1
     end
 
-  rescue LoadError                  # If we're not on Windows try...
+  rescue LoadError # If we're not on Windows try...
 
     if ENV["LANG"] =~ /\.UTF-8/
       @encoding = "U"
@@ -4548,7 +4548,7 @@ module RbReadline
   end
 
   if Object.const_defined?("Encoding") and Encoding.respond_to?("default_external")
-    @encoding = "X"      # ruby 1.9.x or greater
+    @encoding = "X" # ruby 1.9.x or greater
     @encoding_name = Encoding.default_external
   end
 
@@ -4567,10 +4567,10 @@ module RbReadline
         while @rl_event_hook && (c=rl_get_char()).nil?
 
           send(@rl_event_hook)
-          if @rl_done     # XXX - experimental
+          if @rl_done # XXX - experimental
             return ("\n")
           end
-          if rl_gather_tyi() < 0   # XXX - EIO
+          if rl_gather_tyi() < 0 # XXX - EIO
             @rl_done = true
             return ("\n")
           end
@@ -5083,7 +5083,7 @@ module RbReadline
     end
     if which == -2 && last >= 0
       entry = @the_history[last]
-      entry.data = new  # XXX - we don't check entry->old
+      entry.data = new # XXX - we don't check entry->old
     end
   end
 
@@ -5285,7 +5285,7 @@ module RbReadline
 
       # Like rl_forward_word (), except that we look at the characters
       # just before point.
-      _p =  !@rl_byte_oriented ? _rl_find_prev_mbchar(@rl_line_buffer, @rl_point, MB_FIND_NONZERO):(@rl_point-1)
+      _p = !@rl_byte_oriented ? _rl_find_prev_mbchar(@rl_line_buffer, @rl_point, MB_FIND_NONZERO):(@rl_point-1)
       c = _rl_char_value(@rl_line_buffer, _p)
       if !_rl_walphabetic(c)
         @rl_point = _p
@@ -5349,9 +5349,9 @@ module RbReadline
     curr_line = _rl_current_display_line()
 
     _rl_move_vert(curr_line)
-    _rl_move_cursor_relative(0, @rl_line_buffer)   # XXX is this right
+    _rl_move_cursor_relative(0, @rl_line_buffer) # XXX is this right
 
-    _rl_clear_to_eol(0)     # arg of 0 means to not use spaces
+    _rl_clear_to_eol(0) # arg of 0 means to not use spaces
 
     rl_forced_update_display()
     @rl_display_fixed = true
@@ -5368,7 +5368,7 @@ module RbReadline
       return 0
     end
 
-    _rl_clear_screen()      # calls termcap function to clear screen
+    _rl_clear_screen() # calls termcap function to clear screen
     rl_forced_update_display()
     @rl_display_fixed = true
     0
@@ -5382,7 +5382,7 @@ module RbReadline
       rl_replace_line(@_rl_saved_line_for_history.line, false)
       @rl_undo_list = @_rl_saved_line_for_history.data
       @_rl_saved_line_for_history = nil
-      @rl_point = @rl_end  # rl_replace_line sets rl_end
+      @rl_point = @rl_end # rl_replace_line sets rl_end
     else
       rl_ding()
     end
@@ -5743,7 +5743,7 @@ module RbReadline
     if full_lines && @_rl_term_autowrap && (vis_llen(@_rl_vis_botlin) == @_rl_screenwidth)
       last_line = @visible_line[@vis_lbreaks[@_rl_vis_botlin]..-1]
       @cpos_buffer_position = -1 # don't know where we are in buffer
-      _rl_move_cursor_relative(@_rl_screenwidth - 1, last_line)   # XXX
+      _rl_move_cursor_relative(@_rl_screenwidth - 1, last_line) # XXX
       _rl_clear_to_eol(0)
       @rl_outstream.write(last_line[@_rl_screenwidth - 1, 1])
     end
@@ -5767,7 +5767,7 @@ module RbReadline
 
     if @rl_editing_mode == @vi_mode
       _rl_vi_done_inserting()
-      if _rl_vi_textmod_command(@_rl_vi_last_command).nil?   # XXX
+      if _rl_vi_textmod_command(@_rl_vi_last_command).nil? # XXX
         _rl_vi_reset_last()
       end
     end
@@ -6261,7 +6261,7 @@ module RbReadline
       #   substring on which to complete.
 
 
-      while (@rl_point =  !@rl_byte_oriented ?
+      while (@rl_point = !@rl_byte_oriented ?
              _rl_find_prev_mbchar(@rl_line_buffer, @rl_point, MB_FIND_ANY):(@rl_point-1))>0
 
         scan = @rl_line_buffer[@rl_point, 1]
@@ -6490,7 +6490,7 @@ module RbReadline
   #   for the previous slash and return the portion following that.  If
   #   there's no previous slash, we just return what we were passed.
   def printable_part(pathname)
-    if !@rl_filename_completion_desired  # don't need to do anything
+    if !@rl_filename_completion_desired # don't need to do anything
       return (pathname)
     end
 
@@ -6858,7 +6858,7 @@ module RbReadline
           display_matches(matches)
         end
       elsif @rl_editing_mode != @vi_mode
-        rl_ding()   # There are other matches remaining.
+        rl_ding() # There are other matches remaining.
       end
     else
       append_to_match(matches[0], delimiter, quote_char, nontrivial_lcd)
@@ -6930,7 +6930,7 @@ module RbReadline
   #   element is returned to you so you can free the line, data,
   #   and containing structure.
   def remove_history(which)
-    if which < 0 || which >= @history_length || @history_length ==  0 || @the_history.nil?
+    if which < 0 || which >= @history_length || @history_length == 0 || @the_history.nil?
       return nil
     end
     return_value = @the_history[which]
@@ -7318,7 +7318,7 @@ module RbReadline
     cxt.sline_len = cxt.sline.delete(0.chr).length
     cxt.sline_index = @rl_point
 
-    @_rl_iscxt = cxt     # save globally
+    @_rl_iscxt = cxt # save globally
     cxt
   end
 
@@ -7772,7 +7772,7 @@ module RbReadline
         rl_do_undo()
       end
       if @rl_editing_mode == @vi_mode
-        @rl_point = @rl_mark = 0      # rl_end should be set correctly
+        @rl_point = @rl_mark = 0 # rl_end should be set correctly
       end
     end
     0
@@ -7833,7 +7833,7 @@ module RbReadline
     r = c[1, 1]
     if r>="0" && r<="9"
       r = r.to_i
-      @rl_numeric_arg = @rl_explicit_arg ? (@rl_numeric_arg * 10) +  r : r
+      @rl_numeric_arg = @rl_explicit_arg ? (@rl_numeric_arg * 10) + r : r
       @rl_explicit_arg = 1
       @_rl_argcxt |= NUM_SAWDIGITS
     elsif c == "-" && !@rl_explicit_arg
@@ -8195,7 +8195,7 @@ module RbReadline
   def _rl_nsearch_init(dir, pchar)
     cxt = _rl_scxt_alloc(RL_SEARCH_NSEARCH, 0)
     if dir < 0
-      cxt.sflags |= SF_REVERSE      # not strictly needed
+      cxt.sflags |= SF_REVERSE # not strictly needed
     end
     cxt.direction = dir
     cxt.history_pos = cxt.save_line
@@ -8594,7 +8594,7 @@ module RbReadline
 
   # Delete COUNT characters from the display line.
   def delete_chars(count)
-    return if count > @_rl_screenwidth   # XXX
+    return if count > @_rl_screenwidth # XXX
 
     if @hConsoleHandle.nil?
       #if (@_rl_term_DC)

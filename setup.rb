@@ -8,13 +8,13 @@
 # the GNU LGPL, Lesser General Public License version 2.1.
 #
 
-unless Enumerable.method_defined?(:map)   # Ruby 1.4.6
+unless Enumerable.method_defined?(:map) # Ruby 1.4.6
   module Enumerable
     alias map collect
   end
 end
 
-unless File.respond_to?(:read)   # Ruby 1.6
+unless File.respond_to?(:read) # Ruby 1.6
   def File.read(fname)
     open(fname) {|f|
       return f.read
@@ -22,7 +22,7 @@ unless File.respond_to?(:read)   # Ruby 1.6
   end
 end
 
-unless Errno.const_defined?(:ENOTEMPTY)   # Windows?
+unless Errno.const_defined?(:ENOTEMPTY) # Windows?
   module Errno
     class ENOTEMPTY
       # We do not raise this exception, implementation is not needed.
@@ -162,27 +162,27 @@ class ConfigTable
 
     if c["rubylibdir"]
       # V > 1.6.3
-      libruby         = "#{c['prefix']}/lib/ruby"
-      librubyver      = c["rubylibdir"]
-      librubyverarch  = c["archdir"]
-      siteruby        = c["sitedir"]
-      siterubyver     = c["sitelibdir"]
+      libruby = "#{c['prefix']}/lib/ruby"
+      librubyver = c["rubylibdir"]
+      librubyverarch = c["archdir"]
+      siteruby = c["sitedir"]
+      siterubyver = c["sitelibdir"]
       siterubyverarch = c["sitearchdir"]
     elsif newpath_p
       # 1.4.4 <= V <= 1.6.3
-      libruby         = "#{c['prefix']}/lib/ruby"
-      librubyver      = "#{c['prefix']}/lib/ruby/#{version}"
-      librubyverarch  = "#{c['prefix']}/lib/ruby/#{version}/#{c['arch']}"
-      siteruby        = c["sitedir"]
-      siterubyver     = "$siteruby/#{version}"
+      libruby = "#{c['prefix']}/lib/ruby"
+      librubyver = "#{c['prefix']}/lib/ruby/#{version}"
+      librubyverarch = "#{c['prefix']}/lib/ruby/#{version}/#{c['arch']}"
+      siteruby = c["sitedir"]
+      siterubyver = "$siteruby/#{version}"
       siterubyverarch = "$siterubyver/#{c['arch']}"
     else
       # V < 1.4.4
-      libruby         = "#{c['prefix']}/lib/ruby"
-      librubyver      = "#{c['prefix']}/lib/ruby/#{version}"
-      librubyverarch  = "#{c['prefix']}/lib/ruby/#{version}/#{c['arch']}"
-      siteruby        = "#{c['prefix']}/lib/ruby/#{version}/site_ruby"
-      siterubyver     = siteruby
+      libruby = "#{c['prefix']}/lib/ruby"
+      librubyver = "#{c['prefix']}/lib/ruby/#{version}"
+      librubyverarch = "#{c['prefix']}/lib/ruby/#{version}/#{c['arch']}"
+      siteruby = "#{c['prefix']}/lib/ruby/#{version}/site_ruby"
+      siterubyver = siteruby
       siterubyverarch = "$siterubyver/#{c['arch']}"
     end
     parameterize = lambda {|path|
@@ -278,8 +278,8 @@ class ConfigTable
     "stdruby"          => "librubyver",
     "rubylibdir"       => "librubyver",
     "archdir"          => "librubyverarch",
-    "site-ruby-common" => "siteruby",     # For backward compatibility
-    "site-ruby"        => "siterubyver",  # For backward compatibility
+    "site-ruby-common" => "siteruby", # For backward compatibility
+    "site-ruby"        => "siterubyver", # For backward compatibility
     "bin-dir"          => "bindir",
     "bin-dir"          => "bindir",
     "rb-dir"           => "rbdir",
@@ -372,7 +372,7 @@ class ConfigTable
       return "yes" unless val
       case val
       when /\Ay(es)?\z/i, /\At(rue)?\z/i then "yes"
-      when /\An(o)?\z/i, /\Af(alse)\z/i  then "no"
+      when /\An(o)?\z/i, /\Af(alse)\z/i then "no"
       else
         setup_rb_error "config: --#{@name} accepts only yes/no for argument"
       end
@@ -387,7 +387,7 @@ class ConfigTable
     private
 
     def check(path)
-      setup_rb_error "config: --#{@name} requires argument"  unless path
+      setup_rb_error "config: --#{@name} requires argument" unless path
       path[0, 1] == "$" ? path : File.expand_path(path)
     end
   end
@@ -529,7 +529,7 @@ class ConfigTable
     end
   end
 
-end   # class ConfigTable
+end # class ConfigTable
 
 
 # This module requires: #verbose?, #no_harm?
@@ -750,17 +750,17 @@ end
 
 class ToplevelInstaller
 
-  Version   = "3.4.1"
+  Version = "3.4.1"
   Copyright = "Copyright (c) 2000-2005 Minero Aoki"
 
   TASKS = [
-    [ "all",      "do config, setup, then install" ],
-    [ "config",   "saves your configurations" ],
-    [ "show",     "shows current configuration" ],
-    [ "setup",    "compiles ruby extentions and others" ],
-    [ "install",  "installs files" ],
-    [ "test",     "run all tests in test/" ],
-    [ "clean",    "does `make clean' for each extention" ],
+    [ "all", "do config, setup, then install" ],
+    [ "config", "saves your configurations" ],
+    [ "show", "shows current configuration" ],
+    [ "setup", "compiles ruby extentions and others" ],
+    [ "install", "installs files" ],
+    [ "test", "run all tests in test/" ],
+    [ "clean", "does `make clean' for each extention" ],
     [ "distclean", "does `make distclean' for each extention" ]
   ]
 
@@ -896,11 +896,11 @@ class ToplevelInstaller
     end
   end
 
-  alias parsearg_show       parsearg_no_options
-  alias parsearg_setup      parsearg_no_options
-  alias parsearg_test       parsearg_no_options
-  alias parsearg_clean      parsearg_no_options
-  alias parsearg_distclean  parsearg_no_options
+  alias parsearg_show parsearg_no_options
+  alias parsearg_setup parsearg_no_options
+  alias parsearg_test parsearg_no_options
+  alias parsearg_clean parsearg_no_options
+  alias parsearg_distclean parsearg_no_options
 
   def parsearg_config
     evalopt = []
@@ -958,11 +958,11 @@ class ToplevelInstaller
     fmt = "  %-24s %s\n"
     out.puts
     out.puts "Global options:"
-    out.printf fmt, "-q,--quiet",   "suppress message outputs"
+    out.printf fmt, "-q,--quiet", "suppress message outputs"
     out.printf fmt, "   --verbose", "output messages verbosely"
-    out.printf fmt, "   --help",    "print this message"
+    out.printf fmt, "   --help", "print this message"
     out.printf fmt, "   --version", "print version and quit"
-    out.printf fmt, "   --copyright",  "print copyright and quit"
+    out.printf fmt, "   --copyright", "print copyright and quit"
     out.puts
     out.puts "Tasks:"
     TASKS.each do |name, desc|
@@ -979,7 +979,7 @@ class ToplevelInstaller
     out.puts
     out.puts "Options for INSTALL:"
     out.printf fmt, "--no-harm", "only display what to do if given", "off"
-    out.printf fmt, "--prefix=path",  "install path prefix", ""
+    out.printf fmt, "--prefix=path", "install path prefix", ""
     out.puts
   end
 
@@ -989,7 +989,7 @@ class ToplevelInstaller
 
   def exec_config
     @installer.exec_config
-    @config.save   # must be final
+    @config.save # must be final
   end
 
   def exec_setup
@@ -1018,7 +1018,7 @@ class ToplevelInstaller
     @installer.exec_distclean
   end
 
-end   # class ToplevelInstaller
+end # class ToplevelInstaller
 
 
 class ToplevelInstallerMulti < ToplevelInstaller
@@ -1057,7 +1057,7 @@ class ToplevelInstallerMulti < ToplevelInstaller
                                        "#{@ardir}/packages/#{pack}",
                                        "packages/#{pack}")
     end
-    with    = extract_selection(config("with"))
+    with = extract_selection(config("with"))
     without = extract_selection(config("without"))
     @selected = @installers.keys.select {|name|
                   (with.empty? or with.include?(name)) \
@@ -1068,7 +1068,7 @@ class ToplevelInstallerMulti < ToplevelInstaller
   def extract_selection(list)
     a = list.split(/,/)
     a.each do |name|
-      setup_rb_error "no such package: #{name}"  unless @installers.key?(name)
+      setup_rb_error "no such package: #{name}" unless @installers.key?(name)
     end
     a
   end
@@ -1088,7 +1088,7 @@ class ToplevelInstallerMulti < ToplevelInstaller
     run_hook "pre-config"
     each_selected_installers {|inst| inst.exec_config }
     run_hook "post-config"
-    @config.save   # must be final
+    @config.save # must be final
   end
 
   def exec_setup
@@ -1152,7 +1152,7 @@ class ToplevelInstallerMulti < ToplevelInstaller
     @config.no_harm?
   end
 
-end   # class ToplevelInstallerMulti
+end # class ToplevelInstallerMulti
 
 
 class Installer
@@ -1277,7 +1277,7 @@ class Installer
     $stderr.puts "updating shebang: #{File.basename(path)}" if verbose?
     open_atomic_writer(path) {|output|
       File.open(path, "rb") {|f|
-        f.gets if old   # discard
+        f.gets if old # discard
         output.puts new.to_s
         output.print f.read
       }
@@ -1397,8 +1397,8 @@ class Installer
   def mapdir(ents)
     ents.map {|ent|
       if File.exist?(ent)
-      then ent                         # objdir
-      else "#{curr_srcdir()}/#{ent}"   # srcdir
+      then ent # objdir
+      else "#{curr_srcdir()}/#{ent}" # srcdir
       end
     }
   end
@@ -1564,7 +1564,7 @@ class Installer
     end
   end
 
-end   # class Installer
+end # class Installer
 
 
 class SetupError < StandardError; end
