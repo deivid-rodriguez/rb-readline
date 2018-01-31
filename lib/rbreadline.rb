@@ -4398,9 +4398,7 @@ module RbReadline
       rl_stuff_char(k)
       1
     end
-
   rescue LoadError # If we're not on Windows try...
-
     @encoding = if ENV["LANG"] =~ /\.UTF-8/
       "U"
     elsif ENV["LANG"] =~ /\.EUC/

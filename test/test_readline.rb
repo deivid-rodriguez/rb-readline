@@ -191,7 +191,6 @@ class TestReadline < Minitest::Test
     assert_equal ["123", "123456", "123abc", nil], Readline.readline_attempted_completion_function("123", 0, 3)
 
     assert_equal ["123abc", nil, nil], Readline.readline_attempted_completion_function("123A", 0, 3)
-
   ensure
     Readline.completion_case_fold = false
     Readline.module_eval do
@@ -209,7 +208,6 @@ class TestReadline < Minitest::Test
     assert_equal ["123", "123456", "123abc", nil], Readline.readline_attempted_completion_function("123", 0, 2)
 
     assert_equal ["123456", nil, nil], Readline.readline_attempted_completion_function("1234", 0, 3)
-
   ensure
     Readline.module_eval do
       @completion_proc = nil
