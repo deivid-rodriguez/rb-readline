@@ -6156,7 +6156,7 @@ module RbReadline
                    @rl_filename_quoting_desired
 
     if should_quote
-      should_quote = should_quote && (qc.nil? || qc == 0.chr ||
+      should_quote &&= (qc.nil? || qc == 0.chr ||
                                       (@rl_completer_quote_characters &&
                                        @rl_completer_quote_characters.include?(qc)))
     end
