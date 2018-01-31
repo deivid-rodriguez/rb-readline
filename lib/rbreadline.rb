@@ -3398,11 +3398,10 @@ module RbReadline
               out += 1
               _rl_wrapped_multicolumn += 1
               lpos += 1
-              if lpos >= @_rl_screenwidth
-                @inv_lbreaks[newlines += 1] = out
-                @_rl_wrapped_line[newlines] = _rl_wrapped_multicolumn
-                lpos = 0
-              end
+              next unless lpos >= @_rl_screenwidth
+              @inv_lbreaks[newlines += 1] = out
+              @_rl_wrapped_line[newlines] = _rl_wrapped_multicolumn
+              lpos = 0
             end
           end
           if _in == @rl_point
@@ -3413,11 +3412,10 @@ module RbReadline
           out += wc_bytes
           for i in 0...wc_width
             lpos += 1
-            if lpos >= @_rl_screenwidth
-              @inv_lbreaks[newlines += 1] = out
-              @_rl_wrapped_line[newlines] = _rl_wrapped_multicolumn
-              lpos = 0
-            end
+            next unless lpos >= @_rl_screenwidth
+            @inv_lbreaks[newlines += 1] = out
+            @_rl_wrapped_line[newlines] = _rl_wrapped_multicolumn
+            lpos = 0
           end
         else
           line[out, 1] = c
