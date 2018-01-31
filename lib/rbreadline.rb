@@ -119,7 +119,7 @@ module RbReadline
   # The actions that undo knows how to undo.  Notice that UNDO_DELETE means
   #   to insert some text, and UNDO_INSERT means to delete some text.   I.e.,
   #   the code tells undo what to undo, not how to undo it.
-  UNDO_DELETE, UNDO_INSERT, UNDO_BEGIN, UNDO_END  = 0,1,2,3
+  UNDO_DELETE, UNDO_INSERT, UNDO_BEGIN, UNDO_END  = 0, 1, 2, 3
 
   # Definitions used when searching the line for characters.
   # NOTE: it is necessary that opposite directions are inverses
@@ -198,8 +198,8 @@ module RbReadline
   @noninc_history_pos = 0
   @prev_line_found = nil
 
-  @_rl_tty_chars = Struct.new(:t_eol,:t_eol2,:t_erase,:t_werase,:t_kill,:t_reprint,:t_intr,:t_eof,
-                              :t_quit,:t_susp,:t_dsusp,:t_start,:t_stop,:t_lnext,:t_flush,:t_status).new
+  @_rl_tty_chars = Struct.new(:t_eol, :t_eol2, :t_erase, :t_werase, :t_kill, :t_reprint, :t_intr, :t_eof,
+                              :t_quit, :t_susp, :t_dsusp, :t_start, :t_stop, :t_lnext, :t_flush, :t_status).new
   @_rl_last_tty_chars = nil
 
   @_keyboard_input_timeout = 0.001
@@ -382,7 +382,7 @@ module RbReadline
   @vi_textmod = "_*\\AaIiCcDdPpYyRrSsXx~"
 
   # Arrays for the saved marks.
-  @vi_mark_chars = Array.new(26,-1)
+  @vi_mark_chars = Array.new(26, -1)
 
   @emacs_standard_keymap = {
       "\C-@" => :rl_set_mark  ,
@@ -1103,12 +1103,12 @@ module RbReadline
   @users_dirname = nil
   @filename_len = 0
 
-  attr_accessor :rl_attempted_completion_function,:rl_deprep_term_function,
-    :rl_event_hook,:rl_attempted_completion_over,:rl_basic_quote_characters,
-    :rl_basic_word_break_characters,:rl_completer_quote_characters,
-    :rl_completer_word_break_characters,:rl_completion_append_character,
-    :rl_filename_quote_characters,:rl_instream,:rl_library_version,:rl_outstream,
-    :rl_readline_name,:history_length,:history_base,:rl_point
+  attr_accessor :rl_attempted_completion_function, :rl_deprep_term_function,
+    :rl_event_hook, :rl_attempted_completion_over, :rl_basic_quote_characters,
+    :rl_basic_word_break_characters, :rl_completer_quote_characters,
+    :rl_completer_word_break_characters, :rl_completion_append_character,
+    :rl_filename_quote_characters, :rl_instream, :rl_library_version, :rl_outstream,
+    :rl_readline_name, :history_length, :history_base, :rl_point
 
   module_function
 
@@ -1137,7 +1137,7 @@ module RbReadline
         @dirname, @filename = File.split(text)
 
         # This preserves the "./" when the user types "./dirname<tab>".
-        if @dirname == "." && text[0,2] == ".#{File::SEPARATOR}"
+        if @dirname == "." && text[0, 2] == ".#{File::SEPARATOR}"
           @dirname += File::SEPARATOR
         end
       end
@@ -1147,13 +1147,13 @@ module RbReadline
       # Save the version of the directory that the user typed.
       @users_dirname = @dirname.dup
 
-      if @dirname[0,1] == "~"
+      if @dirname[0, 1] == "~"
         @dirname = File.expand_path(@dirname)
       end
 
       # The directory completion hook should perform any necessary
       #   dequoting.
-      if @rl_directory_completion_hook && send(rl_directory_completion_hook,@dirname)
+      if @rl_directory_completion_hook && send(rl_directory_completion_hook, @dirname)
         @users_dirname = @dirname.dup
       elsif @rl_completion_found_quote && @rl_filename_dequoting_function
         # delete single and double quotes
@@ -1192,7 +1192,7 @@ module RbReadline
       #   `match-hidden-files' variable, skip filenames beginning with `.'.
       #All other entries except "." and ".." match.
       if @filename_len == 0
-        next if !@_rl_match_hidden_files && d_name[0,1] == "."
+        next if !@_rl_match_hidden_files && d_name[0, 1] == "."
         break if d_name != "." && d_name != ".."
       else
         # Otherwise, if these match up to the length of filename, then
@@ -1218,14 +1218,14 @@ module RbReadline
       return nil
     else
       if @dirname != "."
-        if @rl_complete_with_tilde_expansion && @users_dirname[0,1] == "~"
+        if @rl_complete_with_tilde_expansion && @users_dirname[0, 1] == "~"
           temp = @dirname
-          if(temp[-1,1] != File::SEPARATOR)
+          if(temp[-1, 1] != File::SEPARATOR)
             temp += File::SEPARATOR
           end
         else
           temp = @users_dirname
-          if(temp[-1,1] != File::SEPARATOR)
+          if(temp[-1, 1] != File::SEPARATOR)
             temp += File::SEPARATOR
           end
         end
@@ -1244,7 +1244,7 @@ module RbReadline
     return nil if RUBY_PLATFORM =~ /mswin|mingw/
 
       if state == 0
-        first_char = text[0,1]
+        first_char = text[0, 1]
         first_char_loc = (first_char == "~" ? 1 : 0)
 
         username = text[first_char_loc..-1]
@@ -1333,7 +1333,7 @@ module RbReadline
         while((c1 = _rl_to_lower(match_list[i][si])) &&
               (c2 = _rl_to_lower(match_list[i + 1][si])))
           if !@rl_byte_oriented
-            if(!_rl_compare_chars(match_list[i],si,match_list[i+1],si))
+            if(!_rl_compare_chars(match_list[i], si, match_list[i+1], si))
               break
             elsif (v = _rl_get_char_len(match_list[i][si..-1])) > 1
               si += v - 1
@@ -1348,7 +1348,7 @@ module RbReadline
         while((c1 = match_list[i][si]) &&
               (c2 = match_list[i + 1][si]))
           if !@rl_byte_oriented
-            if(!_rl_compare_chars(match_list[i],si,match_list[i+1],si))
+            if(!_rl_compare_chars(match_list[i], si, match_list[i+1], si))
               break
             elsif (v = _rl_get_char_len(match_list[i][si..-1])) > 1
               si += v - 1
@@ -1393,7 +1393,7 @@ module RbReadline
             @rl_completion_found_quote &&
             @rl_filename_quoting_desired
 
-          dtext = send(@rl_filename_dequoting_function,text, @rl_completion_quote_character)
+          dtext = send(@rl_filename_dequoting_function, text, @rl_completion_quote_character)
           text = dtext
         end
 
@@ -1403,21 +1403,21 @@ module RbReadline
         si = text.length
         if si <= low
           for i in 1 .. matches
-            if match_list[i][0,si] == text
-              match_list[0] = match_list[i][0,low]
+            if match_list[i][0, si] == text
+              match_list[0] = match_list[i][0, low]
               break
             end
             # no casematch, use first entry
             if i > matches
-              match_list[0] = match_list[1][0,low]
+              match_list[0] = match_list[1][0, low]
             end
           end
         else
           # otherwise, just use the text the user typed.
-          match_list[0] = text[0,low]
+          match_list[0] = text[0, low]
         end
       else
-        match_list[0] = match_list[1][0,low]
+        match_list[0] = match_list[1][0, low]
       end
     end
 
@@ -1469,12 +1469,12 @@ module RbReadline
     _end = @rl_point
     start = _end - 1
 
-    if @rl_point == @rl_end && @rl_line_buffer[@rl_point,1] == "~" 
+    if @rl_point == @rl_end && @rl_line_buffer[@rl_point, 1] == "~" 
       homedir = File.expand_path("~")
       _rl_replace_text(homedir, start, _end)
       return (0)
-    elsif @rl_line_buffer[start,1] != "~"
-      while(!whitespace(@rl_line_buffer[start,1]) && start >= 0)
+    elsif @rl_line_buffer[start, 1] != "~"
+      while(!whitespace(@rl_line_buffer[start, 1]) && start >= 0)
         start -= 1
       end
       start+=1
@@ -1483,19 +1483,19 @@ module RbReadline
     _end = start
     begin
       _end+=1
-    end while(!whitespace(@rl_line_buffer[_end,1]) && _end < @rl_end)
+    end while(!whitespace(@rl_line_buffer[_end, 1]) && _end < @rl_end)
 
-    if whitespace(@rl_line_buffer[_end,1]) || _end >= @rl_end
+    if whitespace(@rl_line_buffer[_end, 1]) || _end >= @rl_end
       _end-=1
     end
 
     # If the first character of the current word is a tilde, perform
     #tilde expansion and insert the result.  If not a tilde, do
     #   nothing.
-    if @rl_line_buffer[start,1] == "~"
+    if @rl_line_buffer[start, 1] == "~"
 
       len = _end - start + 1
-      temp = @rl_line_buffer[start,len]
+      temp = @rl_line_buffer[start, len]
       homedir = File.expand_path(temp)
       temp = nil
 
@@ -1556,10 +1556,10 @@ module RbReadline
 
     if @hConsoleHandle
       csbi = Fiddle::Pointer.malloc(24)
-      @GetConsoleScreenBufferInfo.Call(@hConsoleHandle,csbi)
-      x,y = csbi[4,4].unpack("SS")
+      @GetConsoleScreenBufferInfo.Call(@hConsoleHandle, csbi)
+      x, y = csbi[4, 4].unpack("SS")
       x = dpos
-      @SetConsoleCursorPosition.Call(@hConsoleHandle,y*65536+x)
+      @SetConsoleCursorPosition.Call(@hConsoleHandle, y*65536+x)
       @_rl_last_c_pos = dpos
       return
     end
@@ -1602,10 +1602,10 @@ module RbReadline
           @rl_outstream.write(@_rl_term_forward_char * (dpos-cpos))
         else
           @rl_outstream.write(@_rl_term_cr)
-          @rl_outstream.write(data[start,new])
+          @rl_outstream.write(data[start, new])
         end
       else
-        @rl_outstream.write(data[start+cpos,new-cpos])
+        @rl_outstream.write(data[start+cpos, new-cpos])
       end
     elsif cpos > dpos
       _rl_backspace(cpos - dpos)
@@ -1657,13 +1657,13 @@ module RbReadline
 
   def rl_clear_signals()
     if Signal.list["WINCH"]
-      trap "WINCH",@def_proc
+      trap "WINCH", @def_proc
     end
   end
 
   def rl_set_signals()
     if Signal.list["WINCH"]
-      @def_proc = trap "WINCH",Proc.new{rl_sigwinch_handler(0)}
+      @def_proc = trap "WINCH", Proc.new{rl_sigwinch_handler(0)}
     end
   end
 
@@ -1681,7 +1681,7 @@ module RbReadline
       lip = 0
       niflp = 0
       vlp = lp
-      return [r,lp,lip,niflp,vlp]
+      return [r, lp, lip, niflp, vlp]
     end
 
     l = pmt.length
@@ -1696,11 +1696,11 @@ module RbReadline
     for pi in 0 ... pmt.length
       # This code strips the invisible character string markers
       #RL_PROMPT_START_IGNORE and RL_PROMPT_END_IGNORE
-      if !ignoring && pmt[pi,1] == RL_PROMPT_START_IGNORE        # XXX - check ignoring?
+      if !ignoring && pmt[pi, 1] == RL_PROMPT_START_IGNORE        # XXX - check ignoring?
         ignoring = true
         igstart = pi
         next
-      elsif ignoring && pmt[pi,1] == RL_PROMPT_END_IGNORE
+      elsif ignoring && pmt[pi, 1] == RL_PROMPT_END_IGNORE
         ignoring = false
         if pi != (igstart + 1)
           last = ret.length - 1
@@ -1747,7 +1747,7 @@ module RbReadline
     lip = last
     niflp = invfl
     vlp = physchars
-    return [ret,lp,lip,niflp,vlp]
+    return [ret, lp, lip, niflp, vlp]
   end
 
 
@@ -1781,7 +1781,7 @@ module RbReadline
     pi = prompt.rindex("\n")
     if pi.nil?
       # The prompt is only one logical line, though it might wrap.
-      @local_prompt,@prompt_visible_length,@prompt_last_invisible,@prompt_invis_chars_first_line,@prompt_physical_chars = expand_prompt(prompt)
+      @local_prompt, @prompt_visible_length, @prompt_last_invisible, @prompt_invis_chars_first_line, @prompt_physical_chars = expand_prompt(prompt)
       @local_prompt_prefix = nil
       @local_prompt_len = @local_prompt ? @local_prompt.length : 0
       return (@prompt_visible_length)
@@ -1789,12 +1789,12 @@ module RbReadline
       # The prompt spans multiple lines.
       pi += 1 if prompt.length!=pi+1
       t = pi
-      @local_prompt,@prompt_visible_length,@prompt_last_invisible,@prompt_invis_chars_first_line,@prompt_physical_chars = expand_prompt(prompt[pi..-1])
+      @local_prompt, @prompt_visible_length, @prompt_last_invisible, @prompt_invis_chars_first_line, @prompt_physical_chars = expand_prompt(prompt[pi..-1])
       c = prompt[t]
       prompt[t] = 0.chr
       # The portion of the prompt string up to and including the
       #final newline is now null-terminated.
-      @local_prompt_prefix,@prompt_prefix_length,_,_, = expand_prompt(prompt)
+      @local_prompt_prefix, @prompt_prefix_length, _, _, = expand_prompt(prompt)
       prompt[t] = c
       @local_prompt_len = @local_prompt ? @local_prompt.length : 0
       return (@prompt_prefix_length)
@@ -1812,7 +1812,7 @@ module RbReadline
 
   def get_term_capabilities(buffer)
     hash = {}
-      `infocmp -C`.split(":").select{|x| x =~ /(.*)=(.*)/ and hash[$1]=$2.gsub("\\r", "\r").gsub('\\E',"\e").gsub(/\^(.)/){($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr}}
+      `infocmp -C`.split(":").select{|x| x =~ /(.*)=(.*)/ and hash[$1]=$2.gsub("\\r", "\r").gsub('\\E', "\e").gsub(/\^(.)/){($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr}}
       @_rl_term_at7          =     hash["@7"]
       @_rl_term_DC           =     hash["DC"]
       @_rl_term_IC           =     hash["IC"]
@@ -1860,8 +1860,8 @@ module RbReadline
 
     if @hConsoleHandle
       csbi = Fiddle::Pointer.malloc(24)
-      @GetConsoleScreenBufferInfo.Call(@hConsoleHandle,csbi)
-      wc,wr = csbi[0,4].unpack("SS")
+      @GetConsoleScreenBufferInfo.Call(@hConsoleHandle, csbi)
+      wc, wr = csbi[0, 4].unpack("SS")
       # wr,wc, = `mode con`.scan(/\d+\n/).map{|x| x.to_i}
       @_rl_screenwidth = wc
       @_rl_screenheight = wr
@@ -2060,7 +2060,7 @@ module RbReadline
     retry_if_interrupted do
       h = Hash[*`stty -a`.scan(/(\w+) = ([^;]+);/).flatten]
     end
-    h.each {|k,v| v.gsub!(/\^(.)/){($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr}}
+    h.each {|k, v| v.gsub!(/\^(.)/){($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr}}
     kmap[h["erase"]] = :rl_rubout
     kmap[h["kill"]] = :rl_unix_line_discard
     kmap[h["werase"]] = :rl_unix_word_rubout
@@ -2161,7 +2161,7 @@ module RbReadline
     #   word in ARGS is the same as the value stored in rl_readline_name.
     if @rl_terminal_name && args =~ /^term=/
       # Terminals like "aaa-60" are equivalent to "aaa".
-      tname = @rl_terminal_name.downcase.gsub(/-.*$/,"")
+      tname = @rl_terminal_name.downcase.gsub(/-.*$/, "")
 
       # Test the `long' and `short' forms of the terminal name so that
       #if someone has a `sun-cmd' and does not want to have bindings
@@ -2234,7 +2234,7 @@ module RbReadline
   #   without any leading `$'.
   def handle_parser_directive(statement)
 
-    directive,args = statement.split(" ")
+    directive, args = statement.split(" ")
 
     case directive.downcase
     when "if"
@@ -2256,7 +2256,7 @@ module RbReadline
   end
 
 
-  def rl_variable_bind(name,value)
+  def rl_variable_bind(name, value)
     case name
     when "bind-tty-special-chars"
       @_rl_bind_stty_chars = value.nil? || value=="1" || value == "on"
@@ -2306,7 +2306,7 @@ module RbReadline
       @rl_visible_stats = value.nil? || value=="1" || value == "on"
     when "bell-style"
       case value
-      when "none","off"
+      when "none", "off"
         @_rl_bell_preference = NO_BELL
       when "audible", "on"
         @_rl_bell_preference = AUDIBLE_BELL
@@ -2331,9 +2331,9 @@ module RbReadline
       @_rl_isearch_terminators = instance_eval(value)
     when "keymap"
       case value
-      when "emacs","emacs-standard","emacs-meta","emacs-ctlx"
+      when "emacs", "emacs-standard", "emacs-meta", "emacs-ctlx"
         @_rl_keymap = @emacs_standard_keymap
-      when "vi","vi-move","vi-command"
+      when "vi", "vi-move", "vi-command"
         # This is a NOOP until the rest of Vi-mode is working.
       when "vi-insert"
         # This is a NOOP until the rest of Vi-mode is working.
@@ -2451,7 +2451,7 @@ module RbReadline
   def rl_parse_and_bind(string)
 
     # If this is a parser directive, act on it.
-    if string[0,1] == "$"
+    if string[0, 1] == "$"
       handle_parser_directive(string[1..-1])
       return 0
     end
@@ -2460,7 +2460,7 @@ module RbReadline
     return 0 if @_rl_parsing_conditionalized_out
 
     if string =~ /^set/i
-      _,var,value = string.downcase.split(" ")
+      _, var, value = string.downcase.split(" ")
       rl_variable_bind(var, value)
       return 0
     end
@@ -2643,8 +2643,8 @@ module RbReadline
       @visible_line << 0.chr * (@line_size - @visible_line.length)
       @invisible_line << 1.chr * (@line_size - @invisible_line.length)
     end
-    @visible_line[minsize,@line_size-minsize] = 0.chr * (@line_size-minsize)
-    @invisible_line[minsize,@line_size-minsize] = 1.chr * (@line_size-minsize)
+    @visible_line[minsize, @line_size-minsize] = 0.chr * (@line_size-minsize)
+    @invisible_line[minsize, @line_size-minsize] = 1.chr * (@line_size-minsize)
 
     if @vis_lbreaks.nil?
       @inv_lbreaks = []
@@ -2752,7 +2752,7 @@ module RbReadline
           _rl_clear_to_eol(@_rl_wrapped_line[current_line])
         end
 
-        if new[0,1] != 0.chr
+        if new[0, 1] != 0.chr
           case @encoding
           when "E"
             wc = new.scan(/./me)[0]
@@ -2780,11 +2780,11 @@ module RbReadline
 
         if tempwidth > 0
           bytes = ret
-          @rl_outstream.write(new[0,bytes])
+          @rl_outstream.write(new[0, bytes])
           @_rl_last_c_pos = tempwidth
           @_rl_last_v_pos+=1
 
-          if old[ostart,1] != 0.chr
+          if old[ostart, 1] != 0.chr
             case @encoding
             when "E"
               wc = old[ostart..-1].scan(/./me)[0]
@@ -2804,30 +2804,30 @@ module RbReadline
           end
           if ret != 0 && bytes != 0
             if ret != bytes
-              len = old[ostart..-1].index(0.chr,ret)
-              old[ostart+bytes,len-ret] = old[ostart+ret,len-ret]
+              len = old[ostart..-1].index(0.chr, ret)
+              old[ostart+bytes, len-ret] = old[ostart+ret, len-ret]
             end
-            old[ostart,bytes] = new[0,bytes]
+            old[ostart, bytes] = new[0, bytes]
           end
         else
           @rl_outstream.write(" ")
           @_rl_last_c_pos = 1
           @_rl_last_v_pos+=1
-          if old[ostart,1] != 0.chr && new[0,1] != 0.chr
-            old[ostart,1] = new[0,1]
+          if old[ostart, 1] != 0.chr && new[0, 1] != 0.chr
+            old[ostart, 1] = new[0, 1]
           end
         end
 
       else
-        if new[0,1] != 0.chr
-          @rl_outstream.write(new[0,1])
+        if new[0, 1] != 0.chr
+          @rl_outstream.write(new[0, 1])
         else
           @rl_outstream.write(" ")
         end
         @_rl_last_c_pos = 1
         @_rl_last_v_pos+=1
-        if old[ostart,1] != 0.chr && new[0,1] != 0.chr
-          old[ostart,1] = new[0,1]
+        if old[ostart, 1] != 0.chr && new[0, 1] != 0.chr
+          old[ostart, 1] = new[0, 1]
         end
       end
     end
@@ -2837,11 +2837,11 @@ module RbReadline
       # See if the old line is a subset of the new line, so that the
       # only change is adding characters.
       temp = (omax < nmax) ? omax : nmax
-      if old[ostart,temp]==new[0,temp]
+      if old[ostart, temp]==new[0, temp]
         ofd = temp
         nfd = temp
       else
-        if omax == nmax && new[0,omax]==old[ostart,omax]
+        if omax == nmax && new[0, omax]==old[ostart, omax]
           ofd = omax
           nfd = nmax
         else
@@ -2849,7 +2849,7 @@ module RbReadline
           old_offset = ostart
           ofd = 0
           nfd = 0
-          while(ofd < omax && old[ostart+ofd,1] != 0.chr &&
+          while(ofd < omax && old[ostart+ofd, 1] != 0.chr &&
                 _rl_compare_chars(old, old_offset, new, new_offset))
 
             old_offset = _rl_find_next_mbchar(old, old_offset, 1, MB_FIND_ANY)
@@ -2862,7 +2862,7 @@ module RbReadline
     else
       ofd = 0
       nfd = 0
-      while(ofd < omax && old[ostart+ofd,1] != 0.chr && old[ostart+ofd,1] == new[nfd,1])
+      while(ofd < omax && old[ostart+ofd, 1] != 0.chr && old[ostart+ofd, 1] == new[nfd, 1])
         ofd += 1
         nfd += 1
       end
@@ -2872,12 +2872,12 @@ module RbReadline
     # Move to the end of the screen line.  ND and OD are used to keep track
     #   of the distance between ne and new and oe and old, respectively, to
     #   move a subtraction out of each loop.
-    oe = old.index(0.chr,ostart+ofd) - ostart
+    oe = old.index(0.chr, ostart+ofd) - ostart
     if oe.nil? || oe>omax
       oe = omax
     end
 
-    ne = new.index(0.chr,nfd)
+    ne = new.index(0.chr, nfd)
     if ne.nil? || ne>omax
       ne = nmax
     end
@@ -2899,7 +2899,7 @@ module RbReadline
         if !_rl_compare_chars(old, ostart+ols, new, nls)
           break
         end
-        if old[ostart+ols,1] == " "
+        if old[ostart+ols, 1] == " "
           wsatend = false
         end
 
@@ -2909,8 +2909,8 @@ module RbReadline
     else
       ols = oe - 1         # find last same
       nls = ne - 1
-      while (ols > ofd) && (nls > nfd) && old[ostart+ols,1] == new[nls,1]
-        if old[ostart+ols,1] != " "
+      while (ols > ofd) && (nls > nfd) && old[ostart+ols, 1] == new[nls, 1]
+        if old[ostart+ols, 1] != " "
           wsatend = false
         end
         ols-=1
@@ -2922,14 +2922,14 @@ module RbReadline
       ols = oe
       nls = ne
     elsif !_rl_compare_chars(old, ostart+ols, new, nls)
-      if old[ostart+ols,1] != 0.chr         # don't step past the NUL
+      if old[ostart+ols, 1] != 0.chr         # don't step past the NUL
         if !@rl_byte_oriented
           ols = _rl_find_next_mbchar(old, ostart+ols, 1, MB_FIND_ANY) - ostart
         else
           ols+=1
         end
       end
-      if new[nls,1] != 0.chr 
+      if new[nls, 1] != 0.chr 
         if !@rl_byte_oriented
           nls = _rl_find_next_mbchar(new, nls, 1, MB_FIND_ANY)
         else
@@ -2965,7 +2965,7 @@ module RbReadline
         @_rl_term_cr && lendiff > @prompt_visible_length && @_rl_last_c_pos > 0 &&
         ofd >= lendiff && @_rl_last_c_pos < prompt_ending_index()
       @rl_outstream.write(@_rl_term_cr)
-      _rl_output_some_chars(@local_prompt,0,lendiff)
+      _rl_output_some_chars(@local_prompt, 0, lendiff)
       if !@rl_byte_oriented
         # We take wrap_offset into account here so we can pass correct
         #   information to _rl_move_cursor_relative.
@@ -3020,7 +3020,7 @@ module RbReadline
     # Insert (diff (len (old), len (new)) ch.
     temp = ne - nfd
     if !@rl_byte_oriented
-      col_temp = _rl_col_width(new,nfd,ne)
+      col_temp = _rl_col_width(new, nfd, ne)
     else
       col_temp = temp
     end
@@ -3057,20 +3057,20 @@ module RbReadline
         #   _rl_horizontal_scroll_mode == 1, inserting the characters with
         #   _rl_term_IC or _rl_term_ic will screw up the screen because of the
         #   invisible characters.  We need to just draw them.
-        if old[ostart+ols,1] != 0.chr && (!@_rl_horizontal_scroll_mode || @_rl_last_c_pos > 0 ||
+        if old[ostart+ols, 1] != 0.chr && (!@_rl_horizontal_scroll_mode || @_rl_last_c_pos > 0 ||
                                            lendiff <= @prompt_visible_length || current_invis_chars==0)
 
           insert_some_chars(new[nfd..-1], lendiff, col_lendiff)
           @_rl_last_c_pos += col_lendiff
-        elsif (@rl_byte_oriented) && old[ostart+ols,1] == 0.chr && lendiff > 0
+        elsif (@rl_byte_oriented) && old[ostart+ols, 1] == 0.chr && lendiff > 0
           # At the end of a line the characters do not have to
           # be "inserted".  They can just be placed on the screen.
           # However, this screws up the rest of this block, which
           # assumes you've done the insert because you can.
-          _rl_output_some_chars(new,nfd, lendiff)
+          _rl_output_some_chars(new, nfd, lendiff)
           @_rl_last_c_pos += col_lendiff
         else
-          _rl_output_some_chars(new,nfd, temp)
+          _rl_output_some_chars(new, nfd, temp)
           @_rl_last_c_pos += col_temp
           # If nfd begins before any invisible characters in the prompt, adjust
           # _rl_last_c_pos to account for wrap_offset and set cpos_adjusted to
@@ -3084,16 +3084,16 @@ module RbReadline
         # Copy (new) chars to screen from first diff to last match.
         temp = nls - nfd
         if (temp - lendiff) > 0
-          _rl_output_some_chars(new,(nfd + lendiff),temp - lendiff)
+          _rl_output_some_chars(new, (nfd + lendiff), temp - lendiff)
           # XXX -- this bears closer inspection.  Fixes a redisplay bug
           # reported against bash-3.0-alpha by Andreas Schwab involving
           # multibyte characters and prompt strings with invisible
           # characters, but was previously disabled.
-          @_rl_last_c_pos += _rl_col_width(new,nfd+lendiff, nfd+lendiff+temp-col_lendiff)
+          @_rl_last_c_pos += _rl_col_width(new, nfd+lendiff, nfd+lendiff+temp-col_lendiff)
         end
       else
         # cannot insert chars, write to EOL
-        _rl_output_some_chars(new,nfd, temp)
+        _rl_output_some_chars(new, nfd, temp)
         @_rl_last_c_pos += col_temp
         # If we're in a multibyte locale and were before the last invisible
         #   char in the current line (which implies we just output some invisible
@@ -3122,9 +3122,9 @@ module RbReadline
           # If nfd begins at the prompt, or before the invisible characters in
           # the prompt, we need to adjust _rl_last_c_pos in a multibyte locale
           # to account for the wrap offset and set cpos_adjusted accordingly.
-          _rl_output_some_chars(new,nfd, temp)
+          _rl_output_some_chars(new, nfd, temp)
           if !@rl_byte_oriented
-            @_rl_last_c_pos += _rl_col_width(new,nfd,nfd+temp)
+            @_rl_last_c_pos += _rl_col_width(new, nfd, nfd+temp)
             if current_line == 0 && @wrap_offset && nfd <= @prompt_last_invisible
               @_rl_last_c_pos -= @wrap_offset
               @cpos_adjusted = true
@@ -3140,7 +3140,7 @@ module RbReadline
           # If nfd begins at the prompt, or before the invisible characters in
           # the prompt, we need to adjust _rl_last_c_pos in a multibyte locale
           # to account for the wrap offset and set cpos_adjusted accordingly.
-          _rl_output_some_chars(new,nfd, temp)
+          _rl_output_some_chars(new, nfd, temp)
           @_rl_last_c_pos += col_temp      # XXX
           if !@rl_byte_oriented
             if current_line == 0 && @wrap_offset && nfd <= @prompt_last_invisible
@@ -3191,16 +3191,16 @@ module RbReadline
     #   lines.
     modmark = 0
     if @_rl_mark_modified_lines && current_history() && @rl_undo_list
-      line[out,1] = "*"
+      line[out, 1] = "*"
       out += 1
-      line[out,1] = 0.chr
+      line[out, 1] = 0.chr
       modmark = 1
     end
 
     # If someone thought that the redisplay was handled, but the currently
     #   visible line has a different modification state than the one about
     #   to become visible, then correct the caller's misconception.
-    if @visible_line[0,1] != @invisible_line[0,1]
+    if @visible_line[0, 1] != @invisible_line[0, 1]
       @rl_display_fixed = false
     end
 
@@ -3211,7 +3211,7 @@ module RbReadline
     if @rl_display_prompt == @rl_prompt || @local_prompt
 
       if @local_prompt_prefix && @forced_display
-        _rl_output_some_chars(@local_prompt_prefix,0,@local_prompt_prefix.length)
+        _rl_output_some_chars(@local_prompt_prefix, 0, @local_prompt_prefix.length)
       end
       if @local_prompt_len > 0
 
@@ -3219,13 +3219,13 @@ module RbReadline
         if temp >= @line_size
           @line_size = (temp + 1024) - (temp % 1024)
           if @visible_line.length >= @line_size
-            @visible_line = @visible_line[0,@line_size]
+            @visible_line = @visible_line[0, @line_size]
           else
             @visible_line += 0.chr * (@line_size-@visible_line.length)
           end
 
           if @invisible_line.length >= @line_size
-            @invisible_line = @invisible_line[0,@line_size]
+            @invisible_line = @invisible_line[0, @line_size]
           else
             @invisible_line += 0.chr * (@line_size-@invisible_line.length)
           end
@@ -3235,10 +3235,10 @@ module RbReadline
           end
           line = @invisible_line
         end
-        line[out,@local_prompt_len] = @local_prompt
+        line[out, @local_prompt_len] = @local_prompt
         out += @local_prompt_len
       end
-      line[out,1] = 0.chr
+      line[out, 1] = 0.chr
       @wrap_offset = @local_prompt_len - @prompt_visible_length
     else
       prompt_this_line = @rl_display_prompt.rindex("\n")
@@ -3249,10 +3249,10 @@ module RbReadline
 
         pmtlen = prompt_this_line # temp var
         if @forced_display
-          _rl_output_some_chars(@rl_display_prompt,0,pmtlen)
+          _rl_output_some_chars(@rl_display_prompt, 0, pmtlen)
           # Make sure we are at column zero even after a newline,
           #regardless of the state of terminal output processing.
-          if pmtlen < 2 || @rl_display_prompt[prompt_this_line-2,1] != "\r"
+          if pmtlen < 2 || @rl_display_prompt[prompt_this_line-2, 1] != "\r"
             cr()
           end
         end
@@ -3263,13 +3263,13 @@ module RbReadline
       if temp >= @line_size
         @line_size = (temp + 1024) - (temp % 1024)
         if @visible_line.length >= @line_size
-          @visible_line = @visible_line[0,@line_size]
+          @visible_line = @visible_line[0, @line_size]
         else
           @visible_line += 0.chr * (@line_size-@visible_line.length)
         end
 
         if @invisible_line.length >= @line_size
-          @invisible_line = @invisible_line[0,@line_size]
+          @invisible_line = @invisible_line[0, @line_size]
         else
           @invisible_line += 0.chr * (@line_size-@invisible_line.length)
         end
@@ -3280,16 +3280,16 @@ module RbReadline
 
         line = @invisible_line
       end
-      line[out,pmtlen] = @rl_display_prompt[prompt_this_line,pmtlen]
+      line[out, pmtlen] = @rl_display_prompt[prompt_this_line, pmtlen]
       out += pmtlen
-      line[out,1] = 0.chr
+      line[out, 1] = 0.chr
       @wrap_offset = @prompt_invis_chars_first_line = 0
     end
     # inv_lbreaks[i] is where line i starts in the buffer.
     @inv_lbreaks[newlines = 0] = 0
     lpos = @prompt_physical_chars + modmark
 
-    @_rl_wrapped_line = Array.new(@visible_line.length,0)
+    @_rl_wrapped_line = Array.new(@visible_line.length, 0)
     num = 0
 
     # prompt_invis_chars_first_line is the number of invisible characters in
@@ -3349,16 +3349,16 @@ module RbReadline
     if !@rl_byte_oriented && @rl_end>0
       case @encoding
       when "E"
-        wc = @rl_line_buffer[0,@rl_end].scan(/./me)[0]
+        wc = @rl_line_buffer[0, @rl_end].scan(/./me)[0]
         wc_bytes = wc ? wc.length : 1
       when "S"
-        wc = @rl_line_buffer[0,@rl_end].scan(/./ms)[0]
+        wc = @rl_line_buffer[0, @rl_end].scan(/./ms)[0]
         wc_bytes = wc ? wc.length : 1
       when "U"
-        wc = @rl_line_buffer[0,@rl_end].scan(/./mu)[0]
+        wc = @rl_line_buffer[0, @rl_end].scan(/./mu)[0]
         wc_bytes = wc ? wc.length : 1
       when "X"
-        wc = @rl_line_buffer[0,@rl_end].force_encoding(@encoding_name)[0]
+        wc = @rl_line_buffer[0, @rl_end].force_encoding(@encoding_name)[0]
         wc_bytes = wc ? wc.bytesize : 1
       end
     else
@@ -3367,7 +3367,7 @@ module RbReadline
 
     while(_in < @rl_end)
 
-      c = @rl_line_buffer[_in,1]
+      c = @rl_line_buffer[_in, 1]
       if(c == 0.chr)
         @rl_end = _in
         break
@@ -3385,12 +3385,12 @@ module RbReadline
       if out + 8 >= @line_size    # XXX - 8 for \t
         @line_size *= 2
         if @visible_line.length>=@line_size
-          @visible_line = @visible_line[0,@line_size]
+          @visible_line = @visible_line[0, @line_size]
         else
           @visible_line += 0.chr * (@line_size-@visible_line.length)
         end
         if @invisible_line.length>=@line_size
-          @invisible_line = @invisible_line[0,@line_size]
+          @invisible_line = @invisible_line[0, @line_size]
         else
           @invisible_line += 0.chr * (@line_size-@invisible_line.length)
         end
@@ -3403,7 +3403,7 @@ module RbReadline
       end
       if false && meta_char(c)
         if !@_rl_output_meta_chars && false
-          line[out,4] = "\\%03o" % c.ord
+          line[out, 4] = "\\%03o" % c.ord
 
           if lpos + 4 >= @_rl_screenwidth
             temp = @_rl_screenwidth - lpos
@@ -3414,7 +3414,7 @@ module RbReadline
           end
           out += 4
         else
-          line[out,1] = c
+          line[out, 1] = c
           out += 1
           lpos+=1
           if lpos >= @_rl_screenwidth
@@ -3433,26 +3433,26 @@ module RbReadline
           @inv_lbreaks[newlines+=1] = out + temp2
           lpos = temp - temp2
           while out < newout
-            line[out,1] = " "
+            line[out, 1] = " "
             out += 1
           end
 
         else
 
           while out < newout
-            line[out,1] = " "
+            line[out, 1] = " "
             out += 1
           end
           lpos += temp
         end
 
       elsif c == "\n" && !@_rl_horizontal_scroll_mode && @_rl_term_up
-        line[out,1] = 0.chr # XXX - sentinel
+        line[out, 1] = 0.chr # XXX - sentinel
         out += 1
         @inv_lbreaks[newlines+=1] = out
         lpos = 0
       elsif ctrl_char(c) || c == RUBOUT
-        line[out,1] = "^"
+        line[out, 1] = "^"
         out += 1
         lpos+=1
         if lpos >= @_rl_screenwidth
@@ -3461,7 +3461,7 @@ module RbReadline
           lpos = 0
         end
         # NOTE: c[0].ord works identically on both 1.8 and 1.9
-        line[out,1] = ctrl_char(c) ? (c[0].ord|0x40).chr.upcase : "?"
+        line[out, 1] = ctrl_char(c) ? (c[0].ord|0x40).chr.upcase : "?"
         out += 1
         lpos+=1
         if lpos >= @_rl_screenwidth
@@ -3476,7 +3476,7 @@ module RbReadline
           if @_rl_screenwidth < lpos + wc_width
             for i in lpos ... @_rl_screenwidth
               # The space will be removed in update_line()
-              line[out,1] = " "
+              line[out, 1] = " "
               out += 1
               _rl_wrapped_multicolumn+=1
               lpos+=1
@@ -3491,7 +3491,7 @@ module RbReadline
             @cpos_buffer_position = out
             lb_linenum = newlines
           end
-          line[out,wc_bytes] = @rl_line_buffer[_in,wc_bytes]
+          line[out, wc_bytes] = @rl_line_buffer[_in, wc_bytes]
           out += wc_bytes
           for i in 0 ... wc_width
             lpos+=1
@@ -3502,7 +3502,7 @@ module RbReadline
             end
           end
         else
-          line[out,1] = c
+          line[out, 1] = c
           out += 1
           lpos+=1
           if lpos >= @_rl_screenwidth
@@ -3518,16 +3518,16 @@ module RbReadline
         _in += wc_bytes
         case @encoding
         when "E"
-          wc = @rl_line_buffer[_in,@rl_end - _in].scan(/./me)[0]
+          wc = @rl_line_buffer[_in, @rl_end - _in].scan(/./me)[0]
           wc_bytes = wc ? wc.length : 1
         when "S"
-          wc = @rl_line_buffer[_in,@rl_end - _in].scan(/./ms)[0]
+          wc = @rl_line_buffer[_in, @rl_end - _in].scan(/./ms)[0]
           wc_bytes = wc ? wc.length : 1
         when "U"
-          wc = @rl_line_buffer[_in,@rl_end - _in].scan(/./mu)[0]
+          wc = @rl_line_buffer[_in, @rl_end - _in].scan(/./mu)[0]
           wc_bytes = wc ? wc.length : 1
         when "X"
-          wc = @rl_line_buffer[_in,@rl_end - _in].force_encoding(@encoding_name)[0]
+          wc = @rl_line_buffer[_in, @rl_end - _in].force_encoding(@encoding_name)[0]
           wc_bytes = wc ? wc.bytesize : 1
         end
 
@@ -3536,7 +3536,7 @@ module RbReadline
       end
     end
 
-    line[out,1] = 0.chr
+    line[out, 1] = 0.chr
 
     if @cpos_buffer_position < 0
       @cpos_buffer_position = out
@@ -3584,7 +3584,7 @@ module RbReadline
           #the locale from a non-multibyte to a multibyte one.
           o_cpos = @_rl_last_c_pos
           @cpos_adjusted = false
-          update_line(@visible_line,vis_pos(linenum), inv_line(linenum), linenum,
+          update_line(@visible_line, vis_pos(linenum), inv_line(linenum), linenum,
                       vis_llen(linenum), inv_llen(linenum), inv_botlin)
 
           if linenum == 0 && !@rl_byte_oriented &&
@@ -3660,7 +3660,7 @@ module RbReadline
           if @_rl_term_cr
             @rl_outstream.write(@_rl_term_cr)
           end
-          _rl_output_some_chars(@local_prompt,0,nleft)
+          _rl_output_some_chars(@local_prompt, 0, nleft)
           if !@rl_byte_oriented
             @_rl_last_c_pos = _rl_col_width(@local_prompt, 0, nleft) - @wrap_offset
           else
@@ -3701,9 +3701,9 @@ module RbReadline
         #   point specified by a buffer position (NLEFT) that doesn't take
         #   invisible characters into account.
         if !@rl_byte_oriented
-          _rl_move_cursor_relative(nleft, @invisible_line,pos)
+          _rl_move_cursor_relative(nleft, @invisible_line, pos)
         elsif nleft != @_rl_last_c_pos
-          _rl_move_cursor_relative(nleft, @invisible_line,pos)
+          _rl_move_cursor_relative(nleft, @invisible_line, pos)
         end
       end
 
@@ -3755,7 +3755,7 @@ module RbReadline
       # If the first character on the screen isn't the first character
       #in the display line, indicate this with a special character.
       if lmargin > 0
-        line[lmargin,1] = "<"
+        line[lmargin, 1] = "<"
       end
 
       # If SCREENWIDTH characters starting at LMARGIN do not encompass
@@ -3764,12 +3764,12 @@ module RbReadline
       # wrap offset into account.
       t = lmargin + m_offset(lmargin, @wrap_offset) + @_rl_screenwidth
       if t < out
-        line[t - 1,1] = ">"
+        line[t - 1, 1] = ">"
       end
       if !@rl_display_fixed || @forced_display || lmargin != @last_lmargin
 
         @forced_display = false
-        update_line(@visible_line,@last_lmargin,@invisible_line[lmargin..-1],
+        update_line(@visible_line, @last_lmargin, @invisible_line[lmargin..-1],
                     0,
                     @_rl_screenwidth + @visible_wrap_offset,
                     @_rl_screenwidth + (lmargin ? 0 : @wrap_offset),
@@ -3789,15 +3789,15 @@ module RbReadline
         if @visible_first_line_len > @_rl_screenwidth
           @visible_first_line_len = @_rl_screenwidth
         end
-        _rl_move_cursor_relative(@cpos_buffer_position - lmargin, @invisible_line ,lmargin)
+        _rl_move_cursor_relative(@cpos_buffer_position - lmargin, @invisible_line , lmargin)
         @last_lmargin = lmargin
       end
     end
     @rl_outstream.flush
 
     # Swap visible and non-visible lines.
-    @visible_line,@invisible_line = @invisible_line,@visible_line
-    @vis_lbreaks,@inv_lbreaks = @inv_lbreaks,@vis_lbreaks
+    @visible_line, @invisible_line = @invisible_line, @visible_line
+    @vis_lbreaks, @inv_lbreaks = @inv_lbreaks, @vis_lbreaks
 
     @rl_display_fixed = false
     # If we are displaying on a single line, and last_lmargin is > 0, we
@@ -3817,7 +3817,7 @@ module RbReadline
   # Tell the update routines that we have moved onto a new (empty) line.
   def rl_on_new_line()
     if @visible_line
-      @visible_line[0,1] = 0.chr
+      @visible_line[0, 1] = 0.chr
     end
     @_rl_last_c_pos = @_rl_last_v_pos = 0
     @_rl_vis_botlin = @last_lmargin = 0
@@ -3884,7 +3884,7 @@ module RbReadline
     return expand_prompt(pmt).first
   end
 
-  def _rl_col_width(string,start,_end)
+  def _rl_col_width(string, start, _end)
     return 0 if _end <= start
 
     # Find the first occurance of 0.chr, which marks the end of the string.
@@ -3892,7 +3892,7 @@ module RbReadline
     # seperately), we need to ignore any 0.chrs that lie before _end.
     index = string[_end...string.length].index(0.chr)
 
-    str = index ? string[0,index+_end] : string
+    str = index ? string[0, index+_end] : string
     width = 0
 
     case @encoding
@@ -3911,7 +3911,7 @@ module RbReadline
   end
 
   # Write COUNT characters from STRING to the output stream.
-  def _rl_output_some_chars(string,start,count)
+  def _rl_output_some_chars(string, start, count)
     case @encoding
     when "X"
       @_rl_out_stream.write(string[start, count].force_encoding(@encoding_name))
@@ -3933,8 +3933,8 @@ module RbReadline
     # Make sure the line structures hold the already-displayed prompt for
     #   redisplay.
     lprompt = @local_prompt ? @local_prompt : @rl_prompt
-    @visible_line[0,lprompt.length] = lprompt
-    @invisible_line[0,lprompt.length] = lprompt
+    @visible_line[0, lprompt.length] = lprompt
+    @invisible_line[0, lprompt.length] = lprompt
 
     # If the prompt contains newlines, take the last tail.
     prompt_last_line = rl_prompt.rindex("\n")
@@ -3959,7 +3959,7 @@ module RbReadline
     #   whether the cursor is at the end of the last line, or already at the
     #   beginning of the next line. Output a newline just to be safe.
     if l > 0 && (l % real_screenwidth) == 0
-      _rl_output_some_chars("\n",0,1)
+      _rl_output_some_chars("\n", 0, 1)
     end
     @last_lmargin = 0
 
@@ -4204,7 +4204,7 @@ module RbReadline
           if cxt.search_string_index + wlen + 1 >= cxt.search_string_size
             cxt.search_string_size += wlen + 1
           end
-          cxt.search_string[cxt.search_string_index..-1] = @rl_line_buffer[wstart,wlen]
+          cxt.search_string[cxt.search_string_index..-1] = @rl_line_buffer[wstart, wlen]
           cxt.search_string_index += wlen
         end
       end
@@ -4219,7 +4219,7 @@ module RbReadline
         if cxt.search_string_index + n + 1 >= cxt.search_string_size
           cxt.search_string_size += n + 1
         end
-        cxt.search_string[cxt.search_string_index..-1] = @rl_line_buffer[wstart,n]
+        cxt.search_string[cxt.search_string_index..-1] = @rl_line_buffer[wstart, n]
       end
 
       # Add character to search string and continue search.
@@ -4229,7 +4229,7 @@ module RbReadline
       end
       if !@rl_byte_oriented
         for j in 0 ... cxt.mb.length
-          cxt.search_string << cxt.mb[j,1]
+          cxt.search_string << cxt.mb[j, 1]
           cxt.search_string_index += 1
         end
       else
@@ -4243,7 +4243,7 @@ module RbReadline
       # Search the current line.
       while (cxt.sflags & SF_REVERSE)!=0 ? (cxt.sline_index >= 0) : (cxt.sline_index < limit)
 
-        if cxt.search_string[0,cxt.search_string_index] == cxt.sline[cxt.sline_index,cxt.search_string_index]
+        if cxt.search_string[0, cxt.search_string_index] == cxt.sline[cxt.sline_index, cxt.search_string_index]
           cxt.sflags |= SF_FOUND
           break
         else
@@ -4371,7 +4371,7 @@ module RbReadline
 
       @rl_dispatching = true
       rl_setstate(RL_STATE_DISPATCHING)
-      send(map[key],@rl_numeric_arg * @rl_arg_sign, key)
+      send(map[key], @rl_numeric_arg * @rl_arg_sign, key)
       rl_unsetstate(RL_STATE_DISPATCHING)
       @rl_dispatching = false
       if @rl_pending_input == 0 && map[key] != :rl_digit_argument
@@ -4380,14 +4380,14 @@ module RbReadline
     else
       if(map.keys.detect{|x| x =~ /^#{Regexp.escape(key)}/})
         key += _rl_subseq_getchar(key)
-        return _rl_dispatch_subseq(key,map,got_subseq)
+        return _rl_dispatch_subseq(key, map, got_subseq)
       elsif(key.length>1 && key[1].ord < 0x7f)
         _rl_abort_internal()
         return -1
       else
         @rl_dispatching = true
         rl_setstate(RL_STATE_DISPATCHING)
-        send(:rl_insert,@rl_numeric_arg * @rl_arg_sign, key)
+        send(:rl_insert, @rl_numeric_arg * @rl_arg_sign, key)
         rl_unsetstate(RL_STATE_DISPATCHING)
         @rl_dispatching = false
       end
@@ -4461,14 +4461,14 @@ module RbReadline
 
     @getch = Win32API.new("msvcrt", "_getch", [], "I")
     @kbhit = Win32API.new("msvcrt", "_kbhit", [], "I")
-    @GetStdHandle = Win32API.new("kernel32","GetStdHandle",["L"],"L")
-    @SetConsoleCursorPosition = Win32API.new("kernel32","SetConsoleCursorPosition",["L","L"],"L")
-    @GetConsoleScreenBufferInfo = Win32API.new("kernel32","GetConsoleScreenBufferInfo",["L","P"],"L")
-    @FillConsoleOutputCharacter = Win32API.new("kernel32","FillConsoleOutputCharacter",["L","L","L","L","P"],"L")
+    @GetStdHandle = Win32API.new("kernel32", "GetStdHandle", ["L"], "L")
+    @SetConsoleCursorPosition = Win32API.new("kernel32", "SetConsoleCursorPosition", ["L", "L"], "L")
+    @GetConsoleScreenBufferInfo = Win32API.new("kernel32", "GetConsoleScreenBufferInfo", ["L", "P"], "L")
+    @FillConsoleOutputCharacter = Win32API.new("kernel32", "FillConsoleOutputCharacter", ["L", "L", "L", "L", "P"], "L")
     @ReadConsoleInput = Win32API.new( "kernel32", "ReadConsoleInput", ["L", "P", "L", "P"], "L" )
-    @MessageBeep = Win32API.new("user32","MessageBeep",["L"],"L")
-    @GetKeyboardState = Win32API.new("user32","GetKeyboardState",["P"],"L")
-    @GetKeyState = Win32API.new("user32","GetKeyState",["L"],"L")
+    @MessageBeep = Win32API.new("user32", "MessageBeep", ["L"], "L")
+    @GetKeyboardState = Win32API.new("user32", "GetKeyboardState", ["P"], "L")
+    @GetKeyState = Win32API.new("user32", "GetKeyState", ["L"], "L")
     @hConsoleHandle = @GetStdHandle.Call(STD_OUTPUT_HANDLE)
     @hConsoleInput =  @GetStdHandle.Call(STD_INPUT_HANDLE)
     @pending_count = 0
@@ -4476,9 +4476,9 @@ module RbReadline
 
     begin
       case `chcp`.scan(/\d+$/).first.to_i
-      when 936,949,950,51932,51936,50225
+      when 936, 949, 950, 51932, 51936, 50225
         @encoding = "E"
-      when 932,50220,50221,20222
+      when 932, 50220, 50221, 20222
         @encoding = "S"
       when 65001
         @encoding = "U"
@@ -4512,7 +4512,7 @@ module RbReadline
     def rl_gather_tyi()
       chars_avail = @kbhit.Call
       return 0 if(chars_avail<=0)
-      k = send(@rl_getc_function,@rl_instream)
+      k = send(@rl_getc_function, @rl_instream)
       rl_stuff_char(k)
       return 1
     end
@@ -4539,9 +4539,9 @@ module RbReadline
     end
 
     def rl_gather_tyi()
-      result = select([@rl_instream],nil,nil,0.1)
+      result = select([@rl_instream], nil, nil, 0.1)
       return 0 if result.nil?
-      k = send(@rl_getc_function,@rl_instream)
+      k = send(@rl_getc_function, @rl_instream)
       rl_stuff_char(k)
       return 1
     end
@@ -4579,7 +4579,7 @@ module RbReadline
       else
 
         if (c=rl_get_char()).nil?
-          c = send(@rl_getc_function,@rl_instream)
+          c = send(@rl_getc_function, @rl_instream)
         end
       end
     end
@@ -4659,10 +4659,10 @@ module RbReadline
   def space_to_eol(count)
     if @hConsoleHandle
       csbi = Fiddle::Pointer.malloc(24)
-      @GetConsoleScreenBufferInfo.Call(@hConsoleHandle,csbi)
-      cursor_pos = csbi[4,4].unpack("L").first
+      @GetConsoleScreenBufferInfo.Call(@hConsoleHandle, csbi)
+      cursor_pos = csbi[4, 4].unpack("L").first
       written = Fiddle::Pointer.malloc(4)
-      @FillConsoleOutputCharacter.Call(@hConsoleHandle,0x20,count,cursor_pos,written)
+      @FillConsoleOutputCharacter.Call(@hConsoleHandle, 0x20, count, cursor_pos, written)
     else
       @rl_outstream.write(" " * count)
     end
@@ -4868,7 +4868,7 @@ module RbReadline
     rl_initialize()
     @readline_echoing_p = true
     if @rl_prep_term_function
-      send(@rl_prep_term_function,@_rl_meta_flag)
+      send(@rl_prep_term_function, @_rl_meta_flag)
     end
     rl_set_signals()
 
@@ -4902,7 +4902,7 @@ module RbReadline
     if @rl_end + l >= @rl_line_buffer.length
       rl_extend_line_buffer(@rl_end + l)
     end
-    @rl_line_buffer[@rl_point,0] = string
+    @rl_line_buffer[@rl_point, 0] = string
 
     # Remember how to undo this if we aren't undoing something.
     if !@_rl_doing_an_undo
@@ -4928,7 +4928,7 @@ module RbReadline
   end
 
   def alloc_undo_entry(what, start, _end, text)
-    temp = Struct.new(:what,:start,:end,:text,:next).new
+    temp = Struct.new(:what, :start, :end, :text, :next).new
     temp.what = what
     temp.start = start
     temp.end = _end
@@ -4952,7 +4952,7 @@ module RbReadline
 
     # Fix it if the caller is confused.
     if from > to
-      from,to = to,from
+      from, to = to, from
     end
 
     # fix boundaries
@@ -4976,7 +4976,7 @@ module RbReadline
       text = nil
     end
     @rl_end -= diff
-    @rl_line_buffer[@rl_end,1] = 0.chr
+    @rl_line_buffer[@rl_end, 1] = 0.chr
     return (diff)
   end
 
@@ -5055,7 +5055,7 @@ module RbReadline
   #   to replace the `newest' history entry where entry->data == OLD; and
   #   WHICH >= 0 means to replace that particular history entry's data, as
   #   long as it matches OLD.
-  def replace_history_data(which,old, new)
+  def replace_history_data(which, old, new)
     new = new.dup if new
     if which < -2 || which >= @history_length || @history_length == 0 || @the_history.nil?
       return
@@ -5200,8 +5200,8 @@ module RbReadline
     0
   end
 
-  def _rl_char_value(buf,ind)
-    buf[ind,1]
+  def _rl_char_value(buf, ind)
+    buf[ind, 1]
   end
 
   @_rl_allow_pathname_alphabetic_chars = false
@@ -5335,7 +5335,7 @@ module RbReadline
   # Actually update the display, period.
   def rl_forced_update_display()
     if @visible_line
-      @visible_line.gsub!(/[^\x00]/,0.chr)
+      @visible_line.gsub!(/[^\x00]/, 0.chr)
     end
     rl_on_new_line()
     @forced_display=true if !@forced_display
@@ -5392,7 +5392,7 @@ module RbReadline
   # Save the current line in _rl_saved_line_for_history.
   def rl_maybe_save_line()
     if @_rl_saved_line_for_history.nil?
-      @_rl_saved_line_for_history = Struct.new(:line,:timestamp,:data).new
+      @_rl_saved_line_for_history = Struct.new(:line, :timestamp, :data).new
       @_rl_saved_line_for_history.line = @rl_line_buffer.dup
       @_rl_saved_line_for_history.timestamp = nil
       @_rl_saved_line_for_history.data = @rl_undo_list
@@ -5413,7 +5413,7 @@ module RbReadline
     if which < 0 || which >= @history_length
       return nil
     end
-    temp = Struct.new(:line,:timestamp,:data).new
+    temp = Struct.new(:line, :timestamp, :data).new
     old_value = @the_history[which]
     temp.line = line.delete(0.chr)
     temp.data = data
@@ -5686,7 +5686,7 @@ module RbReadline
     start = up.start
     _end = up.end
     len = _end - start + 1
-    @vi_insert_buffer = @rl_line_buffer[start,len-1]
+    @vi_insert_buffer = @rl_line_buffer[start, len-1]
   end
 
   def _rl_vi_done_inserting()
@@ -5734,7 +5734,7 @@ module RbReadline
     # If the cursor is the only thing on an otherwise-blank last line,
     #   compensate so we don't print an extra CRLF.
     if @_rl_vis_botlin && @_rl_last_c_pos == 0 &&
-        @visible_line[@vis_lbreaks[@_rl_vis_botlin],1] == 0.chr 
+        @visible_line[@vis_lbreaks[@_rl_vis_botlin], 1] == 0.chr 
       @_rl_vis_botlin-=1
       full_lines = true
     end
@@ -5745,7 +5745,7 @@ module RbReadline
       @cpos_buffer_position = -1 # don't know where we are in buffer
       _rl_move_cursor_relative(@_rl_screenwidth - 1, last_line)   # XXX
       _rl_clear_to_eol(0)
-      @rl_outstream.write(last_line[@_rl_screenwidth - 1,1])
+      @rl_outstream.write(last_line[@_rl_screenwidth - 1, 1])
     end
     @_rl_vis_botlin = 0
     rl_crlf()
@@ -5819,7 +5819,7 @@ module RbReadline
     l = 0
     count.times do
       rl_backward_char(1, key)
-      l += rl_character_len(@rl_line_buffer[@rl_point,1], @rl_point) # not exactly right
+      l += rl_character_len(@rl_line_buffer[@rl_point, 1], @rl_point) # not exactly right
     end
 
     rl_begin_undo_group()
@@ -5864,7 +5864,7 @@ module RbReadline
     @rl_outstream.write(" "*l)
     _rl_backspace(l)
     @_rl_last_c_pos -= l
-    @visible_line[@_rl_last_c_pos,l] = 0.chr * l
+    @visible_line[@_rl_last_c_pos, l] = 0.chr * l
     @rl_display_fixed = true if !@rl_display_fixed
   end
 
@@ -5883,7 +5883,7 @@ module RbReadline
       rl_backward_char(count, key)
       rl_kill_text(orig_point, @rl_point)
     elsif @rl_byte_oriented
-      c = @rl_line_buffer[@rl_point-=1,1]
+      c = @rl_line_buffer[@rl_point-=1, 1]
       rl_delete_text(@rl_point, orig_point)
       # The erase-at-end-of-line hack is of questionable merit now.
       if @rl_point == @rl_end && isprint(c) && @_rl_last_c_pos!=0
@@ -5945,7 +5945,7 @@ module RbReadline
         #   exceeded the max limit for remembering kills.
         slot = @rl_kill_ring_length
         if slot == @rl_max_kills
-          @rl_kill_ring[0,slot] = @rl_kill_ring[1,slot]
+          @rl_kill_ring[0, slot] = @rl_kill_ring[1, slot]
         else
           slot = @rl_kill_ring_length += 1
         end
@@ -6007,11 +6007,11 @@ module RbReadline
       end
 
       while count>0
-        while @rl_point>0 && whitespace(@rl_line_buffer[@rl_point - 1,1])
+        while @rl_point>0 && whitespace(@rl_line_buffer[@rl_point - 1, 1])
           @rl_point-=1
         end
 
-        while @rl_point>0 && !whitespace(@rl_line_buffer[@rl_point - 1,1])
+        while @rl_point>0 && !whitespace(@rl_line_buffer[@rl_point - 1, 1])
           @rl_point-=1
         end
         count -= 1
@@ -6038,15 +6038,15 @@ module RbReadline
 
       while count>0
 
-        c = @rl_line_buffer[@rl_point - 1,1]
+        c = @rl_line_buffer[@rl_point - 1, 1]
         while @rl_point>0 && (whitespace(c) || c == "/")
           @rl_point-=1
-          c = @rl_line_buffer[@rl_point - 1,1]
+          c = @rl_line_buffer[@rl_point - 1, 1]
         end
 
         while @rl_point>0 && !whitespace(c) && c != "/"
           @rl_point-=1
-          c = @rl_line_buffer[@rl_point - 1,1]
+          c = @rl_line_buffer[@rl_point - 1, 1]
         end
         count -= 1
       end
@@ -6118,7 +6118,7 @@ module RbReadline
       rl_insert_text(@rl_comment_text)
     else
       @rl_comment_len = @rl_comment_text.length
-      if @rl_comment_text[0,@rl_comment_len] == @rl_line_buffer[0,@rl_comment_len]
+      if @rl_comment_text[0, @rl_comment_len] == @rl_line_buffer[0, @rl_comment_len]
         rl_delete_text(@rl_point, @rl_point + @rl_comment_len)
       else
         rl_insert_text(@rl_comment_text)
@@ -6131,7 +6131,7 @@ module RbReadline
   end
 
   def alloc_history_entry(string, ts)
-    temp = Struct.new(:line,:data,:timestamp).new
+    temp = Struct.new(:line, :data, :timestamp).new
     temp.line = string ? string.encode("UTF-8", invalid: :replace, undef: :replace, replace: "").delete(0.chr) : string
     temp.data = nil
     temp.timestamp = ts
@@ -6143,7 +6143,7 @@ module RbReadline
     t = Time.now.to_i
     ts = "X%u" % t
     ret = ts.dup
-    ret[0,1] = @history_comment_char
+    ret[0, 1] = @history_comment_char
 
     ret
   end
@@ -6223,7 +6223,7 @@ module RbReadline
         #   to quote anything in single quotes, especially not the closing
         #   quote.  If you don't like this, take out the check on the value
         #   of quote_char.
-        if quote_char != "'" && @rl_line_buffer[scan,1] == "\\"
+        if quote_char != "'" && @rl_line_buffer[scan, 1] == "\\"
           pass_next = true
           found_quote |= RL_QF_BACKSLASH
           next
@@ -6231,16 +6231,16 @@ module RbReadline
 
         if quote_char != 0.chr
           # Ignore everything until the matching close quote char.
-          if @rl_line_buffer[scan,1] == quote_char
+          if @rl_line_buffer[scan, 1] == quote_char
             # Found matching close.  Abandon this substring.
             quote_char = 0.chr
             @rl_point = _end
           end
 
-        elsif @rl_completer_quote_characters.include?(@rl_line_buffer[scan,1])
+        elsif @rl_completer_quote_characters.include?(@rl_line_buffer[scan, 1])
 
           # Found start of a quoted substring.
-          quote_char = @rl_line_buffer[scan,1]
+          quote_char = @rl_line_buffer[scan, 1]
           @rl_point = scan + 1
           # Shell-like quoting conventions.
           if quote_char == "'"
@@ -6264,14 +6264,14 @@ module RbReadline
       while (@rl_point =  !@rl_byte_oriented ?
              _rl_find_prev_mbchar(@rl_line_buffer, @rl_point, MB_FIND_ANY):(@rl_point-1))>0
 
-        scan = @rl_line_buffer[@rl_point,1]
+        scan = @rl_line_buffer[@rl_point, 1]
         if !brkchars.include?(scan)
           next
         end
         # Call the application-specific function to tell us whether
         #   this word break character is quoted and should be skipped.
         if @rl_char_is_quoted_p && found_quote!=0 &&
-            send(@rl_char_is_quoted_p,@rl_line_buffer, @rl_point)
+            send(@rl_char_is_quoted_p, @rl_line_buffer, @rl_point)
           next
         end
 
@@ -6282,7 +6282,7 @@ module RbReadline
     end
 
     # If we are at an unquoted word break, then advance past it.
-    scan = @rl_line_buffer[@rl_point,1]
+    scan = @rl_line_buffer[@rl_point, 1]
 
     # If there is an application-specific function to say whether or not
     #   a character is quoted and we found a quote character, let that
@@ -6292,7 +6292,7 @@ module RbReadline
     if scan != 0.chr
       if @rl_char_is_quoted_p
         isbrk = (found_quote == 0 ||
-                 !send(@rl_char_is_quoted_p,@rl_line_buffer, @rl_point)) &&
+                 !send(@rl_char_is_quoted_p, @rl_line_buffer, @rl_point)) &&
                  brkchars.include?(scan)
       else
         isbrk = brkchars.include?(scan)
@@ -6315,7 +6315,7 @@ module RbReadline
       end
     end
 
-    return [quote_char,found_quote!=0,delimiter]
+    return [quote_char, found_quote!=0, delimiter]
   end
 
   def gen_completion_matches(text, start, _end, our_func, found_quote, quote_char)
@@ -6326,7 +6326,7 @@ module RbReadline
     #   up and use the default completion function, they set the
     #   variable rl_attempted_completion_function.
     if @rl_attempted_completion_function
-      matches = Readline.send(@rl_attempted_completion_function,text, start, _end)
+      matches = Readline.send(@rl_attempted_completion_function, text, start, _end)
       if matches || @rl_attempted_completion_over
         @rl_attempted_completion_over = false
         return (matches)
@@ -6368,7 +6368,7 @@ module RbReadline
     #   munge the array, deleting matches as it desires.
     if @rl_ignore_some_completions_function && matching_filenames
       nmatch = matches.length
-      send(@rl_ignore_some_completions_function,matches)
+      send(@rl_ignore_some_completions_function, matches)
       if matches.nil? || matches[0].nil?
         matches = nil
         return 0
@@ -6390,7 +6390,7 @@ module RbReadline
     rl_begin_undo_group()
     # remove any opening quote character; make_quoted_replacement will add
     #   it back.
-    if qc && qc.length>0 && point>0 && @rl_line_buffer[point - 1,1] == qc
+    if qc && qc.length>0 && point>0 && @rl_line_buffer[point - 1, 1] == qc
       point-=1
     end
     rl_delete_text(point, @rl_point)
@@ -6451,7 +6451,7 @@ module RbReadline
       # Quote the replacement, since we found an embedded
       # word break character in a potential match.
       if do_replace != NO_MATCH && @rl_filename_quoting_function
-        replacement = send(@rl_filename_quoting_function,match, do_replace, qc)
+        replacement = send(@rl_filename_quoting_function, match, do_replace, qc)
       end
     end
     replacement
@@ -6465,13 +6465,13 @@ module RbReadline
     # Now insert the match.
     if replacement
       # Don't double an opening quote character.
-      if qc && qc.length>0 && start!=0 && @rl_line_buffer[start - 1,1] == qc &&
-          replacement[0,1] == qc
+      if qc && qc.length>0 && start!=0 && @rl_line_buffer[start - 1, 1] == qc &&
+          replacement[0, 1] == qc
         start-=1
         # If make_quoted_replacement changed the quoting character, remove
         # the opening quote and insert the (fully-quoted) replacement.
-      elsif qc && (qc != oqc) && start!=0 && @rl_line_buffer[start - 1,1] == oqc &&
-             replacement[0,1] != oqc
+      elsif qc && (qc != oqc) && start!=0 && @rl_line_buffer[start - 1, 1] == oqc &&
+             replacement[0, 1] != oqc
         start-=1
       end
       _rl_replace_text(replacement, start, @rl_point - 1)
@@ -6598,15 +6598,15 @@ module RbReadline
         end
         s = File.expand_path(dn)
         if @rl_directory_completion_hook
-          send(@rl_directory_completion_hook,s)
+          send(@rl_directory_completion_hook, s)
         end
 
         slen = s.length
         new_full_pathname = s.dup
-        if s[-1,1] == "/" 
+        if s[-1, 1] == "/" 
           slen-=1
         else
-          new_full_pathname[slen,1] = "/"
+          new_full_pathname[slen, 1] = "/"
         end
         new_full_pathname[slen .. -1] = "/" + to_print
 
@@ -6672,30 +6672,30 @@ module RbReadline
   def fnwidth(string)
     left = string.length + 1
     width = pos = 0
-    while string[pos] && string[pos,1] != 0.chr
-      if ctrl_char(string[0,1]) || string[0,1] == RUBOUT
+    while string[pos] && string[pos, 1] != 0.chr
+      if ctrl_char(string[0, 1]) || string[0, 1] == RUBOUT
         width += 2
         pos+=1
       else
         case @encoding
         when "E"
-          wc = string[pos,left-pos].scan(/./me)[0]
+          wc = string[pos, left-pos].scan(/./me)[0]
           bytes = wc.length
           tempwidth = wc.length
         when "S"
-          wc = string[pos,left-pos].scan(/./ms)[0]
+          wc = string[pos, left-pos].scan(/./ms)[0]
           bytes = wc.length
           tempwidth = wc.length
         when "U"
-          wc = string[pos,left-pos].scan(/./mu)[0]
+          wc = string[pos, left-pos].scan(/./mu)[0]
           bytes = wc.length
           tempwidth = wc.unpack("U").first >= 0x1000 ? 2 : 1
         when "X"
-          wc = string[pos,left-pos].force_encoding(@encoding_name)[0]
+          wc = string[pos, left-pos].force_encoding(@encoding_name)[0]
           bytes = wc.bytesize
           tempwidth = wc.ord >= 0x1000 ? 2 : 1
         else
-          wc = string[pos,left-pos].scan(/./m)[0]
+          wc = string[pos, left-pos].scan(/./m)[0]
           bytes = wc.length
           tempwidth = wc.length
         end
@@ -6751,7 +6751,7 @@ module RbReadline
 
     # If the caller has defined a display hook, then call that now.
     if @rl_completion_display_matches_hook
-      send(@rl_completion_display_matches_hook,matches, len, max)
+      send(@rl_completion_display_matches_hook, matches, len, max)
       return
     end
 
@@ -6803,7 +6803,7 @@ module RbReadline
     if @rl_point!=0
       # This (possibly) changes rl_point.  If it returns a non-zero char,
       #   we know we have an open quote.
-      quote_char,found_quote,delimiter = _rl_find_completion_word()
+      quote_char, found_quote, delimiter = _rl_find_completion_word()
     end
 
     start = @rl_point
@@ -6837,7 +6837,7 @@ module RbReadline
 
     case (what_to_do)
 
-    when TAB,"!","@"
+    when TAB, "!", "@"
       # Insert the first match with proper quoting.
       if matches[0]
         insert_match(matches[0], start, matches[1] ? MULT_MATCH : SINGLE_MATCH, quote_char)
@@ -6967,7 +6967,7 @@ module RbReadline
     retry_if_interrupted do
       h = Hash[*`stty -a`.scan(/(\w+) = ([^;]+);/).flatten]
     end
-    h.each {|k,v| v.gsub!(/\^(.)/){($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr}}
+    h.each {|k, v| v.gsub!(/\^(.)/){($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr}}
     @_rl_tty_chars.t_erase = h["erase"]
     @_rl_tty_chars.t_kill = h["kill"]
     @_rl_tty_chars.t_intr = h["intr"]
@@ -7227,9 +7227,9 @@ module RbReadline
   end
 
   def _rl_scxt_alloc(type, flags)
-    cxt = Struct.new(:type,:sflags,:search_string,:search_string_index,:search_string_size,:lines,:allocated_line,
-                     :hlen,:hindex,:save_point,:save_mark,:save_line,:last_found_line,:prev_line_found,:save_undo_list,:history_pos,
-                     :direction,:lastc,:sline,:sline_len,:sline_index,:search_terminators,:mb).new
+    cxt = Struct.new(:type, :sflags, :search_string, :search_string_index, :search_string_size, :lines, :allocated_line,
+                     :hlen, :hindex, :save_point, :save_mark, :save_line, :last_found_line, :prev_line_found, :save_undo_list, :history_pos,
+                     :direction, :lastc, :sline, :sline_len, :sline_index, :search_terminators, :mb).new
 
     cxt.type = type
     cxt.sflags = flags
@@ -7364,7 +7364,7 @@ module RbReadline
       rl_save_prompt()
       @msg_saved_prompt = true
     end
-    @local_prompt,@prompt_visible_length,@prompt_last_invisible,@prompt_invis_chars_first_line,@prompt_physical_chars =
+    @local_prompt, @prompt_visible_length, @prompt_last_invisible, @prompt_invis_chars_first_line, @prompt_physical_chars =
       expand_prompt(msg_buf)
     @local_prompt_prefix = nil
     @local_prompt_len = @local_prompt ? @local_prompt.length : 0
@@ -7423,7 +7423,7 @@ module RbReadline
     end
 
     char_length = prev_point - @rl_point
-    dummy = @rl_line_buffer[@rl_point,char_length]
+    dummy = @rl_line_buffer[@rl_point, char_length]
 
     rl_delete_text(@rl_point, @rl_point + char_length)
 
@@ -7478,7 +7478,7 @@ module RbReadline
 
     l = @rl_kill_ring[@rl_kill_index].length
     n = @rl_point - l
-    if n >= 0 && @rl_line_buffer[n,l] == @rl_kill_ring[@rl_kill_index][0,l]
+    if n >= 0 && @rl_line_buffer[n, l] == @rl_kill_ring[@rl_kill_index][0, l]
       rl_delete_text(n, @rl_point)
       @rl_point = n
       @rl_kill_index-=1
@@ -7595,7 +7595,7 @@ module RbReadline
     end
 
     if last_unescaped_quote_char >= last_unescaped_delimiter
-      quoted_arg = _extract_last_quote(string, string[last_unescaped_quote_char,1])
+      quoted_arg = _extract_last_quote(string, string[last_unescaped_quote_char, 1])
     end
     quoted_arg or string[last_unescaped_delimiter...string.length]
   end
@@ -7830,7 +7830,7 @@ module RbReadline
     end
 
     #c = (c[0].ord & ~0x80).chr
-    r = c[1,1]
+    r = c[1, 1]
     if r>="0" && r<="9"
       r = r.to_i
       @rl_numeric_arg = @rl_explicit_arg ? (@rl_numeric_arg * 10) +  r : r
@@ -7943,7 +7943,7 @@ module RbReadline
   # Save an undo entry for the text from START to END.
   def rl_modifying(start, _end)
     if start > _end
-      start,_end = _end,start
+      start, _end = _end, start
     end
 
     if start != _end
@@ -7972,7 +7972,7 @@ module RbReadline
     end
 
     if count < 0
-      start,_end = _end,start
+      start, _end = _end, start
     end
 
     # We are going to modify some text, so let's prepare to undo it.
@@ -8118,7 +8118,7 @@ module RbReadline
     return -1 if history_set_pos(pos) == 0
 
     rl_setstate(RL_STATE_SEARCH)
-    if string[0,1] == "^"
+    if string[0, 1] == "^"
       ret = history_search_prefix(string + 1, dir)
     else
       ret = history_search(string, dir)
@@ -8206,7 +8206,7 @@ module RbReadline
     @rl_undo_list = nil
 
     # Use the line buffer to read the search string.
-    @rl_line_buffer[0,1] = 0.chr
+    @rl_line_buffer[0, 1] = 0.chr
     @rl_end = @rl_point = 0
 
     _p = _rl_make_prompt_for_search(pchar ? pchar : ":")
@@ -8243,15 +8243,15 @@ module RbReadline
       rl_unix_word_rubout(1, c)
     when "\C-U"
       rl_unix_line_discard(1, c)
-    when RETURN,NEWLINE
+    when RETURN, NEWLINE
       return 0
-    when "\C-H",RUBOUT
+    when "\C-H", RUBOUT
       if @rl_point == 0
         _rl_nsearch_abort(cxt)
         return -1
       end
       _rl_rubout_char(1, c)
-    when "\C-C","\C-G"
+    when "\C-C", "\C-G"
       rl_ding()
       _rl_nsearch_abort(cxt)
       return -1
@@ -8401,7 +8401,7 @@ module RbReadline
 
     # Sort the items if they are not already sorted.
     if !@rl_ignore_completion_duplicates
-      matches[1,len] = matches[1,len].sort
+      matches[1, len] = matches[1, len].sort
     end
     rl_crlf()
 
@@ -8470,7 +8470,7 @@ module RbReadline
     temp_string = 0.chr * 4
     temp_string_index = 0
     if quote_char && @rl_point>0 && !@rl_completion_suppress_quote &&
-        @rl_line_buffer[@rl_point - 1,1] != quote_char
+        @rl_line_buffer[@rl_point - 1, 1] != quote_char
       temp_string[temp_string_index] = quote_char
       temp_string_index += 1
     end
@@ -8495,9 +8495,9 @@ module RbReadline
           # This is clumsy.  Avoid putting in a double slash if point
           # is at the end of the line and the previous character is a
           # slash.
-          if @rl_point>0 && @rl_line_buffer[@rl_point,1] == 0.chr && @rl_line_buffer[@rl_point - 1,1] == "/" 
+          if @rl_point>0 && @rl_line_buffer[@rl_point, 1] == 0.chr && @rl_line_buffer[@rl_point - 1, 1] == "/" 
 
-          elsif @rl_line_buffer[@rl_point,1] != "/"
+          elsif @rl_line_buffer[@rl_point, 1] != "/"
             rl_insert_text("/")
           end
         end
@@ -8524,7 +8524,7 @@ module RbReadline
     max = 0 if max < 0
 
     if @history_length > max
-      @the_history.slice!(0,(@history_length - max))
+      @the_history.slice!(0, (@history_length - max))
       @history_length = max
     end
 
@@ -8556,7 +8556,7 @@ module RbReadline
   # Insert COUNT characters from STRING to the output stream at column COL.
   def insert_some_chars(string, count, col)
     if @hConsoleHandle
-      _rl_output_some_chars(string,0,count)
+      _rl_output_some_chars(string, 0, count)
     else
       # DEBUGGING
       if @rl_byte_oriented
@@ -8581,7 +8581,7 @@ module RbReadline
       end
 
       # Print the text.
-      _rl_output_some_chars(string,0, count)
+      _rl_output_some_chars(string, 0, count)
 
       # If there is a string to turn off insert mode, we had best use
       # it now.
@@ -8681,22 +8681,22 @@ module RbReadline
     seed = 0 if seed < 0
     return seed if count <= 0
 
-    point = seed + _rl_adjust_point(string,seed)
+    point = seed + _rl_adjust_point(string, seed)
     if seed < point
       count -= 1
     end
 
-    str = (flags == MB_FIND_NONZERO) ? string.sub(/\x00+$/,"") : string
+    str = (flags == MB_FIND_NONZERO) ? string.sub(/\x00+$/, "") : string
 
     case @encoding
     when "E"
-      point += str[point..-1].scan(/./me)[0,count].to_s.length
+      point += str[point..-1].scan(/./me)[0, count].to_s.length
     when "S"
-      point += str[point..-1].scan(/./ms)[0,count].to_s.length
+      point += str[point..-1].scan(/./ms)[0, count].to_s.length
     when "U"
-      point += str[point..-1].scan(/./mu)[0,count].to_s.length
+      point += str[point..-1].scan(/./mu)[0, count].to_s.length
     when "X"
-      point += str[point..-1].force_encoding(@encoding_name)[0,count].bytesize
+      point += str[point..-1].force_encoding(@encoding_name)[0, count].bytesize
     else
       point += count
       point = str.length if point >= str.length
@@ -8721,13 +8721,13 @@ module RbReadline
 
     case @encoding
     when "E"
-      string[0,seed].scan(/./me)[0..-2].to_s.length
+      string[0, seed].scan(/./me)[0..-2].to_s.length
     when "S"
-      string[0,seed].scan(/./ms)[0..-2].to_s.length
+      string[0, seed].scan(/./ms)[0..-2].to_s.length
     when "U"
-      string[0,seed].scan(/./mu)[0..-2].to_s.length
+      string[0, seed].scan(/./mu)[0..-2].to_s.length
     when "X"
-      string[0,seed].force_encoding(@encoding_name)[0..-2].bytesize
+      string[0, seed].force_encoding(@encoding_name)[0..-2].bytesize
     end
   end
 
@@ -8755,7 +8755,7 @@ module RbReadline
   # if an invalid multibyte sequence was encountered. It returns (size_t)(-2)
   # if it couldn't parse a complete  multibyte character.
   def _rl_get_char_len(src)
-    return 0 if src[0,1] == 0.chr || src.length==0
+    return 0 if src[0, 1] == 0.chr || src.length==0
     case @encoding
     when "E"
       len = src.scan(/./me)[0].to_s.length
@@ -8838,7 +8838,7 @@ module RbReadline
     rl_save_prompt()
 
     @rl_display_prompt = t
-    @local_prompt,@prompt_visible_length,@prompt_last_invisible,@prompt_invis_chars_first_line,@prompt_physical_chars =
+    @local_prompt, @prompt_visible_length, @prompt_last_invisible, @prompt_invis_chars_first_line, @prompt_physical_chars =
       expand_prompt(t)
     @local_prompt_prefix = nil
     @local_prompt_len = @local_prompt ? @local_prompt.length : 0
@@ -8898,18 +8898,18 @@ module RbReadline
 
 
 
-  module_function :rl_attempted_completion_function,:rl_deprep_term_function,
-    :rl_event_hook,:rl_attempted_completion_over,:rl_basic_quote_characters,
-    :rl_basic_word_break_characters,:rl_completer_quote_characters,
-    :rl_completer_word_break_characters,:rl_completion_append_character,
-    :rl_filename_quote_characters,:rl_instream,:rl_library_version,:rl_outstream,
+  module_function :rl_attempted_completion_function, :rl_deprep_term_function,
+    :rl_event_hook, :rl_attempted_completion_over, :rl_basic_quote_characters,
+    :rl_basic_word_break_characters, :rl_completer_quote_characters,
+    :rl_completer_word_break_characters, :rl_completion_append_character,
+    :rl_filename_quote_characters, :rl_instream, :rl_library_version, :rl_outstream,
     :rl_readline_name,
-    :rl_attempted_completion_function=,:rl_deprep_term_function=,
-    :rl_event_hook=,:rl_attempted_completion_over=,:rl_basic_quote_characters=,
-    :rl_basic_word_break_characters=,:rl_completer_quote_characters=,
-    :rl_completer_word_break_characters=,:rl_completion_append_character=,
-    :rl_filename_quote_characters=,:rl_instream=,:rl_library_version=,:rl_outstream=,
-    :rl_readline_name=,:history_length,:history_base,:rl_point
+    :rl_attempted_completion_function=, :rl_deprep_term_function=,
+    :rl_event_hook=, :rl_attempted_completion_over=, :rl_basic_quote_characters=,
+    :rl_basic_word_break_characters=, :rl_completer_quote_characters=,
+    :rl_completer_word_break_characters=, :rl_completion_append_character=,
+    :rl_filename_quote_characters=, :rl_instream=, :rl_library_version=, :rl_outstream=,
+    :rl_readline_name=, :history_length, :history_base, :rl_point
 
   def no_terminal?
     term = ENV["TERM"]

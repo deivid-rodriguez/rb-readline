@@ -38,7 +38,7 @@ end
 
 # for corrupted Windows' stat(2)
 def File.dir?(path)
-  File.directory?((path[-1,1] == "/") ? path : path + "/")
+  File.directory?((path[-1, 1] == "/") ? path : path + "/")
 end
 
 
@@ -303,7 +303,7 @@ class ConfigTable
 
   def parse_opt(opt)
     m = @options_re.match(opt) or setup_rb_error "config: unknown option #{opt}"
-    m.to_a[1,2]
+    m.to_a[1, 2]
   end
 
   def dllext
@@ -388,7 +388,7 @@ class ConfigTable
 
     def check(path)
       setup_rb_error "config: --#{@name} requires argument"  unless path
-      path[0,1] == "$" ? path : File.expand_path(path)
+      path[0, 1] == "$" ? path : File.expand_path(path)
     end
   end
 
@@ -761,7 +761,7 @@ class ToplevelInstaller
     [ "install",  "installs files" ],
     [ "test",     "run all tests in test/" ],
     [ "clean",    "does `make clean' for each extention" ],
-    [ "distclean","does `make distclean' for each extention" ]
+    [ "distclean", "does `make distclean' for each extention" ]
   ]
 
   def ToplevelInstaller.invoke
@@ -886,7 +886,7 @@ class ToplevelInstaller
   end
 
   def valid_task_re
-    @valid_task_re ||= /\A(?:#{TASKS.map {|task,desc| task }.join('|')})\z/
+    @valid_task_re ||= /\A(?:#{TASKS.map {|task, desc| task }.join('|')})\z/
   end
 
   def parsearg_no_options
@@ -937,7 +937,7 @@ class ToplevelInstaller
         @config.no_harm = true
       when /\A--prefix=/
         path = a.split(/=/, 2)[1]
-        path = File.expand_path(path) unless path[0,1] == "/"
+        path = File.expand_path(path) unless path[0, 1] == "/"
         @config.install_prefix = path
       else
         setup_rb_error "install: unknown option #{a}"
@@ -975,7 +975,7 @@ class ToplevelInstaller
     @config.each do |item|
       out.printf fmt, item.help_opt, item.description, item.help_default
     end
-    out.printf fmt, "--rbconfig=path", "rbconfig.rb to load","running ruby's"
+    out.printf fmt, "--rbconfig=path", "rbconfig.rb to load", "running ruby's"
     out.puts
     out.puts "Options for INSTALL:"
     out.printf fmt, "--no-harm", "only display what to do if given", "off"

@@ -90,7 +90,7 @@ module Readline
   #
   def self.completion_proc=(proc)
     unless proc.respond_to? :call
-      raise ArgumentError,"argument must respond to `call'"
+      raise ArgumentError, "argument must respond to `call'"
     end
     @completion_proc = proc
   end
@@ -126,7 +126,7 @@ module Readline
   # If this method sets RbReadline.rl_attempted_completion_over to true,
   # then the default completion function will not be called when this
   # function returns nil.
-  def self.readline_attempted_completion_function(text,start,_end)
+  def self.readline_attempted_completion_function(text, start, _end)
     proc = @completion_proc
     return nil if proc.nil?
 
@@ -158,15 +158,15 @@ module Readline
       while i < matches
         if case_fold
           si = 0
-          while (c1 = result[i][si,1].downcase) &&
-                 (c2 = result[i + 1][si,1].downcase)
+          while (c1 = result[i][si, 1].downcase) &&
+                 (c2 = result[i + 1][si, 1].downcase)
             break if c1 != c2
             si += 1
           end
         else
           si = 0
-          while (c1 = result[i][si,1]) &&
-                 (c2 = result[i + 1][si,1])
+          while (c1 = result[i][si, 1]) &&
+                 (c2 = result[i + 1][si, 1])
             break if c1 != c2
             si += 1
           end
@@ -176,7 +176,7 @@ module Readline
         end
         i+=1
       end
-      result[0] = result[1][0,low]
+      result[0] = result[1][0, low]
     end
 
     result
@@ -185,14 +185,14 @@ module Readline
   # Sets vi editing mode.
   #
   def self.vi_editing_mode()
-    RbReadline.rl_vi_editing_mode(1,0)
+    RbReadline.rl_vi_editing_mode(1, 0)
     nil
   end
 
   # Sets emacs editing mode
   #
   def self.emacs_editing_mode()
-    RbReadline.rl_emacs_editing_mode(1,0)
+    RbReadline.rl_emacs_editing_mode(1, 0)
     nil
   end
 
@@ -351,7 +351,7 @@ module Readline
       end
       entry = RbReadline.history_get(RbReadline.history_base+index)
       if entry.nil?
-        raise IndexError,"invalid index"
+        raise IndexError, "invalid index"
       end
       entry.line.dup
     end
@@ -361,13 +361,13 @@ module Readline
     # You can only replace an existing entry. Attempting to create a new
     # entry will result in an IndexError.
     #
-    def self.[]=(index,str)
+    def self.[]=(index, str)
       if index<0
         index += RbReadline.history_length
       end
-      entry = RbReadline.replace_history_entry(index,str,nil)
+      entry = RbReadline.replace_history_entry(index, str, nil)
       if entry.nil?
-        raise IndexError,"invalid index"
+        raise IndexError, "invalid index"
       end
       str
     end
