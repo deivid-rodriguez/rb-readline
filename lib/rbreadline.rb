@@ -4347,7 +4347,7 @@ module RbReadline
     @SetConsoleCursorPosition = Win32API.new("kernel32", "SetConsoleCursorPosition", ["L", "L"], "L")
     @GetConsoleScreenBufferInfo = Win32API.new("kernel32", "GetConsoleScreenBufferInfo", ["L", "P"], "L")
     @FillConsoleOutputCharacter = Win32API.new("kernel32", "FillConsoleOutputCharacter", ["L", "L", "L", "L", "P"], "L")
-    @ReadConsoleInput = Win32API.new( "kernel32", "ReadConsoleInput", ["L", "P", "L", "P"], "L" )
+    @ReadConsoleInput = Win32API.new("kernel32", "ReadConsoleInput", ["L", "P", "L", "P"], "L")
     @MessageBeep = Win32API.new("user32", "MessageBeep", ["L"], "L")
     @GetKeyboardState = Win32API.new("user32", "GetKeyboardState", ["P"], "L")
     @GetKeyState = Win32API.new("user32", "GetKeyState", ["L"], "L")
