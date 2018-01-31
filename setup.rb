@@ -118,14 +118,14 @@ class ConfigTable
   end
 
   def load_savefile
-    begin
+    
       File.foreach(savefile) do |line|
         k, v = *line.split(/=/, 2)
         self[k] = v.strip
       end
     rescue Errno::ENOENT
       setup_rb_error $ERROR_INFO.message + "\n#{File.basename($PROGRAM_NAME)} config first"
-    end
+    
   end
 
   def save
@@ -604,10 +604,10 @@ module FileOperations
   end
 
   def force_remove_file(path)
-    begin
+    
       remove_file path
     rescue StandardError
-    end
+    
   end
 
   def remove_file(path)
@@ -1191,13 +1191,13 @@ class Installer
   end
 
   def verbose_off
-    begin
+    
       save = @config.verbose?
       @config.verbose = false
       yield
     ensure
       @config.verbose = save
-    end
+    
   end
 
   #
