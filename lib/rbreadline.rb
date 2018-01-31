@@ -1094,7 +1094,7 @@ module RbReadline
   @current_readline_init_include_level = 0
   @current_readline_init_lineno = 0
 
-  ENV["HOME"] ||= "#{ENV["HOMEDRIVE"]}#{ENV["HOMEPATH"]}"
+  ENV["HOME"] ||= "#{ENV['HOMEDRIVE']}#{ENV['HOMEPATH']}"
   unless File.directory? ENV["HOME"]
     raise "HOME environment variable (or HOMEDRIVE and HOMEPATH) must be set and point to a directory"
   end
