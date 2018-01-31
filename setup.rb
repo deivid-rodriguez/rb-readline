@@ -38,7 +38,7 @@ end
 
 # for corrupted Windows' stat(2)
 def File.dir?(path)
-  File.directory?((path[-1, 1] == "/") ? path : path + "/")
+  File.directory?(path[-1, 1] == "/" ? path : path + "/")
 end
 
 class ConfigTable

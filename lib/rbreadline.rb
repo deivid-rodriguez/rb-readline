@@ -1938,7 +1938,7 @@ module RbReadline
 
     buffer = @term_string_buffer
 
-    tgetent_ret = (term != "dumb") ? 1 : -1
+    tgetent_ret = term != "dumb" ? 1 : -1
 
     if tgetent_ret <= 0
       buffer = @term_buffer = @term_string_buffer = nil
@@ -2591,7 +2591,7 @@ module RbReadline
   # Return the history entry at the current position, as determined by
   #   history_offset.  If there is no entry there, return a NULL pointer.
   def current_history
-    ((@history_offset == @history_length) || @the_history.nil?) ? nil : @the_history[@history_offset]
+    (@history_offset == @history_length) || @the_history.nil? ? nil : @the_history[@history_offset]
   end
 
   def meta_char(c)
@@ -2631,7 +2631,7 @@ module RbReadline
   end
 
   def vis_line(line)
-    (line > @_rl_vis_botlin) ? "" : vis_chars(line)
+    line > @_rl_vis_botlin ? "" : vis_chars(line)
   end
 
   def inv_line(line)
@@ -2769,7 +2769,7 @@ module RbReadline
     if !@rl_byte_oriented
       # See if the old line is a subset of the new line, so that the
       # only change is adding characters.
-      temp = (omax < nmax) ? omax : nmax
+      temp = omax < nmax ? omax : nmax
       if old[ostart, temp] == new[0, temp]
         ofd = temp
         nfd = temp
@@ -3243,9 +3243,9 @@ module RbReadline
       end
 
       # Now account for invisible characters in the current line.
-      temp += (@local_prompt_prefix.nil? ? ((newlines == 0) ? @prompt_invis_chars_first_line :
-                                            ((newlines == 1) ? @wrap_offset : 0)) :
-                                            ((newlines == 0) ? @wrap_offset : 0))
+      temp += (@local_prompt_prefix.nil? ? (newlines == 0 ? @prompt_invis_chars_first_line :
+                                            (newlines == 1 ? @wrap_offset : 0)) :
+                                            (newlines == 0 ? @wrap_offset : 0))
 
       @inv_lbreaks[newlines += 1] = temp
       if !@rl_byte_oriented
@@ -3532,7 +3532,7 @@ module RbReadline
 
           # Since the new first line is now visible, save its length.
           if linenum == 0
-            @visible_first_line_len = (inv_botlin > 0) ? @inv_lbreaks[1] : out - @wrap_offset
+            @visible_first_line_len = inv_botlin > 0 ? @inv_lbreaks[1] : out - @wrap_offset
           end
 
           linenum += 1
@@ -3545,7 +3545,7 @@ module RbReadline
             tt = vis_chars(linenum)
             _rl_move_vert(linenum)
             _rl_move_cursor_relative(0, tt)
-            _rl_clear_to_eol((linenum == @_rl_vis_botlin) ? tt.length : @_rl_screenwidth)
+            _rl_clear_to_eol(linenum == @_rl_vis_botlin ? tt.length : @_rl_screenwidth)
             linenum += 1
           end
         end
@@ -4179,7 +4179,7 @@ module RbReadline
       rl_replace_line(cxt.lines[cxt.history_pos], false)
       @rl_point = cxt.sline_index
       cxt.last_found_line = cxt.history_pos
-      rl_display_search(cxt.search_string, (cxt.sflags & SF_REVERSE) != 0, (cxt.history_pos == cxt.save_line) ? -1 : cxt.history_pos)
+      rl_display_search(cxt.search_string, (cxt.sflags & SF_REVERSE) != 0, cxt.history_pos == cxt.save_line ? -1 : cxt.history_pos)
     end
     1
   end
@@ -4926,7 +4926,7 @@ module RbReadline
     return rl_backward_byte(-count, key) if count < 0
     if count > 0
       _end = @rl_point + count
-      lend = @rl_end > 0 ? @rl_end - ((@rl_editing_mode == @vi_mode) ? 1 : 0) : @rl_end
+      lend = @rl_end > 0 ? @rl_end - (@rl_editing_mode == @vi_mode ? 1 : 0) : @rl_end
       if _end > lend
         @rl_point = lend
         rl_ding
@@ -5240,7 +5240,7 @@ module RbReadline
   #   a pointer to that entry.  If there is no next entry then return a
   #   NULL pointer.
   def next_history
-    (@history_offset == @history_length) ? nil : @the_history[@history_offset += 1]
+    @history_offset == @history_length ? nil : @the_history[@history_offset += 1]
   end
 
   # Get the previous item out of our interactive history, making it the current
@@ -5250,7 +5250,7 @@ module RbReadline
     return 0 if count == 0
     # either not saved by rl_newline or at end of line, so set appropriately.
     if @_rl_history_saved_point == -1 && (@rl_point != 0 || @rl_end != 0)
-      @_rl_history_saved_point = (@rl_point == @rl_end) ? -1 : @rl_point
+      @_rl_history_saved_point = @rl_point == @rl_end ? -1 : @rl_point
     end
 
     # If we don't have a line saved, then save this one.
@@ -5282,7 +5282,7 @@ module RbReadline
   end
 
   def _rl_history_set_point 
-    @rl_point = (@_rl_history_preserve_point && @_rl_history_saved_point != -1) ?
+    @rl_point = @_rl_history_preserve_point && @_rl_history_saved_point != -1 ?
       @_rl_history_saved_point : @rl_end
     @rl_point = @rl_end if @rl_point > @rl_end
     if @rl_editing_mode == @vi_mode && @_rl_keymap != @vi_insertion_keymap
@@ -5301,7 +5301,7 @@ module RbReadline
 
     # either not saved by rl_newline or at end of line, so set appropriately.
     if @_rl_history_saved_point == -1 && (@rl_point != 0 || @rl_end != 0)
-      @_rl_history_saved_point = (@rl_point == @rl_end) ? -1 : @rl_point
+      @_rl_history_saved_point = @rl_point == @rl_end ? -1 : @rl_point
     end
     temp = nil
     while count > 0
@@ -5426,7 +5426,7 @@ module RbReadline
   end
 
   def rl_insert(count, c)
-    ((@rl_insert_mode == RL_IM_INSERT) ? _rl_insert_char(count, c) :
+    (@rl_insert_mode == RL_IM_INSERT ? _rl_insert_char(count, c) :
      _rl_overwrite_char(count, c))
   end
 
@@ -5532,7 +5532,7 @@ module RbReadline
     @rl_done = true
 
     if @_rl_history_preserve_point
-      @_rl_history_saved_point = (@rl_point == @rl_end) ? 1 : @rl_point
+      @_rl_history_saved_point = @rl_point == @rl_end ? 1 : @rl_point
     end
     rl_setstate(RL_STATE_DONE)
 
@@ -6411,7 +6411,7 @@ module RbReadline
         clen = bytes
         pos += clen
         w = tempwidth
-        width += (w >= 0) ? w : 1
+        width += w >= 0 ? w : 1
       end
     end
     width
@@ -6613,7 +6613,7 @@ module RbReadline
   #   OFFSET is relative to history_base.
   def history_get(offset)
     local_index = offset - @history_base
-    (local_index >= @history_length || local_index < 0 || @the_history.nil?) ?
+    local_index >= @history_length || local_index < 0 || @the_history.nil? ?
       nil : @the_history[local_index]
   end
 
@@ -6997,7 +6997,7 @@ module RbReadline
     cxt.search_string = ""
 
     # Normalize DIRECTION into 1 or -1.
-    cxt.direction = (direction >= 0) ? 1 : -1
+    cxt.direction = direction >= 0 ? 1 : -1
 
     cxt.sline = @rl_line_buffer
     cxt.sline_len = cxt.sline.delete(0.chr).length
@@ -7277,26 +7277,26 @@ module RbReadline
 
   def _rl_char_search_internal(count, dir, smbchar, len)
     pos = @rl_point
-    inc = (dir < 0) ? -1 : 1
+    inc = dir < 0 ? -1 : 1
     while count != 0
       if (dir < 0 && pos <= 0) || (dir > 0 && pos >= @rl_end)
         rl_ding
         return -1
       end
-      pos = (inc > 0) ? _rl_find_next_mbchar(@rl_line_buffer, pos, 1, MB_FIND_ANY) :
+      pos = inc > 0 ? _rl_find_next_mbchar(@rl_line_buffer, pos, 1, MB_FIND_ANY) :
         _rl_find_prev_mbchar(@rl_line_buffer, pos, MB_FIND_ANY)
       begin
         if _rl_is_mbchar_matched(@rl_line_buffer, pos, @rl_end, smbchar, len) != 0
           count -= 1
           if dir < 0
-            @rl_point = (dir == BTO) ? pos + 1 : pos
+            @rl_point = dir == BTO ? pos + 1 : pos
           else
-            @rl_point = (dir == FTO) ? pos - 1 : pos
+            @rl_point = dir == FTO ? pos - 1 : pos
           end
           break
         end
         prepos = pos
-      end while ((dir < 0) ? (pos = _rl_find_prev_mbchar(@rl_line_buffer, pos, MB_FIND_ANY)) != prepos :
+      end while (dir < 0 ? (pos = _rl_find_prev_mbchar(@rl_line_buffer, pos, MB_FIND_ANY)) != prepos :
                  (pos = _rl_find_next_mbchar(@rl_line_buffer, pos, 1, MB_FIND_ANY)) != prepos)
     end
     0
@@ -7650,7 +7650,7 @@ module RbReadline
         nop = op
       end
       if isascii(c)
-        nc = (nop == UpCase) ? c.upcase : c.downcase
+        nc = nop == UpCase ? c.upcase : c.downcase
         @rl_line_buffer[start] = nc
       end
 
@@ -7688,19 +7688,19 @@ module RbReadline
     end
 
     r = _rl_nsearch_dosearch(cxt)
-    (r >= 0) ? _rl_nsearch_cleanup(cxt, r) : (r != 1)
+    r >= 0 ? _rl_nsearch_cleanup(cxt, r) : (r != 1)
   end
 
   # Search forward through the history list for a string.  If the vi-mode
   #   code calls this, KEY will be `?'.
   def rl_noninc_forward_search(_count, key)
-    noninc_search(1, (key == "?") ? "?" : nil)
+    noninc_search(1, key == "?" ? "?" : nil)
   end
 
   # Reverse search the history list for a string.  If the vi-mode code
   #   calls this, KEY will be `/'.
   def rl_noninc_reverse_search(_count, key)
-    noninc_search(-1, (key == "/") ? "/" : nil)
+    noninc_search(-1, key == "/" ? "/" : nil)
   end
 
   # Make the data from the history entry ENTRY be the contents of the
@@ -7811,7 +7811,7 @@ module RbReadline
     #   portion of the prompt string after any final newline.
     _p = @rl_prompt ? @rl_prompt.rindex("\n") : nil
     if _p.nil?
-      len = (@rl_prompt && @rl_prompt.length > 0 ) ? @rl_prompt.length : 0
+      len = @rl_prompt && @rl_prompt.length > 0  ? @rl_prompt.length : 0
       if len > 0
         pmt = @rl_prompt.dup
       else
@@ -8115,7 +8115,7 @@ module RbReadline
       filename = File.expand_path(text)
       return temp_string_index unless File.exists? filename
 
-      s = (nontrivial_match && !@rl_completion_mark_symlink_dirs) ?
+      s = nontrivial_match && !@rl_completion_mark_symlink_dirs ?
         File.lstat(filename) : File.stat(filename)
       if s.directory?
         if @_rl_complete_mark_directories
@@ -8301,7 +8301,7 @@ module RbReadline
     point = seed + _rl_adjust_point(string, seed)
     count -= 1 if seed < point
 
-    str = (flags == MB_FIND_NONZERO) ? string.sub(/\x00+$/, "") : string
+    str = flags == MB_FIND_NONZERO ? string.sub(/\x00+$/, "") : string
 
     case @encoding
     when "E"
@@ -8324,7 +8324,7 @@ module RbReadline
   #   we look for non-zero-width multibyte characters.
   def _rl_find_prev_mbchar(string, seed, _flags)
     if @encoding == "N"
-      return ((seed == 0) ? seed : seed - 1)
+      return (seed == 0 ? seed : seed - 1)
     end
 
     length = string.length
