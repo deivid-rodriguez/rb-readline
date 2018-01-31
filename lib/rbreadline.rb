@@ -6283,7 +6283,7 @@ module RbReadline
   #     `%' for character special devices
   #     `#' for block special devices
   def stat_char(filename)
-    return nil unless File.exists?(filename)
+    return nil unless File.exist?(filename)
 
     return "/" if File.directory?(filename)
     return "%" if File.chardev?(filename)
@@ -8103,7 +8103,7 @@ module RbReadline
 
     if @rl_filename_completion_desired
       filename = File.expand_path(text)
-      return temp_string_index unless File.exists? filename
+      return temp_string_index unless File.exist? filename
 
       s = nontrivial_match && !@rl_completion_mark_symlink_dirs ?
         File.lstat(filename) : File.stat(filename)
