@@ -8,7 +8,7 @@ list = [
   "prev", "past",
 ].sort
 
-comp = proc{ |s| list.grep(/^#{Regexp.escape(s)}/) }
+comp = proc { |s| list.grep(/^#{Regexp.escape(s)}/) }
 
 Readline.completion_append_character = " "
 Readline.completion_proc = comp

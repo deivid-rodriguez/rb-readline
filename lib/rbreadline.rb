@@ -1634,7 +1634,7 @@ module RbReadline
 
   def rl_set_signals
     if Signal.list["WINCH"]
-      @def_proc = trap "WINCH", Proc.new{ rl_sigwinch_handler(0) }
+      @def_proc = trap "WINCH", Proc.new { rl_sigwinch_handler(0) }
     end
   end
 
@@ -1776,7 +1776,7 @@ module RbReadline
 
   def get_term_capabilities(_buffer)
     hash = {}
-    `infocmp -C`.split(":").select{ |x| x =~(/(.*)=(.*)/) && (hash[Regexp.last_match(1)] = Regexp.last_match(2).gsub("\\r", "\r").gsub('\\E', "\e").gsub(/\^(.)/){ (Regexp.last_match(1)[0].ord ^ ((?a..?z).include?(Regexp.last_match(1)[0]) ? 0x60 : 0x40)).chr }) }
+    `infocmp -C`.split(":").select { |x| x =~(/(.*)=(.*)/) && (hash[Regexp.last_match(1)] = Regexp.last_match(2).gsub("\\r", "\r").gsub('\\E', "\e").gsub(/\^(.)/) { (Regexp.last_match(1)[0].ord ^ ((?a..?z).include?(Regexp.last_match(1)[0]) ? 0x60 : 0x40)).chr }) }
     @_rl_term_at7 = hash["@7"]
     @_rl_term_DC = hash["DC"]
     @_rl_term_IC = hash["IC"]
@@ -2013,7 +2013,7 @@ module RbReadline
     retry_if_interrupted do
       h = Hash[*`stty -a`.scan(/(\w+) = ([^;]+);/).flatten]
     end
-    h.each { |k, v| v.gsub!(/\^(.)/){ (Regexp.last_match(1)[0].ord ^ ((?a..?z).include?(Regexp.last_match(1)[0]) ? 0x60 : 0x40)).chr } }
+    h.each { |k, v| v.gsub!(/\^(.)/) { (Regexp.last_match(1)[0].ord ^ ((?a..?z).include?(Regexp.last_match(1)[0]) ? 0x60 : 0x40)).chr } }
     kmap[h["erase"]] = :rl_rubout
     kmap[h["kill"]] = :rl_unix_line_discard
     kmap[h["werase"]] = :rl_unix_word_rubout
@@ -4262,7 +4262,7 @@ module RbReadline
         @rl_last_func = map[key]
       end
     else
-      if (map.keys.detect{ |x| x =~ /^#{Regexp.escape(key)}/ })
+      if (map.keys.detect { |x| x =~ /^#{Regexp.escape(key)}/ })
         key += _rl_subseq_getchar(key)
         return _rl_dispatch_subseq(key, map, got_subseq)
       elsif (key.length > 1 && key[1].ord < 0x7f)
@@ -6673,7 +6673,7 @@ module RbReadline
     retry_if_interrupted do
       h = Hash[*`stty -a`.scan(/(\w+) = ([^;]+);/).flatten]
     end
-    h.each { |k, v| v.gsub!(/\^(.)/){ (Regexp.last_match(1)[0].ord ^ ((?a..?z).include?(Regexp.last_match(1)[0]) ? 0x60 : 0x40)).chr } }
+    h.each { |k, v| v.gsub!(/\^(.)/) { (Regexp.last_match(1)[0].ord ^ ((?a..?z).include?(Regexp.last_match(1)[0]) ? 0x60 : 0x40)).chr } }
     @_rl_tty_chars.t_erase = h["erase"]
     @_rl_tty_chars.t_kill = h["kill"]
     @_rl_tty_chars.t_intr = h["intr"]

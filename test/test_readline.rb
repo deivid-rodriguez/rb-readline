@@ -4,7 +4,7 @@ require "readline"
 
 class TestReadline < Minitest::Test
   def setup
-    @proc = proc{ |s| ["alpha", "beta"].grep(/^#{Regexp.escape(s)}/) }
+    @proc = proc { |s| ["alpha", "beta"].grep(/^#{Regexp.escape(s)}/) }
   end
 
   def test_version
