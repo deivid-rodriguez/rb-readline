@@ -1461,9 +1461,7 @@ module RbReadline
       _rl_replace_text(homedir, start, _end)
       return 0
     elsif @rl_line_buffer[start, 1] != "~"
-      while (!whitespace(@rl_line_buffer[start, 1]) && start >= 0)
-        start -= 1
-      end
+      start -= 1 while (!whitespace(@rl_line_buffer[start, 1]) && start >= 0)
       start += 1
     end
 
@@ -5477,9 +5475,7 @@ module RbReadline
       elsif @_rl_vi_last_key_before_insert == "C"
         rl_end_undo_group
       end
-      while @_rl_undo_group_level > 0
-        rl_end_undo_group
-      end
+      rl_end_undo_group while @_rl_undo_group_level > 0
       @vi_continued_command = 0
     end
   end
@@ -7420,9 +7416,7 @@ module RbReadline
     if @rl_undo_list.nil?
       rl_ding
     else
-      while @rl_undo_list
-        rl_do_undo
-      end
+      rl_do_undo while @rl_undo_list
       if @rl_editing_mode == @vi_mode
         @rl_point = @rl_mark = 0 # rl_end should be set correctly
       end
