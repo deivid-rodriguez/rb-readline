@@ -594,7 +594,7 @@ module FileOperations
     force_remove_file dest
     begin
       File.rename src, dest
-    rescue
+    rescue StandardError
       File.open(dest, "wb") do |f|
         f.write File.binread(src)
       end
@@ -606,7 +606,7 @@ module FileOperations
   def force_remove_file(path)
     begin
       remove_file path
-    rescue
+    rescue StandardError
     end
   end
 
@@ -1543,7 +1543,7 @@ class Installer
     return unless path
     begin
       instance_eval File.read(path), path, 1
-    rescue
+    rescue StandardError
       raise if $DEBUG
       setup_rb_error "hook #{path} failed:\n" + $ERROR_INFO.message
     end

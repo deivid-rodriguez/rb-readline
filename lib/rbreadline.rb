@@ -2068,7 +2068,7 @@ module RbReadline
       File.open(openname) do |file|
         buffer = file.read
       end
-    rescue
+    rescue StandardError
       return -1
     end
 
@@ -4367,7 +4367,7 @@ module RbReadline
       else
         @encoding = "N"
       end
-    rescue
+    rescue StandardError
       @encoding = "N"
     end
 
