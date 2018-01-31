@@ -9,7 +9,7 @@
 # catch cases where GNU Readline has already been required. Unfortunately, it
 # is not without problems - any calls to methods like Readline.completion_proc
 # will need to be re-made.
-if (defined? Readline) && ! defined? RbReadline
+if (defined? Readline) && !defined? RbReadline
   if $DEBUG
     STDERR.puts "Removing old Readline module - redefined by rb-readline."
   end
