@@ -1403,7 +1403,7 @@ class Installer
 
   def hookfiles
     %w[pre-%s post-%s pre-%s.rb post-%s.rb].map do |fmt|
-      %w[config setup install clean].map { |t| sprintf(fmt, t) }
+      %w[config setup install clean].map { |t| format(fmt, t) }
     end.flatten
   end
 

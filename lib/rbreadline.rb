@@ -3321,7 +3321,7 @@ module RbReadline
       end
       if false && meta_char(c)
         if !@_rl_output_meta_chars && false
-          line[out, 4] = "\\%03o" % c.ord
+          line[out, 4] = format("\\%03o", c.ord)
 
           if lpos + 4 >= @_rl_screenwidth
             temp = @_rl_screenwidth - lpos
@@ -5882,7 +5882,7 @@ module RbReadline
 
   def hist_inittime
     t = Time.now.to_i
-    ts = "X%u" % t
+    ts = format("X%u", t)
     ret = ts.dup
     ret[0, 1] = @history_comment_char
 
