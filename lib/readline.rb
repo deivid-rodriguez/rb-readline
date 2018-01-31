@@ -150,7 +150,7 @@ module Readline
       result[1] = nil
     else
       i = 1
-      low = 100000
+      low = 100_000
 
       while i < matches
         if case_fold

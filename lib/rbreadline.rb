@@ -1316,7 +1316,7 @@ module RbReadline
     end
 
     i = 1
-    low = 100000
+    low = 100_000
     while (i < matches)
       if @_rl_completion_case_fold
         si = 0
@@ -1537,7 +1537,7 @@ module RbReadline
       @GetConsoleScreenBufferInfo.Call(@hConsoleHandle, csbi)
       x, y = csbi[4, 4].unpack("SS")
       x = dpos
-      @SetConsoleCursorPosition.Call(@hConsoleHandle, y * 65536 + x)
+      @SetConsoleCursorPosition.Call(@hConsoleHandle, y * 65_536 + x)
       @_rl_last_c_pos = dpos
       return
     end
@@ -4358,11 +4358,11 @@ module RbReadline
 
     begin
       case `chcp`.scan(/\d+$/).first.to_i
-      when 936, 949, 950, 51932, 51936, 50225
+      when 936, 949, 950, 51_932, 51_936, 50_225
         @encoding = "E"
-      when 932, 50220, 50221, 20222
+      when 932, 50_220, 50_221, 20_222
         @encoding = "S"
-      when 65001
+      when 65_001
         @encoding = "U"
       else
         @encoding = "N"
@@ -7518,7 +7518,7 @@ module RbReadline
   end
 
   def _rl_arg_overflow
-    if @rl_numeric_arg > 1000000
+    if @rl_numeric_arg > 1_000_000
       @_rl_argcxt = 0
       @rl_explicit_arg = @rl_numeric_arg = 0
       rl_ding
