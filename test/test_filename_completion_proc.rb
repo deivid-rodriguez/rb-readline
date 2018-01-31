@@ -11,8 +11,8 @@ class TestFilenameCompletionProc < Minitest::Test
   include FilesystemCompletionHelper
 
   def setup
-    FileUtils.mkdir_p((SUB_SUB_DIR).to_s)
-    FileUtils.mkdir_p((SUB_DIR_WITH_SPACES).to_s)
+    FileUtils.mkdir_p(SUB_SUB_DIR.to_s)
+    FileUtils.mkdir_p(SUB_DIR_WITH_SPACES.to_s)
     @comp_test_dir = Dir.new COMP_TEST_DIR
     @sub_dir = Dir.new SUB_DIR
     @sub_sub_dir = Dir.new SUB_SUB_DIR
@@ -54,7 +54,7 @@ class TestFilenameCompletionProc < Minitest::Test
 
     entries = @sub_sub_dir.entries - %w[. ..]
     entries.map! { |e| "#{@sub_sub_dir.path}#{e}" }
-    assert_equal entries, Readline::FILENAME_COMPLETION_PROC.call((@sub_sub_dir.path).to_s)
+    assert_equal entries, Readline::FILENAME_COMPLETION_PROC.call(@sub_sub_dir.path.to_s)
   end
 
   def test_list_files_and_directories_with_spaces
@@ -64,7 +64,7 @@ class TestFilenameCompletionProc < Minitest::Test
 
     entries = @dir_with_spaces.entries - %w[. ..]
     entries.map! { |e| @dir_with_spaces.path + e }
-    assert_equal entries, Readline::FILENAME_COMPLETION_PROC.call((@dir_with_spaces.path).to_s)
+    assert_equal entries, Readline::FILENAME_COMPLETION_PROC.call(@dir_with_spaces.path.to_s)
   end
 
   def test_list_files_in_current_directory

@@ -119,14 +119,12 @@ class ConfigTable
   end
 
   def load_savefile
-    
-      File.foreach(savefile) do |line|
-        k, v = *line.split(/=/, 2)
-        self[k] = v.strip
-      end
-    rescue Errno::ENOENT
-      setup_rb_error $ERROR_INFO.message + "\n#{File.basename($PROGRAM_NAME)} config first"
-    
+    File.foreach(savefile) do |line|
+      k, v = *line.split(/=/, 2)
+      self[k] = v.strip
+    end
+  rescue Errno::ENOENT
+    setup_rb_error $ERROR_INFO.message + "\n#{File.basename($PROGRAM_NAME)} config first"
   end
 
   def save
@@ -191,8 +189,8 @@ class ConfigTable
 
     makeprog = if arg = c["configure_args"].split.detect { |arg| /--with-make-prog=/ =~ arg }
                  arg.sub(/'/, "").split(/=/, 2)[1]
-    else
-      "make"
+               else
+                 "make"
                end
 
     [
@@ -603,10 +601,8 @@ module FileOperations
   end
 
   def force_remove_file(path)
-    
-      remove_file path
-    rescue StandardError
-    
+    remove_file path
+  rescue StandardError
   end
 
   def remove_file(path)
@@ -803,7 +799,7 @@ class ToplevelInstaller
     else
       case task
       when "config", "test"
-        
+
       when "clean", "distclean"
         @config.load_savefile if File.exist?(@config.savefile)
       else
@@ -1045,8 +1041,8 @@ class ToplevelInstallerMulti < ToplevelInstaller
     with = extract_selection(config("with"))
     without = extract_selection(config("without"))
     @selected = @installers.keys.select do |name|
-                  (with.empty? || with.include?(name)) \
-                      && (!without.include?(name))
+      (with.empty? || with.include?(name)) \
+          && !without.include?(name)
     end
   end
 
@@ -1189,13 +1185,11 @@ class Installer
   end
 
   def verbose_off
-    
-      save = @config.verbose?
-      @config.verbose = false
-      yield
-    ensure
-      @config.verbose = save
-    
+    save = @config.verbose?
+    @config.verbose = false
+    yield
+  ensure
+    @config.verbose = save
   end
 
   #
@@ -1537,7 +1531,7 @@ class Installer
 
   def run_hook(id)
     path = ["#{curr_srcdir}/#{id}",
-             "#{curr_srcdir}/#{id}.rb"].detect { |cand| File.file?(cand) }
+            "#{curr_srcdir}/#{id}.rb"].detect { |cand| File.file?(cand) }
     return unless path
     begin
       instance_eval File.read(path), path, 1

@@ -25,8 +25,8 @@ module FilesystemCompletionHelper
   #       sub dir with spaces/
   #         another filename with spaces
   def setup_filesystem_for_completion
-    FileUtils.mkdir_p((SUB_SUB_DIR).to_s)
-    FileUtils.mkdir_p((SUB_DIR_WITH_SPACES).to_s)
+    FileUtils.mkdir_p(SUB_SUB_DIR.to_s)
+    FileUtils.mkdir_p(SUB_DIR_WITH_SPACES.to_s)
     @comp_test_dir = Dir.new COMP_TEST_DIR
     @sub_dir = Dir.new SUB_DIR
     @sub_sub_dir = Dir.new SUB_SUB_DIR

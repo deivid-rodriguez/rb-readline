@@ -145,7 +145,7 @@ module Readline
     end
     result[matches + 1] = nil
 
-    if (matches == 1)
+    if matches == 1
       result[0] = result[1].dup
       result[1] = nil
     else
@@ -199,10 +199,10 @@ module Readline
   def self.completion_append_character=(char)
     RbReadline.rl_completion_append_character = if char.nil?
                                                   "\0"
-    elsif char.empty?
-      "\0"
-    else
-      char[0].chr
+                                                elsif char.empty?
+                                                  "\0"
+                                                else
+                                                  char[0].chr
                                                 end
   end
 
@@ -397,9 +397,7 @@ module Readline
     # Removes and returns the first element from the history buffer.
     #
     def self.shift
-      if RbReadline.history_length > 0
-        rb_remove_history(0)
-      end
+      rb_remove_history(0) if RbReadline.history_length > 0
     end
 
     # Iterates over each entry in the history buffer.
@@ -455,7 +453,7 @@ module Readline
       if matches
         result = []
         i = 0
-        while (matches[i])
+        while matches[i]
           result << matches[i].dup
           matches[i] = nil
           i += 1
@@ -484,7 +482,7 @@ module Readline
       if matches
         result = []
         i = 0
-        while (matches[i])
+        while matches[i]
           result << matches[i].dup
           matches[i] = nil
           i += 1
