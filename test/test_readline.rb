@@ -4,7 +4,7 @@ require "readline"
 
 class TestReadline < Minitest::Test
   def setup
-    @proc = proc { |s| ["alpha", "beta"].grep(/^#{Regexp.escape(s)}/) }
+    @proc = proc { |s| %w[alpha beta].grep(/^#{Regexp.escape(s)}/) }
   end
 
   def test_version
@@ -104,10 +104,10 @@ class TestReadline < Minitest::Test
     orig_char = Readline.completion_append_character
     begin
       [
-        ["x", "x"],
-        ["xyx", "x"],
+        %w[x x],
+        %w[xyx x],
         [" ", " "],
-        ["\t", "\t"],
+        %W[\t \t],
         ["", nil],
       ].each do |data, expected|
         Readline.completion_append_character = data

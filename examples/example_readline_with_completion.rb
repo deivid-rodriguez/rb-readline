@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 require "readline"
 
-list = [
-  "search", "download", "open",
-  "help", "history", "quit",
-  "url", "next", "clear",
-  "prev", "past",
+list = %w[
+  search download open
+  help history quit
+  url next clear
+  prev past
 ].sort
 
 comp = proc { |s| list.grep(/^#{Regexp.escape(s)}/) }
