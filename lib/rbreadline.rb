@@ -1414,19 +1414,19 @@ module RbReadline
 
 
   # This is a NOOP until the rest of Vi-mode is working.
-  def rl_vi_editing_mode(count, key)
+  def rl_vi_editing_mode(_count, _key)
     0
   end
 
   # Switching from one mode to the other really just involves
   #   switching keymaps.
-  def rl_vi_insertion_mode(count, key)
+  def rl_vi_insertion_mode(_count, key)
     @_rl_keymap = @vi_insertion_keymap
     @_rl_vi_last_key_before_insert = key
     0
   end
 
-  def rl_emacs_editing_mode(count, key)
+  def rl_emacs_editing_mode(_count, _key)
     @rl_editing_mode = @emacs_mode
     _rl_set_insert_mode(RL_IM_INSERT, 1) # emacs mode default is insert mode
     @_rl_keymap = @emacs_standard_keymap
@@ -1434,13 +1434,13 @@ module RbReadline
   end
 
   # Function for the rest of the library to use to set insert/overwrite mode.
-  def _rl_set_insert_mode(im, force)
+  def _rl_set_insert_mode(im, _force)
     @rl_insert_mode = im
   end
 
   # Toggle overwrite mode.  A positive explicit argument selects overwrite
   #   mode.  A negative or zero explicit argument selects insert mode.
-  def rl_overwrite_mode(count, key)
+  def rl_overwrite_mode(count, _key)
     if !@rl_explicit_arg
       _rl_set_insert_mode(@rl_insert_mode ^ 1, 0)
     elsif count > 0
@@ -1453,7 +1453,7 @@ module RbReadline
 
 
   # A function for simple tilde expansion.
-  def rl_tilde_expand(ignore, key)
+  def rl_tilde_expand(_ignore, _key)
     _end = @rl_point
     start = _end - 1
 
@@ -1629,7 +1629,7 @@ module RbReadline
     0
   end
 
-  def rl_restart_output(count, key)
+  def rl_restart_output(_count, _key)
     0
   end
 
@@ -1780,7 +1780,7 @@ module RbReadline
     0
   end
 
-  def get_term_capabilities(buffer)
+  def get_term_capabilities(_buffer)
     hash = {}
       `infocmp -C`.split(":").select{|x| x =~ /(.*)=(.*)/ and hash[$1] = $2.gsub("\\r", "\r").gsub('\\E', "\e").gsub(/\^(.)/){($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr}}
       @_rl_term_at7 = hash["@7"]
@@ -1826,7 +1826,7 @@ module RbReadline
   #   to the terminal.  If IGNORE_ENV is true, we do not pay attention to the
   #   values of $LINES and $COLUMNS.  The tests for TERM_STRING_BUFFER being
   #   non-null serve to check whether or not we have initialized termcap.
-  def _rl_get_screen_size(tty, ignore_env)
+  def _rl_get_screen_size(_tty, ignore_env)
 
     if @hConsoleHandle
       csbi = Fiddle::Pointer.malloc(24)
@@ -1869,7 +1869,7 @@ module RbReadline
   #   used.  TYPE, if non-NULL, is a pointer to an int which will receive the
   #   type of the object pointed to.  One of ISFUNC (function), ISKMAP (keymap),
   #   or ISMACR (macro).
-  def rl_function_of_keyseq(keyseq, map, type)
+  def rl_function_of_keyseq(keyseq, map, _type)
     map ||= @_rl_keymap
     map[keyseq]
   end
@@ -1879,7 +1879,7 @@ module RbReadline
   #   pointed to by DATA, right now this can be a function (ISFUNC),
   #   a macro (ISMACR), or a keymap (ISKMAP).  This makes new keymaps
   #   as necessary.  The initial place to do bindings is in MAP.
-  def rl_generic_bind(type, keyseq, data, map)
+  def rl_generic_bind(_type, keyseq, data, map)
     map[keyseq] = data
     0
   end
@@ -2142,7 +2142,7 @@ module RbReadline
   end
 
   # Invert the current parser state if there is anything on the stack.
-  def parser_else(args)
+  def parser_else(_args)
     if @if_stack.empty?
       #_rl_init_file_error ("$else found without matching $if")
       return 0
@@ -2159,7 +2159,7 @@ module RbReadline
 
   # Terminate a conditional, popping the value of
   #   _rl_parsing_conditionalized_out from the stack.
-  def parser_endif(args)
+  def parser_endif(_args)
     if @if_stack.length > 0
       @_rl_parsing_conditionalized_out = @if_stack.pop
     else
@@ -4326,7 +4326,7 @@ module RbReadline
         TYPEMAP = {"0" => Fiddle::TYPE_VOID, "S" => Fiddle::TYPE_VOIDP, "I" => Fiddle::TYPE_LONG}
         CALL_TYPE_TO_ABI = {:stdcall => 1, :cdecl => 1, nil => 1} #Taken from Fiddle::Importer
 
-        def initialize(dllname, func, import, export = "0", calltype = :stdcall)
+        def initialize(dllname, func, import, _export = "0", calltype = :stdcall)
           @proto = import.join.tr("VPpNnLlIi", "0SSI").chomp("0").split("")
           handle = DLL[dllname] ||= Fiddle.dlopen(dllname)
           @func = Fiddle::Function.new(handle[func], TYPEMAP.values_at(*@proto), CALL_TYPE_TO_ABI[calltype])
@@ -4387,7 +4387,7 @@ module RbReadline
       @encoding = "N"
     end
 
-    def rl_getc(stream)
+    def rl_getc(_stream)
       while @kbhit.Call == 0
         # If there is no input, yield the processor for other threads
         sleep(@_keyboard_input_timeout)
@@ -4688,7 +4688,7 @@ module RbReadline
     0
   end
 
-  def rl_abort(count, key)
+  def rl_abort(_count, _key)
     _rl_abort_internal
   end
 
@@ -5023,13 +5023,13 @@ module RbReadline
   end
 
   # Move to the beginning of the line.
-  def rl_beg_of_line(count, key)
+  def rl_beg_of_line(_count, _key)
     @rl_point = 0
     0
   end
 
   # Move to the end of the line.
-  def rl_end_of_line(count, key)
+  def rl_end_of_line(_count, _key)
     @rl_point = @rl_end
     0
   end
@@ -5165,7 +5165,7 @@ module RbReadline
 
 
   # Clear the current line.  Numeric argument to C-l does this.
-  def rl_refresh_line(ignore1, ignore2)
+  def rl_refresh_line(_ignore1, _ignore2)
     curr_line = _rl_current_display_line
 
     _rl_move_vert(curr_line)
@@ -5340,7 +5340,7 @@ module RbReadline
     0
   end
 
-  def rl_arrow_keys(count, c)
+  def rl_arrow_keys(count, _c)
     rl_setstate(RL_STATE_MOREINPUT)
     ch = rl_read_key
     rl_unsetstate(RL_STATE_MOREINPUT)
@@ -5463,12 +5463,12 @@ module RbReadline
     _rl_insert_char(count, c)
   end
 
-  def rl_quoted_insert(count, key)
+  def rl_quoted_insert(count, _key)
     _rl_insert_next(count)
   end
 
   # Insert a tab character.
-  def rl_tab_insert(count, key)
+  def rl_tab_insert(count, _key)
     _rl_insert_char(count, "\t")
   end
 
@@ -5551,7 +5551,7 @@ module RbReadline
   # What to do when a NEWLINE is pressed.  We accept the whole line.
   #   KEY is the key that invoked this command.  I guess it could have
   #   meaning in the future.
-  def rl_newline(count, key)
+  def rl_newline(_count, _key)
     @rl_done = true
 
     if @_rl_history_preserve_point
@@ -5574,7 +5574,7 @@ module RbReadline
   #   and some characters appearing in emacs_ctlx_keymap.  This function
   #   is just a stub, you bind keys to it and the code in _rl_dispatch ()
   #   is special cased.
-  def rl_do_lowercase_version(ignore1, ignore2)
+  def rl_do_lowercase_version(_ignore1, _ignore2)
     0
   end
 
@@ -5775,7 +5775,7 @@ module RbReadline
 
   # This does what C-w does in Unix.  We can't prevent people from
   #   using behaviour that they expect.
-  def rl_unix_word_rubout(count, key)
+  def rl_unix_word_rubout(count, _key)
     if @rl_point == 0
       rl_ding
     else
@@ -5801,7 +5801,7 @@ module RbReadline
 
   # This deletes one filename component in a Unix pathname.  That is, it
   #   deletes backward to directory separator (`/') or whitespace.
-  def rl_unix_filename_rubout(count, key)
+  def rl_unix_filename_rubout(count, _key)
     if @rl_point == 0
       rl_ding
     else
@@ -5842,7 +5842,7 @@ module RbReadline
   end
 
   # Delete all spaces and tabs around point.
-  def rl_delete_horizontal_space(count, ignore)
+  def rl_delete_horizontal_space(_count, _ignore)
     start = @rl_point
 
     while @rl_point != 0 && whitespace(@rl_line_buffer[@rl_point - 1])
@@ -5861,7 +5861,7 @@ module RbReadline
   end
 
   # List the possible completions.  See description of rl_complete ().
-  def rl_possible_completions(ignore, invoking_key)
+  def rl_possible_completions(_ignore, _invoking_key)
     rl_complete_internal("?")
   end
 
@@ -5878,7 +5878,7 @@ module RbReadline
 
   # Turn the current line into a comment in shell history.
   #   A K*rn shell style function.
-  def rl_insert_comment(count, key)
+  def rl_insert_comment(_count, key)
     rl_beg_of_line(1, key)
     @rl_comment_text = @_rl_comment_begin ? @_rl_comment_begin : "#"
 
@@ -6644,7 +6644,7 @@ module RbReadline
       nil : @the_history[local_index]
   end
 
-  def rl_replace_from_history(entry, flags)
+  def rl_replace_from_history(entry, _flags)
     # Can't call with `1' because rl_undo_list might point to an undo list
     #   from a history entry, just like we're setting up here.
     rl_replace_line(entry.line, false)
@@ -6728,7 +6728,7 @@ module RbReadline
     kmap[@_rl_tty_chars.t_lnext] = :rl_quoted_insert
   end
 
-  def prepare_terminal_settings(meta_flag)
+  def prepare_terminal_settings(_meta_flag)
     retry_if_interrupted do
       @readline_echoing_p = (`stty -a`.scan(/-*echo\b/).first == "echo")
     end
@@ -6854,7 +6854,7 @@ module RbReadline
   end
 
   # A bindable command to set the mark.
-  def rl_set_mark(count, key)
+  def rl_set_mark(count, _key)
     _rl_set_mark_at_pos(@rl_explicit_arg ? count : @rl_point)
   end
 
@@ -6892,7 +6892,7 @@ module RbReadline
   end
 
   # Kill the whole line, no matter where point is.
-  def rl_kill_full_line(count, ignore)
+  def rl_kill_full_line(_count, _ignore)
     rl_begin_undo_group
     @rl_point = 0
     rl_kill_text(@rl_point, @rl_end)
@@ -6917,7 +6917,7 @@ module RbReadline
   #   This is analogous to i-search.  We start the search in the current line.
   #   DIRECTION is which direction to search; >= 0 means forward, < 0 means
   #   backwards.
-  def rl_search_history(direction, invoking_key)
+  def rl_search_history(direction, _invoking_key)
     rl_setstate(RL_STATE_ISEARCH)
     cxt = _rl_isearch_init(direction)
 
@@ -7089,7 +7089,7 @@ module RbReadline
   #   DIRECTION is zero for forward, or non-zero for reverse,
   #   WHERE is the history list number of the current line.  If it is
   #   -1, then this line is the starting one.
-  def rl_display_search(search_string, reverse_p, where)
+  def rl_display_search(search_string, reverse_p, _where)
     message = "("
     message << "reverse-" if reverse_p
     message << "i-search)`"
@@ -7104,7 +7104,7 @@ module RbReadline
 
   # Transpose the characters at point.  If point is at the end of the line,
   #   then transpose the characters before point.
-  def rl_transpose_chars(count, key)
+  def rl_transpose_chars(count, _key)
     return 0 if count == 0
 
     if @rl_point == 0 || @rl_end < 2
@@ -7149,7 +7149,7 @@ module RbReadline
   # latter, because if you are a Unix weenie, then you haven't backspaced
   # into the line at all, and if you aren't, then you know what you are
   # doing.
-  def rl_unix_line_discard(count, key)
+  def rl_unix_line_discard(_count, _key)
     if @rl_point == 0
       rl_ding
     else
@@ -7161,7 +7161,7 @@ module RbReadline
   end
 
   # Yank back the last killed text.  This ignores arguments.
-  def rl_yank(count, ignore)
+  def rl_yank(_count, _ignore)
     if @rl_kill_ring.nil?
       _rl_abort_internal
       return -1
@@ -7175,7 +7175,7 @@ module RbReadline
   #   before point is identical to the current kill item, then
   #   delete that text from the line, rotate the index down, and
   #   yank back some other text.
-  def rl_yank_pop(count, key)
+  def rl_yank_pop(_count, _key)
     if ((@rl_last_func != :rl_yank_pop) && (@rl_last_func != :rl_yank)) ||
         @rl_kill_ring.nil?
       _rl_abort_internal
@@ -7342,7 +7342,7 @@ module RbReadline
     end
   end
 
-  def rl_char_search(count, key)
+  def rl_char_search(count, _key)
     _rl_char_search(count, FFIND, BFIND)
   end
 
@@ -7405,7 +7405,7 @@ module RbReadline
 
 
   # Do some undoing of things that were done.
-  def rl_undo_command(count, key)
+  def rl_undo_command(count, _key)
     if count < 0
       return 0 # Nothing to do.
     end
@@ -7450,7 +7450,7 @@ module RbReadline
   end
 
   # Revert the current line to its previous state.
-  def rl_revert_line(count, key)
+  def rl_revert_line(_count, _key)
     if @rl_undo_list.nil?
       rl_ding
     else
@@ -7464,11 +7464,11 @@ module RbReadline
     0
   end
 
-  def rl_backward_char_search (count, key)
+  def rl_backward_char_search (count, _key)
     _rl_char_search(count, BFIND, FFIND)
   end
 
-  def rl_insert_completions(ignore, invoking_key)
+  def rl_insert_completions(_ignore, _invoking_key)
     rl_complete_internal("*")
   end
 
@@ -7575,7 +7575,7 @@ module RbReadline
   end
 
   # Start a numeric argument with initial value KEY
-  def rl_digit_argument(ignore, key)
+  def rl_digit_argument(_ignore, key)
     _rl_arg_init
     if rl_isstate(RL_STATE_CALLBACK)
       _rl_arg_dispatch(@_rl_argcxt, key)
@@ -7595,12 +7595,12 @@ module RbReadline
   end
 
   # Meta-< goes to the start of the history.
-  def rl_beginning_of_history(count, key)
+  def rl_beginning_of_history(_count, key)
     rl_get_previous_history(1 + where_history, key)
   end
 
   # Meta-> goes to the end of the history.  (The current line).
-  def rl_end_of_history(count, key)
+  def rl_end_of_history(_count, _key)
     rl_maybe_replace_line
     using_history
     rl_maybe_unsave_line
@@ -7608,17 +7608,17 @@ module RbReadline
   end
 
   # Uppercase the word at point.
-  def rl_upcase_word(count, key)
+  def rl_upcase_word(count, _key)
     rl_change_case(count, UpCase)
   end
 
   # Lowercase the word at point.
-  def rl_downcase_word(count, key)
+  def rl_downcase_word(count, _key)
     rl_change_case(count, DownCase)
   end
 
   # Upcase the first letter, downcase the rest.
-  def rl_capitalize_word(count, key)
+  def rl_capitalize_word(count, _key)
     rl_change_case(count, CapCase)
   end
 
@@ -7722,13 +7722,13 @@ module RbReadline
 
   # Search forward through the history list for a string.  If the vi-mode
   #   code calls this, KEY will be `?'.
-  def rl_noninc_forward_search(count, key)
+  def rl_noninc_forward_search(_count, key)
     noninc_search(1, (key == "?") ? "?" : nil)
   end
 
   # Reverse search the history list for a string.  If the vi-mode code
   #   calls this, KEY will be `/'.
-  def rl_noninc_reverse_search(count, key)
+  def rl_noninc_reverse_search(_count, key)
     noninc_search(-1, (key == "/") ? "/" : nil)
   end
 
@@ -7884,7 +7884,7 @@ module RbReadline
     cxt
   end
 
-  def _rl_nsearch_cleanup(cxt, r)
+  def _rl_nsearch_cleanup(_cxt, r)
     cxt = nil
     @_rl_nscxt = nil
     rl_unsetstate(RL_STATE_NSEARCH)
@@ -8022,14 +8022,14 @@ module RbReadline
   end
 
   # Re-read the current keybindings file.
-  def rl_re_read_init_file(count, ignore)
+  def rl_re_read_init_file(_count, _ignore)
     r = rl_read_init_file(nil)
     rl_set_keymap_from_edit_mode
     r
   end
 
   # Exchange the position of mark and point.
-  def rl_exchange_point_and_mark(count, key)
+  def rl_exchange_point_and_mark(_count, _key)
     @rl_mark = -1 if @rl_mark > @rl_end
     if @rl_mark == -1
       rl_ding
@@ -8351,7 +8351,7 @@ module RbReadline
   # Find previous character started byte point of the specified seed.
   #   Returned point will be point <= seed.  If flags is MB_FIND_NONZERO,
   #   we look for non-zero-width multibyte characters.
-  def _rl_find_prev_mbchar(string, seed, flags)
+  def _rl_find_prev_mbchar(string, seed, _flags)
     if @encoding == "N"
       return ((seed == 0) ? seed : seed - 1)
     end
@@ -8530,7 +8530,7 @@ module RbReadline
     end
   end
 
-  def rl_sigwinch_handler(sig)
+  def rl_sigwinch_handler(_sig)
     rl_setstate(RL_STATE_SIGHANDLER)
     rl_resize_terminal
     rl_unsetstate(RL_STATE_SIGHANDLER)

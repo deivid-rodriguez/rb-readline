@@ -122,7 +122,7 @@ module Readline
   # If this method sets RbReadline.rl_attempted_completion_over to true,
   # then the default completion function will not be called when this
   # function returns nil.
-  def self.readline_attempted_completion_function(text, start, _end)
+  def self.readline_attempted_completion_function(text, _start, _end)
     proc = @completion_proc
     return nil if proc.nil?
 

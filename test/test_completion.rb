@@ -8,7 +8,7 @@ class TestCompletion < Minitest::Test
   include RbReadline
   include FilesystemCompletionHelper
 
-  def filename_quoting_function(filename, mtype, quote_char)
+  def filename_quoting_function(filename, _mtype, _quote_char)
     quoted_filename = filename.dup
     @rl_filename_quote_characters.split("").each do |c|
       quoted_filename.gsub!(c, "\\#{c}")

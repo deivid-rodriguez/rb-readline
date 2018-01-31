@@ -433,7 +433,7 @@ class ConfigTable
       false
     end
 
-    def resolve(table)
+    def resolve(_table)
       setup_rb_error "$#{name} wrongly used as option value"
     end
 
@@ -1226,7 +1226,7 @@ class Installer
   alias config_dir_bin noop
   alias config_dir_lib noop
 
-  def config_dir_ext(rel)
+  def config_dir_ext(_rel)
     extconf if extdir?(curr_srcdir)
   end
 
@@ -1246,7 +1246,7 @@ class Installer
     exec_task_traverse "setup"
   end
 
-  def setup_dir_bin(rel)
+  def setup_dir_bin(_rel)
     files_of(curr_srcdir).each do |fname|
       update_shebang_line "#{curr_srcdir}/#{fname}"
     end
@@ -1254,7 +1254,7 @@ class Installer
 
   alias setup_dir_lib noop
 
-  def setup_dir_ext(rel)
+  def setup_dir_ext(_rel)
     make if extdir?(curr_srcdir)
   end
 
@@ -1382,7 +1382,7 @@ class Installer
     glob_reject(%w(*.y *.output), targetfiles)
   end
 
-  def rubyextentions(dir)
+  def rubyextentions(_dir)
     ents = glob_select("*.#{@config.dllext}", targetfiles)
     if ents.empty?
       setup_rb_error "no ruby extention exists: 'ruby #{$0} setup' first"
@@ -1483,7 +1483,7 @@ class Installer
   alias clean_dir_conf noop
   alias clean_dir_man noop
 
-  def clean_dir_ext(rel)
+  def clean_dir_ext(_rel)
     return unless extdir?(curr_srcdir)
     make "clean" if File.file?("Makefile")
   end
@@ -1501,7 +1501,7 @@ class Installer
   alias distclean_dir_bin noop
   alias distclean_dir_lib noop
 
-  def distclean_dir_ext(rel)
+  def distclean_dir_ext(_rel)
     return unless extdir?(curr_srcdir)
     make "distclean" if File.file?("Makefile")
   end
