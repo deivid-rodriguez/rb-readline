@@ -612,7 +612,7 @@ module FileOperations
   end
 
   def remove_file(path)
-    File.chmod 0777, path
+    File.chmod 0o777, path
     File.unlink path
   end
 
@@ -1331,32 +1331,32 @@ class Installer
   end
 
   def install_dir_bin(rel)
-    install_files targetfiles, "#{config('bindir')}/#{rel}", 0755
+    install_files targetfiles, "#{config('bindir')}/#{rel}", 0o755
   end
 
   def install_dir_lib(rel)
-    install_files libfiles, "#{config('rbdir')}/#{rel}", 0644
+    install_files libfiles, "#{config('rbdir')}/#{rel}", 0o644
   end
 
   def install_dir_ext(rel)
     return unless extdir?(curr_srcdir)
     install_files rubyextentions("."),
                   "#{config('sodir')}/#{File.dirname(rel)}",
-                  0555
+                  0o555
   end
 
   def install_dir_data(rel)
-    install_files targetfiles, "#{config('datadir')}/#{rel}", 0644
+    install_files targetfiles, "#{config('datadir')}/#{rel}", 0o644
   end
 
   def install_dir_conf(rel)
     # FIXME: should not remove current config files
     # (rename previous file to .old/.org)
-    install_files targetfiles, "#{config('sysconfdir')}/#{rel}", 0644
+    install_files targetfiles, "#{config('sysconfdir')}/#{rel}", 0o644
   end
 
   def install_dir_man(rel)
-    install_files targetfiles, "#{config('mandir')}/#{rel}", 0644
+    install_files targetfiles, "#{config('mandir')}/#{rel}", 0o644
   end
 
   def install_files(list, dest, mode)

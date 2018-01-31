@@ -76,10 +76,10 @@ class TestFilenameCompletionProc < Minitest::Test
 
     skip "chmod is noop in Windows" if windows?
 
-    FileUtils.chmod(0333, "test_no_access")
+    FileUtils.chmod(0o333, "test_no_access")
     assert_nil Readline::FILENAME_COMPLETION_PROC.call("test_no_access/")
   ensure
-    FileUtils.chmod(0775, "test_no_access")
+    FileUtils.chmod(0o775, "test_no_access")
     FileUtils.rm_r("test_no_access")
   end
 
