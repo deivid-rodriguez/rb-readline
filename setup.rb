@@ -531,7 +531,6 @@ end # class ConfigTable
 
 # This module requires: #verbose?, #no_harm?
 module FileOperations
-
   def mkdir_p(dirname, prefix = nil)
     dirname = prefix + File.expand_path(dirname) if prefix
     warn "mkdir -p #{dirname}" if verbose?
@@ -678,12 +677,10 @@ module FileOperations
       return d.select { |ent| File.dir?("#{dir}/#{ent}") } - DIR_REJECT
     end
   end
-
 end
 
 # This module requires: #srcdir_root, #objdir_root, #relpath
 module HookScriptAPI
-
   def get_config(key)
     @config[key]
   end
@@ -740,7 +737,6 @@ module HookScriptAPI
       File.dir?(File.join(curr_srcdir, path, fname))
     end
   end
-
 end
 
 class ToplevelInstaller

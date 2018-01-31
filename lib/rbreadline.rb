@@ -8519,5 +8519,4 @@ module RbReadline
     term.nil? || (term == "dumb") || (RUBY_PLATFORM =~ /mswin|mingw/)
   end
   private :no_terminal?
-
 end

@@ -7,7 +7,6 @@
 # Ruby translation by Park Heesob phasis@gmail.com
 
 module Readline
-
   require "rbreadline"
   include RbReadline
 
@@ -513,5 +512,4 @@ module Readline
   module_function :readline
 
   RbReadline.rl_attempted_completion_function = :readline_attempted_completion_function
-
 end
