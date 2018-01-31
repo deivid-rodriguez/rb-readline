@@ -2329,7 +2329,7 @@ module RbReadline
       return :rl_beg_of_line
     else
       if name =~ /^[-a-z]+$/
-        method = ("rl_" + name.gsub("-", "_")).to_sym
+        method = ("rl_" + name.tr("-", "_")).to_sym
         return method if respond_to?(method)
       end
     end
