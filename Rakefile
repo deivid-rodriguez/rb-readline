@@ -17,11 +17,11 @@ Rake::TestTask.new do |t|
 end
 
 desc "Install the gem locally"
-task :install => :gem do
+task install: :gem do
   Dir.chdir(File.dirname(__FILE__)) do
     sh %(gem install --local pkg/#{spec.name}-#{spec.version}.gem)
   end
 end
 
 desc "The default is to test everything."
-task :default => :test
+task default: :test
