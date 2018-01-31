@@ -6250,7 +6250,6 @@ module RbReadline
           s.length
                        end
       end
-
     end
 
     printed_len
