@@ -199,7 +199,7 @@ module Readline
   def self.completion_append_character=(char)
     RbReadline.rl_completion_append_character = if char.nil?
       ?\0
-    elsif char.length == 0
+    elsif char.empty?
       ?\0
     else
       char[0].chr

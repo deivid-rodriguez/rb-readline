@@ -1125,7 +1125,7 @@ module RbReadline
       end
 
       text.delete!(0.chr)
-      if text.length == 0
+      if text.empty?
         @dirname = "."
         @filename = ""
       elsif text.rindex(File::SEPARATOR) == text.length - 1
@@ -1164,7 +1164,7 @@ module RbReadline
       end
 
       # Now dequote a non-null filename.
-      if @filename && @filename.length > 0 && @rl_completion_found_quote && @rl_filename_dequoting_function
+      if @filename && !@filename.empty? && @rl_completion_found_quote && @rl_filename_dequoting_function
         # delete single and double quotes
         temp = send(@rl_filename_dequoting_function, @filename, @rl_completion_quote_character)
         @filename = temp
@@ -1357,7 +1357,7 @@ module RbReadline
     # If there were multiple matches, but none matched up to even the
     #   first character, and the user typed something, use that as the
     #   value of matches[0].
-    if low == 0 && text && text.length > 0 
+    if low == 0 && text && !text.empty? 
       match_list[0] = text.dup
     else
       # XXX - this might need changes in the presence of multibyte chars
@@ -2152,7 +2152,7 @@ module RbReadline
   # Terminate a conditional, popping the value of
   #   _rl_parsing_conditionalized_out from the stack.
   def parser_endif(_args)
-    if @if_stack.length > 0
+    if !@if_stack.empty?
       @_rl_parsing_conditionalized_out = @if_stack.pop
     else
       # _rl_init_file_error ("$endif without matching $if")
@@ -6084,7 +6084,7 @@ module RbReadline
     # Sort the items.
     # Sort the array without matches[0], since we need it to
     #   stay in place no matter what.
-    matches[1..-2] = matches[1..-2].sort.uniq if matches.length > 0
+    matches[1..-2] = matches[1..-2].sort.uniq if !matches.empty?
     matches
   end
 
@@ -6126,7 +6126,7 @@ module RbReadline
     rl_begin_undo_group
     # remove any opening quote character; make_quoted_replacement will add
     #   it back.
-    if qc && qc.length > 0 && point > 0 && @rl_line_buffer[point - 1, 1] == qc
+    if qc && !qc.empty? && point > 0 && @rl_line_buffer[point - 1, 1] == qc
       point -= 1
     end
     rl_delete_text(point, @rl_point)
@@ -6196,7 +6196,7 @@ module RbReadline
     # Now insert the match.
     if replacement
       # Don't double an opening quote character.
-      if qc && qc.length > 0 && start != 0 && @rl_line_buffer[start - 1, 1] == qc &&
+      if qc && !qc.empty? && start != 0 && @rl_line_buffer[start - 1, 1] == qc &&
           replacement[0, 1] == qc
         start -= 1
         # If make_quoted_replacement changed the quoting character, remove
@@ -6317,7 +6317,7 @@ module RbReadline
       # name before checking for the stat character.
       if to_print != full_pathname
 
-        dn = if full_pathname.nil? || full_pathname.length == 0
+        dn = if full_pathname.nil? || full_pathname.empty?
           "/"
         else
           File.dirname(full_pathname)
@@ -7812,7 +7812,7 @@ module RbReadline
     #   portion of the prompt string after any final newline.
     _p = @rl_prompt ? @rl_prompt.rindex("\n") : nil
     if _p.nil?
-      len = @rl_prompt && @rl_prompt.length > 0  ? @rl_prompt.length : 0
+      len = @rl_prompt && !@rl_prompt.empty?  ? @rl_prompt.length : 0
       pmt = if len > 0
         @rl_prompt.dup
       else
@@ -8371,7 +8371,7 @@ module RbReadline
   # if an invalid multibyte sequence was encountered. It returns (size_t)(-2)
   # if it couldn't parse a complete  multibyte character.
   def _rl_get_char_len(src)
-    return 0 if src[0, 1] == 0.chr || src.length == 0
+    return 0 if src[0, 1] == 0.chr || src.empty?
     case @encoding
     when "E"
       len = src.scan(/./me)[0].to_s.length
