@@ -8,20 +8,6 @@
 # the GNU LGPL, Lesser General Public License version 2.1.
 #
 
-unless Enumerable.method_defined?(:map)   # Ruby 1.4.6
-  module Enumerable
-    alias map collect
-  end
-end
-
-unless File.respond_to?(:read)   # Ruby 1.6
-  def File.read(fname)
-    open(fname) {|f|
-      return f.read
-    }
-  end
-end
-
 unless Errno.const_defined?(:ENOTEMPTY)   # Windows?
   module Errno
     class ENOTEMPTY
@@ -149,42 +135,13 @@ class ConfigTable
 
     rubypath = File.join(c['bindir'], c['ruby_install_name'] + c['EXEEXT'])
 
-    major = c['MAJOR'].to_i
-    minor = c['MINOR'].to_i
-    teeny = c['TEENY'].to_i
-    version = "#{major}.#{minor}"
+    libruby         = "#{c['prefix']}/lib/ruby"
+    librubyver      = c['rubylibdir']
+    librubyverarch  = c['archdir']
+    siteruby        = c['sitedir']
+    siterubyver     = c['sitelibdir']
+    siterubyverarch = c['sitearchdir']
 
-    # ruby ver. >= 1.4.4?
-    newpath_p = ((major >= 2) or
-                 ((major == 1) and
-                  ((minor >= 5) or
-                   ((minor == 4) and (teeny >= 4)))))
-
-    if c['rubylibdir']
-      # V > 1.6.3
-      libruby         = "#{c['prefix']}/lib/ruby"
-      librubyver      = c['rubylibdir']
-      librubyverarch  = c['archdir']
-      siteruby        = c['sitedir']
-      siterubyver     = c['sitelibdir']
-      siterubyverarch = c['sitearchdir']
-    elsif newpath_p
-      # 1.4.4 <= V <= 1.6.3
-      libruby         = "#{c['prefix']}/lib/ruby"
-      librubyver      = "#{c['prefix']}/lib/ruby/#{version}"
-      librubyverarch  = "#{c['prefix']}/lib/ruby/#{version}/#{c['arch']}"
-      siteruby        = c['sitedir']
-      siterubyver     = "$siteruby/#{version}"
-      siterubyverarch = "$siterubyver/#{c['arch']}"
-    else
-      # V < 1.4.4
-      libruby         = "#{c['prefix']}/lib/ruby"
-      librubyver      = "#{c['prefix']}/lib/ruby/#{version}"
-      librubyverarch  = "#{c['prefix']}/lib/ruby/#{version}/#{c['arch']}"
-      siteruby        = "#{c['prefix']}/lib/ruby/#{version}/site_ruby"
-      siterubyver     = siteruby
-      siterubyverarch = "$siterubyver/#{c['arch']}"
-    end
     parameterize = lambda {|path|
       path.sub(/\A#{Regexp.quote(c['prefix'])}/, '$prefix')
     }
@@ -1457,11 +1414,7 @@ class Installer
       return
     end
     $stderr.puts 'Running tests...' if verbose?
-    begin
-      require 'test/unit'
-    rescue LoadError
-      setup_rb_error 'test/unit cannot loaded.  You need Ruby 1.8 or later to invoke this task.'
-    end
+    require 'test/unit'
     runner = Test::Unit::AutoRunner.new(true)
     runner.to_run << TESTDIR
     runner.run

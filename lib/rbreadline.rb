@@ -3460,7 +3460,6 @@ module RbReadline
           @_rl_wrapped_line[newlines] = _rl_wrapped_multicolumn
           lpos = 0
         end
-        # NOTE: c[0].ord works identically on both 1.8 and 1.9
         line[out,1] = ctrl_char(c) ? (c[0].ord|0x40).chr.upcase : '?'
         out += 1
         lpos+=1
@@ -4419,31 +4418,27 @@ module RbReadline
     raise LoadError, "Cygwin is a Posix OS." if RUBY_PLATFORM =~ /\bcygwin\b/i
     raise LoadError, "Not Windows" if RUBY_PLATFORM !~ /mswin|mingw/
 
-    if RUBY_VERSION < '1.9.1'
-      require 'Win32API'
-    else
-      require 'fiddle'
-      class Win32API
-        DLL = {}
-        TYPEMAP = {"0" => Fiddle::TYPE_VOID, "S" => Fiddle::TYPE_VOIDP, "I" => Fiddle::TYPE_LONG}
-        CALL_TYPE_TO_ABI = {:stdcall => 1, :cdecl => 1, nil => 1} #Taken from Fiddle::Importer
+    require 'fiddle'
+    class Win32API
+      DLL = {}
+      TYPEMAP = {"0" => Fiddle::TYPE_VOID, "S" => Fiddle::TYPE_VOIDP, "I" => Fiddle::TYPE_LONG}
+      CALL_TYPE_TO_ABI = {:stdcall => 1, :cdecl => 1, nil => 1} #Taken from Fiddle::Importer
 
-        def initialize(dllname, func, import, export = "0", calltype = :stdcall)
-          @proto = import.join.tr("VPpNnLlIi", "0SSI").chomp('0').split('')
-          handle = DLL[dllname] ||= Fiddle.dlopen(dllname)
-          @func = Fiddle::Function.new(handle[func], TYPEMAP.values_at(*@proto), CALL_TYPE_TO_ABI[calltype])
-        end
-
-        def call(*args)
-          args.each_with_index do |x, i|
-            args[i], = [x == 0 ? nil : x].pack("p").unpack("l!*") if @proto[i] == "S" && !x.is_a?(Fiddle::Pointer)
-            args[i], = [x].pack("I").unpack("i") if @proto[i] == "I"
-          end
-          @func.call(*args).to_i || 0
-        end
-
-        alias Call call
+      def initialize(dllname, func, import, export = "0", calltype = :stdcall)
+        @proto = import.join.tr("VPpNnLlIi", "0SSI").chomp('0').split('')
+        handle = DLL[dllname] ||= Fiddle.dlopen(dllname)
+        @func = Fiddle::Function.new(handle[func], TYPEMAP.values_at(*@proto), CALL_TYPE_TO_ABI[calltype])
       end
+
+      def call(*args)
+        args.each_with_index do |x, i|
+          args[i], = [x == 0 ? nil : x].pack("p").unpack("l!*") if @proto[i] == "S" && !x.is_a?(Fiddle::Pointer)
+          args[i], = [x].pack("I").unpack("i") if @proto[i] == "I"
+        end
+        @func.call(*args).to_i || 0
+      end
+
+      alias Call call
     end
 
     STD_OUTPUT_HANDLE = -11
@@ -4547,10 +4542,8 @@ module RbReadline
     end
   end
 
-  if (Object.const_defined?('Encoding') and Encoding.respond_to?('default_external'))
-    @encoding = "X"      # ruby 1.9.x or greater
-    @encoding_name = Encoding.default_external
-  end
+  @encoding = "X"
+  @encoding_name = Encoding.default_external
 
   @rl_byte_oriented = @encoding == "N"
 
@@ -8013,7 +8006,7 @@ module RbReadline
   end
 
   def isascii(c)
-    int_val = c[0].to_i # 1.8 + 1.9 compat.
+    int_val = c[0].to_i
     return (int_val < 128 && int_val > 0)
   end
 

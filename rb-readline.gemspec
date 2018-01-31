@@ -24,7 +24,7 @@ spec = Gem::Specification.new do |s|
   s.email       = ['phasis@gmail.com', 'djberg96@gmail.com', 'luislavena@gmail.com', 'c.liam.atherton@gmail.com']
 
   # requirements
-  s.required_ruby_version = ">= 1.8.6"
+  s.required_ruby_version = ">= 2.2.0"
   s.required_rubygems_version = ">= 1.3.5"
 
   # development dependencies

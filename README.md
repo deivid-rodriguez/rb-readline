@@ -27,10 +27,9 @@ end
 
 ## Compatibility
 
-rb-readline should work on all Unix-like systems and Windows. It is regularly
-used with MRI 1.8/1.9 and Rubinius. JRuby is not supported and there are no
-plans to support it in the future - it comes bundled with a Java implementation
-of Readline.
+rb-readline should work on all Unix-like systems and Windows. JRuby is not
+supported and there are no plans to support it in the future - it comes bundled
+with a Java implementation of Readline.
 
 ## Motivation
 
@@ -62,8 +61,8 @@ authors to write their own interface as they see fit.
 For an excellent tutorial on how to use Readline in practice, please see
 Joseph Pecoraro's examples at http://bogojoker.com/readline/.
 
-You can also take a look at Ruby 1.9 stdlib Readline documentation located
-at http://rubydoc.info/stdlib/readline/1.9.2/frames
+You can also take a look at Ruby stdlib Readline documentation located at
+http://rubydoc.info/stdlib/readline/2.5.0/frames
 
 ## Alternatives
 
