@@ -5,7 +5,5 @@ loop do
   Readline::HISTORY.push(line)
   puts "You typed: #{line}"
 
-  if line =~ /exit|quit/ then
-    exit
-  end
+  exit if line =~ /exit|quit/
 end

@@ -34,9 +34,7 @@ module Readline
   #    loop{ Readline.readline('> ') }
   #
   def readline(prompt = "", add_history = nil)
-    if $stdin.closed?
-      raise IOError, "stdin closed"
-    end
+    raise IOError, "stdin closed" if $stdin.closed?
 
     RbReadline.rl_instream = $stdin
     RbReadline.rl_outstream = $stdout
@@ -50,9 +48,7 @@ module Readline
       raise e
     end
 
-    if add_history && buff
-      RbReadline.add_history(buff)
-    end
+    RbReadline.add_history(buff) if add_history && buff
 
     return buff ? buff.dup : nil
   end
@@ -171,9 +167,7 @@ module Readline
             si += 1
           end
         end
-        if low > si
-          low = si
-        end
+        low = si if low > si
         i += 1
       end
       result[0] = result[1][0, low]
@@ -215,9 +209,7 @@ module Readline
   # Readline.completion_proc method is called.
   #
   def self.completion_append_character()
-    if RbReadline.rl_completion_append_character == ?\0
-      return nil
-    end
+    return nil if RbReadline.rl_completion_append_character == ?\0
     return RbReadline.rl_completion_append_character
   end
 
@@ -346,13 +338,9 @@ module Readline
     # Raises an IndexError if the entry is nil.
     #
     def self.[](index)
-      if index < 0
-        index += RbReadline.history_length
-      end
+      index += RbReadline.history_length if index < 0
       entry = RbReadline.history_get(RbReadline.history_base + index)
-      if entry.nil?
-        raise IndexError, "invalid index"
-      end
+      raise IndexError, "invalid index" if entry.nil?
       entry.line.dup
     end
 
@@ -362,13 +350,9 @@ module Readline
     # entry will result in an IndexError.
     #
     def self.[]=(index, str)
-      if index < 0
-        index += RbReadline.history_length
-      end
+      index += RbReadline.history_length if index < 0
       entry = RbReadline.replace_history_entry(index, str, nil)
-      if entry.nil?
-        raise IndexError, "invalid index"
-      end
+      raise IndexError, "invalid index" if entry.nil?
       str
     end
 
@@ -454,9 +438,7 @@ module Readline
     # Deletes an entry from the histoyr buffer at the specified +index+.
     #
     def self.delete_at(index)
-      if index < 0
-        i += RbReadline.history_length
-      end
+      i += RbReadline.history_length if index < 0
       if index < 0 || index > RbReadline.history_length - 1
         raise IndexError, "invalid index"
       end
@@ -483,9 +465,7 @@ module Readline
           i += 1
         end
         matches = nil
-        if result.length >= 2
-          result.shift
-        end
+        result.shift if result.length >= 2
       else
         result = nil
       end
@@ -514,9 +494,7 @@ module Readline
           i += 1
         end
         matches = nil
-        if result.length >= 2
-          result.shift
-        end
+        result.shift if result.length >= 2
       else
         result = nil
       end
