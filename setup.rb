@@ -120,7 +120,7 @@ class ConfigTable
 
   def load_savefile
     begin
-      File.foreach(savefile()) do |line|
+      File.foreach(savefile) do |line|
         k, v = *line.split(/=/, 2)
         self[k] = v.strip
       end
@@ -131,7 +131,7 @@ class ConfigTable
 
   def save
     @items.each {|i| i.value }
-    File.open(savefile(), "w") {|f|
+    File.open(savefile, "w") {|f|
       @items.each do |i|
         f.printf "%s=%s\n", i.name, i.value if i.value? and i.value
       end
@@ -258,7 +258,7 @@ class ConfigTable
   private :standard_entries
 
   def load_multipackage_entries
-    multipackage_entries().each do |ent|
+    multipackage_entries.each do |ent|
       add ent
     end
   end
@@ -434,7 +434,7 @@ class ConfigTable
     end
 
     def resolve(table)
-      setup_rb_error "$#{name()} wrongly used as option value"
+      setup_rb_error "$#{name} wrongly used as option value"
     end
 
     undef set
@@ -635,7 +635,7 @@ module FileOperations
       }
       File.chmod mode, realdest
 
-      File.open("#{objdir_root()}/InstalledFiles", "a") {|f|
+      File.open("#{objdir_root}/InstalledFiles", "a") {|f|
         if prefix
           f.puts realdest.sub(prefix, "")
         else
@@ -704,15 +704,15 @@ module HookScriptAPI
   #
 
   def curr_srcdir
-    "#{srcdir_root()}/#{relpath()}"
+    "#{srcdir_root}/#{relpath}"
   end
 
   def curr_objdir
-    "#{objdir_root()}/#{relpath()}"
+    "#{objdir_root}/#{relpath}"
   end
 
   def srcfile(path)
-    "#{curr_srcdir()}/#{path}"
+    "#{curr_srcdir}/#{path}"
   end
 
   def srcexist?(path)
@@ -728,20 +728,20 @@ module HookScriptAPI
   end
 
   def srcentries(path = ".")
-    Dir.open("#{curr_srcdir()}/#{path}") {|d|
+    Dir.open("#{curr_srcdir}/#{path}") {|d|
       return d.to_a - %w(. ..)
     }
   end
 
   def srcfiles(path = ".")
     srcentries(path).select {|fname|
-      File.file?(File.join(curr_srcdir(), path, fname))
+      File.file?(File.join(curr_srcdir, path, fname))
     }
   end
 
   def srcdirectories(path = ".")
     srcentries(path).select {|fname|
-      File.dir?(File.join(curr_srcdir(), path, fname))
+      File.dir?(File.join(curr_srcdir, path, fname))
     }
   end
 
@@ -765,11 +765,11 @@ class ToplevelInstaller
   ]
 
   def ToplevelInstaller.invoke
-    config = ConfigTable.new(load_rbconfig())
+    config = ConfigTable.new(load_rbconfig)
     config.load_standard_entries
     config.load_multipackage_entries if multipackage?
     config.fixup
-    klass = (multipackage?() ? ToplevelInstallerMulti : ToplevelInstaller)
+    klass = (multipackage? ? ToplevelInstallerMulti : ToplevelInstaller)
     klass.new(File.dirname($0), config).invoke
   end
 
@@ -800,12 +800,12 @@ class ToplevelInstaller
   end
 
   def inspect
-    "#<#{self.class} #{__id__()}>"
+    "#<#{self.class} #{__id__}>"
   end
 
   def invoke
     run_metaconfigs
-    case task = parsearg_global()
+    case task = parsearg_global
     when nil, "all"
       parsearg_config
       init_installers
@@ -882,7 +882,7 @@ class ToplevelInstaller
   end
 
   def valid_task?(t)
-    valid_task_re() =~ t
+    valid_task_re =~ t
   end
 
   def valid_task_re
@@ -1227,7 +1227,7 @@ class Installer
   alias config_dir_lib noop
 
   def config_dir_ext(rel)
-    extconf if extdir?(curr_srcdir())
+    extconf if extdir?(curr_srcdir)
   end
 
   alias config_dir_data noop
@@ -1235,7 +1235,7 @@ class Installer
   alias config_dir_man noop
 
   def extconf
-    ruby "#{curr_srcdir()}/extconf.rb", *@config.config_opt
+    ruby "#{curr_srcdir}/extconf.rb", *@config.config_opt
   end
 
   #
@@ -1247,15 +1247,15 @@ class Installer
   end
 
   def setup_dir_bin(rel)
-    files_of(curr_srcdir()).each do |fname|
-      update_shebang_line "#{curr_srcdir()}/#{fname}"
+    files_of(curr_srcdir).each do |fname|
+      update_shebang_line "#{curr_srcdir}/#{fname}"
     end
   end
 
   alias setup_dir_lib noop
 
   def setup_dir_ext(rel)
-    make if extdir?(curr_srcdir())
+    make if extdir?(curr_srcdir)
   end
 
   alias setup_dir_data noop
@@ -1343,32 +1343,32 @@ class Installer
   end
 
   def install_dir_bin(rel)
-    install_files targetfiles(), "#{config('bindir')}/#{rel}", 0755
+    install_files targetfiles, "#{config('bindir')}/#{rel}", 0755
   end
 
   def install_dir_lib(rel)
-    install_files libfiles(), "#{config('rbdir')}/#{rel}", 0644
+    install_files libfiles, "#{config('rbdir')}/#{rel}", 0644
   end
 
   def install_dir_ext(rel)
-    return unless extdir?(curr_srcdir())
+    return unless extdir?(curr_srcdir)
     install_files rubyextentions("."),
                   "#{config('sodir')}/#{File.dirname(rel)}",
                   0555
   end
 
   def install_dir_data(rel)
-    install_files targetfiles(), "#{config('datadir')}/#{rel}", 0644
+    install_files targetfiles, "#{config('datadir')}/#{rel}", 0644
   end
 
   def install_dir_conf(rel)
     # FIXME: should not remove current config files
     # (rename previous file to .old/.org)
-    install_files targetfiles(), "#{config('sysconfdir')}/#{rel}", 0644
+    install_files targetfiles, "#{config('sysconfdir')}/#{rel}", 0644
   end
 
   def install_dir_man(rel)
-    install_files targetfiles(), "#{config('mandir')}/#{rel}", 0644
+    install_files targetfiles, "#{config('mandir')}/#{rel}", 0644
   end
 
   def install_files(list, dest, mode)
@@ -1379,11 +1379,11 @@ class Installer
   end
 
   def libfiles
-    glob_reject(%w(*.y *.output), targetfiles())
+    glob_reject(%w(*.y *.output), targetfiles)
   end
 
   def rubyextentions(dir)
-    ents = glob_select("*.#{@config.dllext}", targetfiles())
+    ents = glob_select("*.#{@config.dllext}", targetfiles)
     if ents.empty?
       setup_rb_error "no ruby extention exists: 'ruby #{$0} setup' first"
     end
@@ -1391,14 +1391,14 @@ class Installer
   end
 
   def targetfiles
-    mapdir(existfiles() - hookfiles())
+    mapdir(existfiles - hookfiles)
   end
 
   def mapdir(ents)
     ents.map {|ent|
       if File.exist?(ent)
       then ent # objdir
-      else "#{curr_srcdir()}/#{ent}" # srcdir
+      else "#{curr_srcdir}/#{ent}" # srcdir
       end
     }
   end
@@ -1413,7 +1413,7 @@ class Installer
   )
 
   def existfiles
-    glob_reject(JUNK_FILES, (files_of(curr_srcdir()) | files_of(".")))
+    glob_reject(JUNK_FILES, (files_of(curr_srcdir) | files_of(".")))
   end
 
   def hookfiles
@@ -1484,7 +1484,7 @@ class Installer
   alias clean_dir_man noop
 
   def clean_dir_ext(rel)
-    return unless extdir?(curr_srcdir())
+    return unless extdir?(curr_srcdir)
     make "clean" if File.file?("Makefile")
   end
 
@@ -1502,7 +1502,7 @@ class Installer
   alias distclean_dir_lib noop
 
   def distclean_dir_ext(rel)
-    return unless extdir?(curr_srcdir())
+    return unless extdir?(curr_srcdir)
     make "distclean" if File.file?("Makefile")
   end
 
@@ -1530,7 +1530,7 @@ class Installer
     dive_into(rel) {
       run_hook "pre-#{task}"
       __send__ mid, rel.sub(%r[\A.*?(?:/|\z)], "")
-      directories_of(curr_srcdir()).each do |d|
+      directories_of(curr_srcdir).each do |d|
         traverse task, "#{rel}/#{d}", mid
       end
       run_hook "post-#{task}"
@@ -1553,8 +1553,8 @@ class Installer
   end
 
   def run_hook(id)
-    path = [ "#{curr_srcdir()}/#{id}",
-             "#{curr_srcdir()}/#{id}.rb" ].detect {|cand| File.file?(cand) }
+    path = [ "#{curr_srcdir}/#{id}",
+             "#{curr_srcdir}/#{id}.rb" ].detect {|cand| File.file?(cand) }
     return unless path
     begin
       instance_eval File.read(path), path, 1

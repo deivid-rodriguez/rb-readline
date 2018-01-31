@@ -1249,16 +1249,16 @@ module RbReadline
 
         username = text[first_char_loc..-1]
         namelen = username.length
-        Etc.setpwent()
+        Etc.setpwent
       end
 
-    while (entry = Etc.getpwent())
+    while (entry = Etc.getpwent)
       # Null usernames should result in all users as possible completions.
       break if namelen == 0 || entry.name =~ /^#{username}/ 
     end
 
     if entry.nil?
-      Etc.endpwent()
+      Etc.endpwent
       return nil
     else
       value = text.dup
@@ -1507,12 +1507,12 @@ module RbReadline
   # Clean up the terminal and readline state after catching a signal, before
   #   resending it to the calling application.
   def rl_cleanup_after_signal()
-    _rl_clean_up_for_exit()
+    _rl_clean_up_for_exit
     if @rl_deprep_term_function
       send(@rl_deprep_term_function)
     end
-    rl_clear_pending_input()
-    rl_clear_signals()
+    rl_clear_pending_input
+    rl_clear_signals
   end
 
   def _rl_clean_up_for_exit()
@@ -2564,10 +2564,10 @@ module RbReadline
     _rl_init_terminal_io(@rl_terminal_name)
 
     # Bind tty characters to readline functions.
-    readline_default_bindings()
+    readline_default_bindings
 
     # Decide whether we should automatically go into eight-bit mode.
-    _rl_init_eightbit()
+    _rl_init_eightbit
 
     # Read in the init file.
     rl_read_init_file(nil)
@@ -2580,14 +2580,14 @@ module RbReadline
 
     # Override the effect of any `set keymap' assignments in the
     #   inputrc file.
-    rl_set_keymap_from_edit_mode()
+    rl_set_keymap_from_edit_mode
 
     # Try to bind a common arrow key prefix, if not already bound.
-    bind_arrow_keys()
+    bind_arrow_keys
 
     # Enable the meta key, if this terminal has one.
     if @_rl_enable_meta
-      _rl_enable_meta_key()
+      _rl_enable_meta_key
     end
 
     # If the completion parser's default word break characters haven't
@@ -2602,7 +2602,7 @@ module RbReadline
 
   # Set the history pointer back to the last entry in the history.
   def _rl_start_using_history()
-    using_history()
+    using_history
     @_rl_saved_line_for_history = nil
   end
 
@@ -2963,7 +2963,7 @@ module RbReadline
 
     if current_line == 0 && !@_rl_horizontal_scroll_mode &&
         @_rl_term_cr && lendiff > @prompt_visible_length && @_rl_last_c_pos > 0 &&
-        ofd >= lendiff && @_rl_last_c_pos < prompt_ending_index()
+        ofd >= lendiff && @_rl_last_c_pos < prompt_ending_index
       @rl_outstream.write(@_rl_term_cr)
       _rl_output_some_chars(@local_prompt, 0, lendiff)
       if !@rl_byte_oriented
@@ -3178,7 +3178,7 @@ module RbReadline
 
     if @invisible_line.nil? || @vis_lbreaks.nil?
       init_line_structures(0)
-      rl_on_new_line()
+      rl_on_new_line
     end
 
     # Draw the line into the buffer.
@@ -3190,7 +3190,7 @@ module RbReadline
     # Mark the line as modified or not.  We only do this for history
     #   lines.
     modmark = 0
-    if @_rl_mark_modified_lines && current_history() && @rl_undo_list
+    if @_rl_mark_modified_lines && current_history && @rl_undo_list
       line[out, 1] = "*"
       out += 1
       line[out, 1] = 0.chr
@@ -3253,7 +3253,7 @@ module RbReadline
           # Make sure we are at column zero even after a newline,
           #regardless of the state of terminal output processing.
           if pmtlen < 2 || @rl_display_prompt[prompt_this_line - 2, 1] != "\r"
-            cr()
+            cr
           end
         end
       end
@@ -3656,7 +3656,7 @@ module RbReadline
         #   invisible character in the prompt string.
         nleft = @prompt_visible_length + @wrap_offset
         if cursor_linenum == 0 && @wrap_offset > 0 && @_rl_last_c_pos > 0 &&
-            @_rl_last_c_pos < prompt_ending_index() && @local_prompt
+            @_rl_last_c_pos < prompt_ending_index && @local_prompt
           if @_rl_term_cr
             @rl_outstream.write(@_rl_term_cr)
           end
@@ -3829,7 +3829,7 @@ module RbReadline
   end
 
   def rl_reset_line_state()
-    rl_on_new_line()
+    rl_on_new_line
 
     @rl_display_prompt = @rl_prompt ? @rl_prompt : ""
     @forced_display = true
@@ -3846,24 +3846,24 @@ module RbReadline
     #   terminal and data structures.
     if !@rl_initialized
       rl_setstate(RL_STATE_INITIALIZING)
-      readline_initialize_everything()
+      readline_initialize_everything
       rl_unsetstate(RL_STATE_INITIALIZING)
       @rl_initialized = true
       rl_setstate(RL_STATE_INITIALIZED)
     end
 
     # Initalize the current line information.
-    _rl_init_line_state()
+    _rl_init_line_state
 
     # We aren't done yet.  We haven't even gotten started yet!
     @rl_done = false
     rl_unsetstate(RL_STATE_DONE)
 
     # Tell the history routines what is going on.
-    _rl_start_using_history()
+    _rl_start_using_history
 
     # Make the display buffer match the state of the line.
-    rl_reset_line_state()
+    rl_reset_line_state
 
     # No such function typed yet.
     @rl_last_func = nil
@@ -3872,7 +3872,7 @@ module RbReadline
     @_rl_parsing_conditionalized_out = 0
 
     if @rl_editing_mode == @vi_mode
-      _rl_vi_initialize_line()
+      _rl_vi_initialize_line
     end
     # Each line starts in insert mode (the default).
     _rl_set_insert_mode(RL_IM_DEFAULT, 1)
@@ -3998,9 +3998,9 @@ module RbReadline
       end
     else
       if @rl_prompt && @rl_already_prompted
-        rl_on_new_line_with_prompt()
+        rl_on_new_line_with_prompt
       else
-        rl_on_new_line()
+        rl_on_new_line
       end
       send(@rl_redisplay_function)
     end
@@ -4044,7 +4044,7 @@ module RbReadline
   def _rl_search_getchar(cxt)
     # Read a key and decide how to proceed.
     rl_setstate(RL_STATE_MOREINPUT)
-    c = cxt.lastc = rl_read_key()
+    c = cxt.lastc = rl_read_key
     rl_unsetstate(RL_STATE_MOREINPUT)
     if !@rl_byte_oriented
       cxt.mb = ""
@@ -4105,7 +4105,7 @@ module RbReadline
       #XXX - since _rl_input_available depends on the application-
       #settable keyboard timeout value, this could alternatively
       #use _rl_input_queued(100000)
-      if cxt.lastc == ESC && _rl_input_available()
+      if cxt.lastc == ESC && _rl_input_available
         rl_execute_next(ESC)
       end
       return (0)
@@ -4145,7 +4145,7 @@ module RbReadline
       elsif cxt.sline_index != cxt.sline_len
         cxt.sline_index += 1
       else
-        rl_ding()
+        rl_ding
       end
 
       # switch directions
@@ -4163,7 +4163,7 @@ module RbReadline
       # sentinels marking the beginning and end.  But this will
       # do until we have a real isearch-undo.
       if cxt.search_string_index == 0
-        rl_ding()
+        rl_ding
       else
         cxt.search_string_index -= 1
         cxt.search_string.chop!
@@ -4172,19 +4172,19 @@ module RbReadline
       rl_replace_line(cxt.lines[cxt.save_line], false)
       @rl_point = cxt.save_point
       @rl_mark = cxt.save_mark
-      rl_restore_prompt()
-      rl_clear_message()
+      rl_restore_prompt
+      rl_clear_message
       return -1
     when -5 # C-W
       # skip over portion of line we already matched and yank word
       wstart = @rl_point + cxt.search_string_index
       if wstart >= @rl_end
-        rl_ding()
+        rl_ding
       else
         # if not in a word, move to one.
         cval = _rl_char_value(@rl_line_buffer, wstart)
         if !_rl_walphabetic(cval)
-          rl_ding()
+          rl_ding
         else
           if !@rl_byte_oriented
             n = _rl_find_next_mbchar(@rl_line_buffer, wstart, 1, MB_FIND_NONZERO)
@@ -4213,7 +4213,7 @@ module RbReadline
       # skip over portion of line we already matched and yank rest
       wstart = @rl_point + cxt.search_string_index
       if wstart >= @rl_end
-        rl_ding()
+        rl_ding
       else
         n = @rl_end - wstart + 1
         if cxt.search_string_index + n + 1 >= cxt.search_string_size
@@ -4279,7 +4279,7 @@ module RbReadline
 
     if (cxt.sflags & SF_FAILED) != 0
       # We cannot find the search string.  Ding the bell.
-      rl_ding()
+      rl_ding
       cxt.history_pos = cxt.last_found_line
       return 1
     end
@@ -4301,7 +4301,7 @@ module RbReadline
   def rl_clear_message()
     @rl_display_prompt = @rl_prompt
     if @msg_saved_prompt
-      rl_restore_prompt()
+      rl_restore_prompt
       @msg_saved_prompt = nil
     end
     send(@rl_redisplay_function)
@@ -4311,7 +4311,7 @@ module RbReadline
   def _rl_isearch_fini(cxt)
     # First put back the original state.
     @rl_line_buffer = cxt.lines[cxt.save_line].dup
-    rl_restore_prompt()
+    rl_restore_prompt
 
     # Save the search string for possible later use.
     @last_isearch_string = cxt.search_string
@@ -4340,7 +4340,7 @@ module RbReadline
     @rl_point = cxt.sline_index
     # Don't worry about where to put the mark here; rl_get_previous_history
     #   and rl_get_next_history take care of it.
-    rl_clear_message()
+    rl_clear_message
   end
 
 
@@ -4382,7 +4382,7 @@ module RbReadline
         key += _rl_subseq_getchar(key)
         return _rl_dispatch_subseq(key, map, got_subseq)
       elsif(key.length > 1 && key[1].ord < 0x7f)
-        _rl_abort_internal()
+        _rl_abort_internal
         return -1
       else
         @rl_dispatching = true
@@ -4398,7 +4398,7 @@ module RbReadline
   # Add KEY to the buffer of characters to be read.  Returns 1 if the
   #   character was stuffed correctly; 0 otherwise.
   def rl_stuff_char(key)
-    return 0 if ibuffer_space() == 0
+    return 0 if ibuffer_space == 0
 
     if key == EOF
       key = NEWLINE
@@ -4560,17 +4560,17 @@ module RbReadline
 
     if @rl_pending_input != 0
       c = @rl_pending_input
-      rl_clear_pending_input()
+      rl_clear_pending_input
     else
       # If the user has an event function, then call it periodically.
       if @rl_event_hook
-        while @rl_event_hook && (c = rl_get_char()).nil?
+        while @rl_event_hook && (c = rl_get_char).nil?
 
           send(@rl_event_hook)
           if @rl_done # XXX - experimental
             return ("\n")
           end
-          if rl_gather_tyi() < 0 # XXX - EIO
+          if rl_gather_tyi < 0 # XXX - EIO
             @rl_done = true
             return ("\n")
           end
@@ -4578,7 +4578,7 @@ module RbReadline
 
       else
 
-        if (c = rl_get_char()).nil?
+        if (c = rl_get_char).nil?
           c = send(@rl_getc_function, @rl_instream)
         end
       end
@@ -4619,7 +4619,7 @@ module RbReadline
   #   Returns non-zero if successful, zero if there is
   #   no space left in the buffer.
   def _rl_unget_char(key)
-    if ibuffer_space() != 0
+    if ibuffer_space != 0
       @pop_index -= 1
       if @pop_index < 0
         @pop_index = @ibuffer_len - 1
@@ -4635,7 +4635,7 @@ module RbReadline
       rl_setstate(RL_STATE_METANEXT)
     end
     rl_setstate(RL_STATE_MOREINPUT)
-    k = rl_read_key()
+    k = rl_read_key
     rl_unsetstate(RL_STATE_MOREINPUT)
     if key == ESC
       rl_unsetstate(RL_STATE_METANEXT)
@@ -4673,7 +4673,7 @@ module RbReadline
     if @_rl_term_clrpag
       @rl_outstream.write(@_rl_term_clrpag)
     else
-      rl_crlf()
+      rl_crlf
     end
   end
 
@@ -4705,9 +4705,9 @@ module RbReadline
   end
 
   def _rl_erase_entire_line()
-    cr()
+    cr
     _rl_clear_to_eol(0)
-    cr()
+    cr
     @rl_outstream.flush
   end
 
@@ -4715,7 +4715,7 @@ module RbReadline
     # In vi mode, when you exit insert mode, the cursor moves back
     #   over the previous character.  We explicitly check for that here.
     if @rl_editing_mode == @vi_mode && @_rl_keymap == @vi_movement_keymap
-      rl_vi_check()
+      rl_vi_check
     end
 
     if @rl_num_chars_to_read != 0 && @rl_end >= @rl_num_chars_to_read
@@ -4733,7 +4733,7 @@ module RbReadline
     #   the only character typed was something bound to rl_newline, do so.
     if @rl_erase_empty_line && @rl_done && @rl_last_func == :rl_newline &&
         @rl_point == 0 && @rl_end == 0
-      _rl_erase_entire_line()
+      _rl_erase_entire_line
     end
   end
 
@@ -4749,12 +4749,12 @@ module RbReadline
 
       if @rl_pending_input == 0
         # Then initialize the argument and number of keys read.
-        _rl_reset_argument()
+        _rl_reset_argument
         @rl_key_sequence_length = 0
       end
 
       rl_setstate(RL_STATE_READCMD)
-      c = rl_read_key()
+      c = rl_read_key
       rl_unsetstate(RL_STATE_READCMD)
       # look at input.c:rl_getc() for the circumstances under which this will
       #be returned; punt immediately on read error without converting it to
@@ -4786,7 +4786,7 @@ module RbReadline
       if @rl_pending_input == 0 && lk == @_rl_last_command_was_kill
         @_rl_last_command_was_kill = false
       end
-      _rl_internal_char_cleanup()
+      _rl_internal_char_cleanup
     end
 
     eof_found
@@ -4794,10 +4794,10 @@ module RbReadline
 
   # How to abort things.
   def _rl_abort_internal()
-    rl_ding()
-    rl_clear_message()
-    _rl_reset_argument()
-    rl_clear_pending_input()
+    rl_ding
+    rl_clear_message
+    _rl_reset_argument
+    rl_clear_pending_input
 
     rl_unsetstate(RL_STATE_MACRODEF)
 
@@ -4809,7 +4809,7 @@ module RbReadline
   end
 
   def rl_abort(count, key)
-    _rl_abort_internal()
+    _rl_abort_internal
   end
 
   def rl_vi_check()
@@ -4822,12 +4822,12 @@ module RbReadline
   def readline_internal_teardown(eof)
     # Restore the original of this history line, iff the line that we
     #   are editing was originally in the history, AND the line has changed.
-    entry = current_history()
+    entry = current_history
 
     if entry && @rl_undo_list
       temp = @rl_line_buffer.delete(0.chr).dup
       rl_revert_line(1, 0)
-      entry = replace_history_entry(where_history(), @rl_line_buffer, nil)
+      entry = replace_history_entry(where_history, @rl_line_buffer, nil)
       entry = nil
 
       @rl_line_buffer = temp + 0.chr
@@ -4837,7 +4837,7 @@ module RbReadline
     # At any rate, it is highly likely that this line has an undo list.  Get
     #   rid of it now.
     if @rl_undo_list
-      rl_free_undo_list()
+      rl_free_undo_list
     end
     # Restore normal cursor, if available.
     _rl_set_insert_mode(RL_IM_INSERT, 0)
@@ -4849,8 +4849,8 @@ module RbReadline
   #   the global rl_outstream.
   #   If rl_prompt is non-null, then that is our prompt.
   def readline_internal()
-    readline_internal_setup()
-    eof = readline_internal_charloop()
+    readline_internal_setup
+    eof = readline_internal_charloop
     readline_internal_teardown(eof)
   end
 
@@ -4859,25 +4859,25 @@ module RbReadline
   def readline(prompt)
     # If we are at EOF return a NULL string.
     if @rl_pending_input == EOF
-      rl_clear_pending_input()
+      rl_clear_pending_input
       return nil
     end
 
     rl_set_prompt(prompt)
 
-    rl_initialize()
+    rl_initialize
     @readline_echoing_p = true
     if @rl_prep_term_function
       send(@rl_prep_term_function, @_rl_meta_flag)
     end
-    rl_set_signals()
+    rl_set_signals
 
-    value = readline_internal()
+    value = readline_internal
     if(@rl_deprep_term_function)
       send(@rl_deprep_term_function)
     end
 
-    rl_clear_signals()
+    rl_clear_signals
 
     value
   end
@@ -5028,11 +5028,11 @@ module RbReadline
   #   TEXT.  The operation is undoable.  To replace the entire line in an
   #   undoable mode, use _rl_replace_text(text, 0, rl_end)
   def _rl_replace_text(text, start, _end)
-    rl_begin_undo_group()
+    rl_begin_undo_group
     rl_delete_text(start, _end + 1)
     @rl_point = start
     n = rl_insert_text(text)
-    rl_end_undo_group()
+    rl_end_undo_group
     n
   end
 
@@ -5043,7 +5043,7 @@ module RbReadline
     @rl_line_buffer = text.dup + 0.chr
     @rl_end = len
     if clear_undo
-      rl_free_undo_list()
+      rl_free_undo_list
     end
     _rl_fix_point(true)
   end
@@ -5097,7 +5097,7 @@ module RbReadline
       lend = @rl_end > 0 ? @rl_end - ((@rl_editing_mode == @vi_mode) ? 1 : 0) : @rl_end
       if _end > lend
         @rl_point = lend
-        rl_ding()
+        rl_ding
       else
         @rl_point = _end
       end
@@ -5123,7 +5123,7 @@ module RbReadline
         point = _rl_find_prev_mbchar(@rl_line_buffer, @rl_end, MB_FIND_NONZERO)
       end
       if @rl_point == point
-        rl_ding()
+        rl_ding
       end
       @rl_point = point
       if @rl_end < 0
@@ -5146,7 +5146,7 @@ module RbReadline
     if count > 0
       if @rl_point < count
         @rl_point = 0
-        rl_ding()
+        rl_ding
       else
         @rl_point -= count
       end
@@ -5175,7 +5175,7 @@ module RbReadline
       end
       if count > 0
         @rl_point = 0
-        rl_ding()
+        rl_ding
       else
         @rl_point = point
       end
@@ -5337,7 +5337,7 @@ module RbReadline
     if @visible_line
       @visible_line.gsub!(/[^\x00]/, 0.chr)
     end
-    rl_on_new_line()
+    rl_on_new_line
     @forced_display = true if !@forced_display
     send(@rl_redisplay_function)
     0
@@ -5346,14 +5346,14 @@ module RbReadline
 
   # Clear the current line.  Numeric argument to C-l does this.
   def rl_refresh_line(ignore1, ignore2)
-    curr_line = _rl_current_display_line()
+    curr_line = _rl_current_display_line
 
     _rl_move_vert(curr_line)
     _rl_move_cursor_relative(0, @rl_line_buffer) # XXX is this right
 
     _rl_clear_to_eol(0) # arg of 0 means to not use spaces
 
-    rl_forced_update_display()
+    rl_forced_update_display
     @rl_display_fixed = true
 
     0
@@ -5368,8 +5368,8 @@ module RbReadline
       return 0
     end
 
-    _rl_clear_screen() # calls termcap function to clear screen
-    rl_forced_update_display()
+    _rl_clear_screen # calls termcap function to clear screen
+    rl_forced_update_display
     @rl_display_fixed = true
     0
   end
@@ -5384,7 +5384,7 @@ module RbReadline
       @_rl_saved_line_for_history = nil
       @rl_point = @rl_end # rl_replace_line sets rl_end
     else
-      rl_ding()
+      rl_ding
     end
     0
   end
@@ -5424,10 +5424,10 @@ module RbReadline
 
   # Perhaps put back the current line if it has changed.
   def rl_maybe_replace_line()
-    temp = current_history()
+    temp = current_history
     # If the current line has changed, save the changes.
     if temp && temp.data != @rl_undo_list
-      temp = replace_history_entry(where_history(), @rl_line_buffer, @rl_undo_list)
+      temp = replace_history_entry(where_history, @rl_line_buffer, @rl_undo_list)
     end
     0
   end
@@ -5461,14 +5461,14 @@ module RbReadline
     end
 
     # If we don't have a line saved, then save this one.
-    rl_maybe_save_line()
+    rl_maybe_save_line
 
     # If the current line has changed, save the changes.
-    rl_maybe_replace_line()
+    rl_maybe_replace_line
 
     temp = old_temp = nil
     while count > 0
-      temp = previous_history()
+      temp = previous_history
       if temp.nil?
         break
       end
@@ -5483,10 +5483,10 @@ module RbReadline
     end
 
     if temp.nil?
-      rl_ding()
+      rl_ding
     else
       rl_replace_from_history(temp, 0)
-      _rl_history_set_point()
+      _rl_history_set_point
     end
 
     0
@@ -5514,7 +5514,7 @@ module RbReadline
     if count == 0
       return 0
     end
-    rl_maybe_replace_line()
+    rl_maybe_replace_line
 
     # either not saved by rl_newline or at end of line, so set appropriately.
     if @_rl_history_saved_point == -1 && (@rl_point != 0 || @rl_end != 0)
@@ -5522,7 +5522,7 @@ module RbReadline
     end
     temp = nil
     while count > 0
-      temp = next_history()
+      temp = next_history
       if temp.nil?
         break
       end
@@ -5530,17 +5530,17 @@ module RbReadline
     end
 
     if temp.nil?
-      rl_maybe_unsave_line()
+      rl_maybe_unsave_line
     else
       rl_replace_from_history(temp, 0)
-      _rl_history_set_point()
+      _rl_history_set_point
     end
     0
   end
 
   def rl_arrow_keys(count, c)
     rl_setstate(RL_STATE_MOREINPUT)
-    ch = rl_read_key()
+    ch = rl_read_key
     rl_unsetstate(RL_STATE_MOREINPUT)
 
     case (ch.upcase)
@@ -5553,7 +5553,7 @@ module RbReadline
     when "D"
       rl_backward_byte(count, ch)
     else
-      rl_ding()
+      rl_ding
     end
     0
   end
@@ -5565,7 +5565,7 @@ module RbReadline
   def _rl_insert_typein(c)
     string = c
 
-    while (key = rl_get_char()) && @_rl_keymap[key] == :rl_insert
+    while (key = rl_get_char) && @_rl_keymap[key] == :rl_insert
       string << key
     end
     if key
@@ -5608,7 +5608,7 @@ module RbReadline
       #If there is pending input, then make a string of all of the
       #pending characters that are bound to rl_insert, and insert
       #them all.
-      if _rl_any_typein()
+      if _rl_any_typein
         _rl_insert_typein(c)
       else
         rl_insert_text(c)
@@ -5630,7 +5630,7 @@ module RbReadline
       mbkey = ""
       _rl_read_mbstring(c, mbkey, MB_LEN_MAX)
     end
-    rl_begin_undo_group()
+    rl_begin_undo_group
 
     count.times do
       if !@rl_byte_oriented
@@ -5643,7 +5643,7 @@ module RbReadline
       end
     end
 
-    rl_end_undo_group()
+    rl_end_undo_group
 
     return 0
   end
@@ -5657,7 +5657,7 @@ module RbReadline
   # Insert the next typed character verbatim.
   def _rl_insert_next(count)
     rl_setstate(RL_STATE_MOREINPUT)
-    c = rl_read_key()
+    c = rl_read_key
     rl_unsetstate(RL_STATE_MOREINPUT)
 
     if c.is_a?(Integer) && c < 0
@@ -5693,7 +5693,7 @@ module RbReadline
     if @_rl_vi_doing_insert
 
       # The `C', `s', and `S' commands set this.
-      rl_end_undo_group()
+      rl_end_undo_group
       # Now, the text between rl_undo_list->next->start and
       # rl_undo_list->next->end is what was inserted while in insert
       # mode.  It gets copied to VI_INSERT_BUFFER because it depends
@@ -5708,10 +5708,10 @@ module RbReadline
 
         # XXX - Other keys probably need to be checked.
       elsif @_rl_vi_last_key_before_insert == "C"
-        rl_end_undo_group()
+        rl_end_undo_group
       end
       while @_rl_undo_group_level > 0
-        rl_end_undo_group()
+        rl_end_undo_group
       end
       @vi_continued_command = 0
     end
@@ -5748,7 +5748,7 @@ module RbReadline
       @rl_outstream.write(last_line[@_rl_screenwidth - 1, 1])
     end
     @_rl_vis_botlin = 0
-    rl_crlf()
+    rl_crlf
     @rl_outstream.flush
     @rl_display_fixed = true if !@rl_display_fixed
   end
@@ -5766,9 +5766,9 @@ module RbReadline
     rl_setstate(RL_STATE_DONE)
 
     if @rl_editing_mode == @vi_mode
-      _rl_vi_done_inserting()
+      _rl_vi_done_inserting
       if _rl_vi_textmod_command(@_rl_vi_last_command).nil? # XXX
-        _rl_vi_reset_last()
+        _rl_vi_reset_last
       end
     end
     # If we've been asked to erase empty lines, suppress the final update,
@@ -5777,7 +5777,7 @@ module RbReadline
       return 0
     end
     if @readline_echoing_p
-      _rl_update_final()
+      _rl_update_final
     end
     0
   end
@@ -5809,7 +5809,7 @@ module RbReadline
   #   character that's displayed as two characters (^X) with two spaces.
   def _rl_overwrite_rubout(count, key)
     if @rl_point == 0
-      rl_ding()
+      rl_ding
       return 1
     end
 
@@ -5822,7 +5822,7 @@ module RbReadline
       l += rl_character_len(@rl_line_buffer[@rl_point, 1], @rl_point) # not exactly right
     end
 
-    rl_begin_undo_group()
+    rl_begin_undo_group
 
     if count > 1 || @rl_explicit_arg
       rl_kill_text(opoint, @rl_point)
@@ -5836,7 +5836,7 @@ module RbReadline
       @rl_point = opoint
     end
 
-    rl_end_undo_group()
+    rl_end_undo_group
 
     0
   end
@@ -5847,7 +5847,7 @@ module RbReadline
       return (rl_delete(-count, key))
     end
     if @rl_point == 0
-      rl_ding()
+      rl_ding
       return -1
     end
 
@@ -5874,7 +5874,7 @@ module RbReadline
       return (rl_delete(-count, key))
     end
     if @rl_point == 0
-      rl_ding()
+      rl_ding
       return -1
     end
 
@@ -5905,7 +5905,7 @@ module RbReadline
       return (_rl_rubout_char(-count, key))
     end
     if @rl_point == @rl_end
-      rl_ding()
+      rl_ding
       return -1
     end
 
@@ -5999,7 +5999,7 @@ module RbReadline
   #   using behaviour that they expect.
   def rl_unix_word_rubout(count, key)
     if @rl_point == 0
-      rl_ding()
+      rl_ding
     else
       orig_point = @rl_point
       if count <= 0
@@ -6029,7 +6029,7 @@ module RbReadline
   #   deletes backward to directory separator (`/') or whitespace.
   def rl_unix_filename_rubout(count, key)
     if @rl_point == 0
-      rl_ding()
+      rl_ding
     else
       orig_point = @rl_point
       if count <= 0
@@ -6165,7 +6165,7 @@ module RbReadline
       end
     end
 
-    temp = alloc_history_entry(string, hist_inittime())
+    temp = alloc_history_entry(string, hist_inittime)
     @the_history[@history_length] = nil
     @the_history[@history_length - 1] = temp
   end
@@ -6387,7 +6387,7 @@ module RbReadline
   end
 
   def insert_all_matches(matches, point, qc)
-    rl_begin_undo_group()
+    rl_begin_undo_group
     # remove any opening quote character; make_quoted_replacement will add
     #   it back.
     if qc && qc.length > 0 && point > 0 && @rl_line_buffer[point - 1, 1] == qc
@@ -6414,7 +6414,7 @@ module RbReadline
         rp = nil
       end
     end
-    rl_end_undo_group()
+    rl_end_undo_group
   end
 
   def make_quoted_replacement(match, mtype, qc)
@@ -6542,7 +6542,7 @@ module RbReadline
     @rl_outstream.write("--More--")
     @rl_outstream.flush
     i = get_y_or_n(1)
-    _rl_erase_entire_line()
+    _rl_erase_entire_line
     if i == 0
       return -1
     elsif i == 2
@@ -6646,7 +6646,7 @@ module RbReadline
     while(true)
 
       rl_setstate(RL_STATE_MOREINPUT)
-      c = rl_read_key()
+      c = rl_read_key
       rl_unsetstate(RL_STATE_MOREINPUT)
 
       if c == "y" || c == "Y" || c == " "
@@ -6656,7 +6656,7 @@ module RbReadline
         return (0)
       end
       if c == ABORT_CHAR || (c.is_a?(Integer) && c < 0)
-        _rl_abort_internal()
+        _rl_abort_internal
       end
       if for_pager && (c == NEWLINE || c == RETURN)
         return (2)
@@ -6664,7 +6664,7 @@ module RbReadline
       if for_pager && (c == "q" || c == "Q")
         return (0)
       end
-      rl_ding()
+      rl_ding
     end
   end
 
@@ -6726,10 +6726,10 @@ module RbReadline
     # Handle simple case first.  What if there is only one answer?
     if matches[1].nil?
       temp = printable_part(matches[0])
-      rl_crlf()
+      rl_crlf
       print_filename(temp, matches[0])
-      rl_crlf()
-      rl_forced_update_display()
+      rl_crlf
+      rl_forced_update_display
       @rl_display_fixed = true
       return
     end
@@ -6759,13 +6759,13 @@ module RbReadline
     #   see them all.
     if @rl_completion_query_items > 0 && len >= @rl_completion_query_items
 
-      rl_crlf()
+      rl_crlf
       @rl_outstream.write("Display all #{len} possibilities? (y or n)")
       @rl_outstream.flush
       if get_y_or_n(false) == 0
-        rl_crlf()
+        rl_crlf
 
-        rl_forced_update_display()
+        rl_forced_update_display
         @rl_display_fixed = true
 
         return
@@ -6774,7 +6774,7 @@ module RbReadline
 
     rl_display_match_list(matches, len, max)
 
-    rl_forced_update_display()
+    rl_forced_update_display
     @rl_display_fixed = true
   end
 
@@ -6803,7 +6803,7 @@ module RbReadline
     if @rl_point != 0
       # This (possibly) changes rl_point.  If it returns a non-zero char,
       #   we know we have an open quote.
-      quote_char, found_quote, delimiter = _rl_find_completion_word()
+      quote_char, found_quote, delimiter = _rl_find_completion_word
     end
 
     start = @rl_point
@@ -6816,7 +6816,7 @@ module RbReadline
     nontrivial_lcd = !!(matches && text != matches[0])
     text = nil
     if matches.nil?
-      rl_ding()
+      rl_ding
       saved_line_buffer = nil
       @completion_changed_buffer = false
       rl_unsetstate(RL_STATE_COMPLETING)
@@ -6828,7 +6828,7 @@ module RbReadline
     #   rl_filename_completion_function does this.
     i = @rl_filename_completion_desired
     if postprocess_matches(matches, i) == 0
-      rl_ding()
+      rl_ding
       saved_line_buffer = nil
       @completion_changed_buffer = false
       rl_unsetstate(RL_STATE_COMPLETING)
@@ -6858,7 +6858,7 @@ module RbReadline
           display_matches(matches)
         end
       elsif @rl_editing_mode != @vi_mode
-        rl_ding() # There are other matches remaining.
+        rl_ding # There are other matches remaining.
       end
     else
       append_to_match(matches[0], delimiter, quote_char, nontrivial_lcd)
@@ -6869,7 +6869,7 @@ module RbReadline
       display_matches(matches)
     else
       $stderr.write("\r\nreadline: bad value #{what_to_do} for what_to_do in rl_complete\n")
-      rl_ding()
+      rl_ding
       saved_line_buffer = nil
       rl_unsetstate(RL_STATE_COMPLETING)
       return 1
@@ -7057,7 +7057,7 @@ module RbReadline
     return if @terminal_prepped
 
     # Try to keep this function from being INTerrupted.
-    block_sigint()
+    block_sigint
 
     if @_rl_bind_stty_chars
       # If editing in vi mode, make sure we restore the bindings in the
@@ -7069,7 +7069,7 @@ module RbReadline
       end
     end
 
-    save_tty_chars()
+    save_tty_chars
 
     rl_setstate(RL_STATE_TTYCSAVED)
     if @_rl_bind_stty_chars
@@ -7092,7 +7092,7 @@ module RbReadline
     @terminal_prepped = true
     rl_setstate(RL_STATE_TERMPREPPED)
 
-    release_sigint()
+    release_sigint
   end
 
   # Restore the terminal's normal settings and modes.
@@ -7101,7 +7101,7 @@ module RbReadline
     return if !@terminal_prepped
 
     # Try to keep this function from being interrupted.
-    block_sigint()
+    block_sigint
 
     if @_rl_enable_keypad
       _rl_control_keypad(false)
@@ -7117,7 +7117,7 @@ module RbReadline
     @terminal_prepped = false
     rl_unsetstate(RL_STATE_TERMPREPPED)
 
-    release_sigint()
+    release_sigint
   end
 
   # Set the mark at POSITION.
@@ -7158,7 +7158,7 @@ module RbReadline
       return (rl_kill_line(1, ignore))
     else
       if @rl_point == 0
-        rl_ding()
+        rl_ding
       else
         orig_point = @rl_point
         rl_beg_of_line(1, ignore)
@@ -7175,11 +7175,11 @@ module RbReadline
 
   # Kill the whole line, no matter where point is.
   def rl_kill_full_line(count, ignore)
-    rl_begin_undo_group()
+    rl_begin_undo_group
     @rl_point = 0
     rl_kill_text(@rl_point, @rl_end)
     @rl_mark = 0
-    rl_end_undo_group()
+    rl_end_undo_group
     0
   end
 
@@ -7243,7 +7243,7 @@ module RbReadline
 
     cxt.save_point = @rl_point
     cxt.save_mark = @rl_mark
-    cxt.save_line = where_history()
+    cxt.save_line = where_history
     cxt.last_found_line = cxt.save_line
     cxt.prev_line_found = nil
 
@@ -7276,8 +7276,8 @@ module RbReadline
       @default_isearch_terminators
 
     # Create an arrary of pointers to the lines that we want to search.
-    hlist = history_list()
-    rl_maybe_replace_line()
+    hlist = history_list
+    rl_maybe_replace_line
     i = 0
     if hlist
       i += 1 while(hlist[i])
@@ -7304,7 +7304,7 @@ module RbReadline
     # The line where we start the search.
     cxt.history_pos = cxt.save_line
 
-    rl_save_prompt()
+    rl_save_prompt
 
     # Initialize search parameters.
     cxt.search_string_size = 128
@@ -7361,7 +7361,7 @@ module RbReadline
   def rl_message(msg_buf)
     @rl_display_prompt = msg_buf
     if @saved_local_prompt.nil?
-      rl_save_prompt()
+      rl_save_prompt
       @msg_saved_prompt = true
     end
     @local_prompt, @prompt_visible_length, @prompt_last_invisible, @prompt_invis_chars_first_line, @prompt_physical_chars =
@@ -7400,11 +7400,11 @@ module RbReadline
     return 0 if count == 0
 
     if @rl_point == 0 || @rl_end < 2
-      rl_ding()
+      rl_ding
       return -1
     end
 
-    rl_begin_undo_group()
+    rl_begin_undo_group
 
     if @rl_point == @rl_end
       if !@rl_byte_oriented
@@ -7430,7 +7430,7 @@ module RbReadline
     @rl_point += count
     _rl_fix_point(0)
     rl_insert_text(dummy)
-    rl_end_undo_group()
+    rl_end_undo_group
     dummy = nil
     0
   end
@@ -7443,7 +7443,7 @@ module RbReadline
   # doing.
   def rl_unix_line_discard(count, key)
     if @rl_point == 0
-      rl_ding()
+      rl_ding
     else
       rl_kill_text(@rl_point, 0)
       @rl_point = 0
@@ -7457,7 +7457,7 @@ module RbReadline
   # Yank back the last killed text.  This ignores arguments.
   def rl_yank(count, ignore)
     if @rl_kill_ring.nil?
-      _rl_abort_internal()
+      _rl_abort_internal
       return -1
     end
     _rl_set_mark_at_pos(@rl_point)
@@ -7472,7 +7472,7 @@ module RbReadline
   def rl_yank_pop(count, key)
     if ((@rl_last_func != :rl_yank_pop) && (@rl_last_func != :rl_yank)) ||
         @rl_kill_ring.nil?
-      _rl_abort_internal()
+      _rl_abort_internal
       return -1
     end
 
@@ -7488,7 +7488,7 @@ module RbReadline
       rl_yank(1, 0)
       return 0
     else
-      _rl_abort_internal()
+      _rl_abort_internal
       return -1
     end
   end
@@ -7496,25 +7496,25 @@ module RbReadline
   # Yank the COUNTh argument from the previous history line, skipping
   #   HISTORY_SKIP lines before looking for the `previous line'.
   def rl_yank_nth_arg_internal(count, ignore, history_skip)
-    pos = where_history()
+    pos = where_history
     if history_skip > 0
-      history_skip.times { previous_history() }
+      history_skip.times { previous_history }
     end
-    entry = previous_history()
+    entry = previous_history
     history_set_pos(pos)
     if entry.nil?
-      rl_ding()
+      rl_ding
       return -1
     end
 
     arg = history_arg_extract(count, count, entry.line)
     if arg.nil? || arg == ""
-      rl_ding()
+      rl_ding
       arg = nil
       return -1
     end
 
-    rl_begin_undo_group()
+    rl_begin_undo_group
 
     _rl_set_mark_at_pos(@rl_point)
 
@@ -7527,7 +7527,7 @@ module RbReadline
 
     rl_insert_text(arg)
     arg = nil
-    rl_end_undo_group()
+    rl_end_undo_group
     return 0
   end
 
@@ -7553,7 +7553,7 @@ module RbReadline
       @direction = 1
     else
       if @undo_needed
-        rl_do_undo()
+        rl_do_undo
       end
       if count < 1
         @direction = -@direction
@@ -7611,7 +7611,7 @@ module RbReadline
     inc = (dir < 0) ? -1 : 1
     while count != 0
       if (dir < 0 && pos <= 0) || (dir > 0 && pos >= @rl_end)
-        rl_ding()
+        rl_ding
         return -1
       end
       pos = (inc > 0) ? _rl_find_next_mbchar(@rl_line_buffer, pos, 1, MB_FIND_ANY) :
@@ -7692,7 +7692,7 @@ module RbReadline
         if waiting_for_begin != 0
           waiting_for_begin -= 1
         else
-          rl_ding()
+          rl_ding
         end
       end
 
@@ -7716,10 +7716,10 @@ module RbReadline
       return 0 # Nothing to do.
     end
     while count > 0
-      if rl_do_undo()
+      if rl_do_undo
         count -= 1
       else
-        rl_ding()
+        rl_ding
         break
       end
     end
@@ -7766,10 +7766,10 @@ module RbReadline
   # Revert the current line to its previous state.
   def rl_revert_line(count, key)
     if @rl_undo_list.nil?
-      rl_ding()
+      rl_ding
     else
       while @rl_undo_list
-        rl_do_undo()
+        rl_do_undo
       end
       if @rl_editing_mode == @vi_mode
         @rl_point = @rl_mark = 0 # rl_end should be set correctly
@@ -7787,7 +7787,7 @@ module RbReadline
   end
 
   def _rl_arg_init()
-    rl_save_prompt()
+    rl_save_prompt
     @_rl_argcxt = 0
     rl_setstate(RL_STATE_NUMERICARG)
   end
@@ -7795,7 +7795,7 @@ module RbReadline
   def _rl_arg_getchar()
     rl_message("(arg: #{@rl_arg_sign * @rl_numeric_arg}) ")
     rl_setstate(RL_STATE_MOREINPUT)
-    c = rl_read_key()
+    c = rl_read_key
     rl_unsetstate(RL_STATE_MOREINPUT)
     c
   end
@@ -7817,10 +7817,10 @@ module RbReadline
         return 0 # XXX
       else
         rl_setstate(RL_STATE_MOREINPUT)
-        key = rl_read_key()
+        key = rl_read_key
         rl_unsetstate(RL_STATE_MOREINPUT)
-        rl_restore_prompt()
-        rl_clear_message()
+        rl_restore_prompt
+        rl_clear_message
         rl_unsetstate(RL_STATE_NUMERICARG)
         if key.is_a?(Integer) && key < 0
           return -1
@@ -7845,8 +7845,8 @@ module RbReadline
       if (@_rl_argcxt & NUM_SAWMINUS) != 0 && @rl_numeric_arg == 1 && !@rl_explicit_arg
         @rl_explicit_arg = 1
       end
-      rl_restore_prompt()
-      rl_clear_message()
+      rl_restore_prompt
+      rl_clear_message
       rl_unsetstate(RL_STATE_NUMERICARG)
 
       r = _rl_dispatch(key, @_rl_keymap)
@@ -7867,9 +7867,9 @@ module RbReadline
     if @rl_numeric_arg > 1000000
       @_rl_argcxt = 0
       @rl_explicit_arg = @rl_numeric_arg = 0
-      rl_ding()
-      rl_restore_prompt()
-      rl_clear_message()
+      rl_ding
+      rl_restore_prompt
+      rl_clear_message
       rl_unsetstate(RL_STATE_NUMERICARG)
       return 1
     end
@@ -7879,10 +7879,10 @@ module RbReadline
   # Handle C-u style numeric args, as well as M--, and M-digits.
   def rl_digit_loop()
     while true
-      return 1 if _rl_arg_overflow() != 0
-      c = _rl_arg_getchar()
+      return 1 if _rl_arg_overflow != 0
+      c = _rl_arg_getchar
       if c >= "\xFE"
-        _rl_abort_internal()
+        _rl_abort_internal
         return -1
       end
       r = _rl_arg_dispatch(@_rl_argcxt, c)
@@ -7894,14 +7894,14 @@ module RbReadline
 
   # Start a numeric argument with initial value KEY
   def rl_digit_argument(ignore, key)
-    _rl_arg_init()
+    _rl_arg_init
     if rl_isstate(RL_STATE_CALLBACK)
       _rl_arg_dispatch(@_rl_argcxt, key)
       rl_message("(arg: #{@rl_arg_sign * @rl_numeric_arg}) ")
       return 0
     else
       rl_execute_next(key)
-      return (rl_digit_loop())
+      return (rl_digit_loop)
     end
   end
 
@@ -7914,14 +7914,14 @@ module RbReadline
 
   # Meta-< goes to the start of the history.
   def rl_beginning_of_history(count, key)
-    rl_get_previous_history(1 + where_history(), key)
+    rl_get_previous_history(1 + where_history, key)
   end
 
   # Meta-> goes to the end of the history.  (The current line).
   def rl_end_of_history(count, key)
-    rl_maybe_replace_line()
-    using_history()
-    rl_maybe_unsave_line()
+    rl_maybe_replace_line
+    using_history
+    rl_maybe_unsave_line
     0
   end
 
@@ -7948,10 +7948,10 @@ module RbReadline
 
     if start != _end
       temp = rl_copy_text(start, _end)
-      rl_begin_undo_group()
+      rl_begin_undo_group
       rl_add_undo(UNDO_DELETE, start, _end, temp)
       rl_add_undo(UNDO_INSERT, start, _end, nil)
-      rl_end_undo_group()
+      rl_end_undo_group
     end
     0
   end
@@ -7967,7 +7967,7 @@ module RbReadline
     _end = @rl_point
 
     if op != UpCase && op != DownCase && op != CapCase
-      rl_ding()
+      rl_ding
       return -1
     end
 
@@ -8069,7 +8069,7 @@ module RbReadline
       #   command lines to the edit line.  We're going to implement that by
       #   making the undo list start after the matching line is copied to the
       #   current editing buffer.
-      rl_free_undo_list()
+      rl_free_undo_list
     end
     if @_rl_saved_line_for_history
       @_rl_saved_line_for_history = nil
@@ -8095,13 +8095,13 @@ module RbReadline
   #   backwards.  POS is an absolute index into the history list at
   #   which point to begin searching.
   def history_search_pos(string, dir, pos)
-    old = where_history()
+    old = where_history
     history_set_pos(pos)
     if history_search(string, dir) == -1
       history_set_pos(old)
       return (-1)
     end
-    ret = where_history()
+    ret = where_history
     history_set_pos(old)
     ret
   end
@@ -8114,7 +8114,7 @@ module RbReadline
   def noninc_search_from_pos(string, pos, dir)
     return 1 if pos < 0
 
-    old = where_history()
+    old = where_history
     return -1 if history_set_pos(pos) == 0
 
     rl_setstate(RL_STATE_SEARCH)
@@ -8126,7 +8126,7 @@ module RbReadline
     rl_unsetstate(RL_STATE_SEARCH)
 
     if ret != -1
-      ret = where_history()
+      ret = where_history
     end
     history_set_pos(old)
     ret
@@ -8137,37 +8137,37 @@ module RbReadline
   #   entries.  Returns 1 if the search was successful, 0 otherwise.
   def noninc_dosearch(string, dir)
     if string.nil? || string == "" || @noninc_history_pos < 0
-      rl_ding()
+      rl_ding
       return 0
     end
 
     pos = noninc_search_from_pos(string, @noninc_history_pos + dir, dir)
     if pos == -1
       # Search failed, current history position unchanged.
-      rl_maybe_unsave_line()
-      rl_clear_message()
+      rl_maybe_unsave_line
+      rl_clear_message
       @rl_point = 0
-      rl_ding()
+      rl_ding
       return 0
     end
 
     @noninc_history_pos = pos
 
-    oldpos = where_history()
+    oldpos = where_history
     history_set_pos(@noninc_history_pos)
-    entry = current_history()
+    entry = current_history
     if @rl_editing_mode != @vi_mode
       history_set_pos(oldpos)
     end
     make_history_line_current(entry)
     @rl_point = 0
     @rl_mark = @rl_end
-    rl_clear_message()
+    rl_clear_message
     1
   end
 
   def _rl_make_prompt_for_search(pchar)
-    rl_save_prompt()
+    rl_save_prompt
 
     # We've saved the prompt, and can do anything with the various prompt
     #   strings we need before they're restored.  We want the unexpanded
@@ -8199,7 +8199,7 @@ module RbReadline
     end
     cxt.direction = dir
     cxt.history_pos = cxt.save_line
-    rl_maybe_save_line()
+    rl_maybe_save_line
     # Clear the undo list, since reading the search string should create its
     #   own undo list, and the whole list will end up being freed when we
     #   finish reading the search string.
@@ -8226,11 +8226,11 @@ module RbReadline
   end
 
   def _rl_nsearch_abort(cxt)
-    rl_maybe_unsave_line()
-    rl_clear_message()
+    rl_maybe_unsave_line
+    rl_clear_message
     @rl_point = cxt.save_point
     @rl_mark = cxt.save_mark
-    rl_restore_prompt()
+    rl_restore_prompt
     rl_unsetstate(RL_STATE_NSEARCH)
   end
 
@@ -8252,7 +8252,7 @@ module RbReadline
       end
       _rl_rubout_char(1, c)
     when "\C-C", "\C-G"
-      rl_ding()
+      rl_ding
       _rl_nsearch_abort(cxt)
       return -1
     else
@@ -8279,8 +8279,8 @@ module RbReadline
     #   string, punt.
     if @rl_point == 0
       if @noninc_search_string.nil?
-        rl_ding()
-        rl_restore_prompt()
+        rl_ding
+        rl_restore_prompt
         rl_unsetstate(RL_STATE_NSEARCH)
         return -1
       end
@@ -8294,10 +8294,10 @@ module RbReadline
       #we need to clear rl_line_buffer here.  For now, we just clear the
       #undo list generated by reading the search string.  (If the search
       #fails, the old undo list will be restored by rl_maybe_unsave_line.)
-      rl_free_undo_list()
+      rl_free_undo_list
     end
 
-    rl_restore_prompt()
+    rl_restore_prompt
     noninc_dosearch(@noninc_search_string, cxt.direction)
   end
 
@@ -8320,7 +8320,7 @@ module RbReadline
 
     # Do some check to make sure that there really are two words.
     if (w1_beg == w2_beg) || (w2_beg < w1_end)
-      rl_ding()
+      rl_ding
       @rl_point = orig_point
       return -1
     end
@@ -8331,7 +8331,7 @@ module RbReadline
 
     # We are about to do many insertions and deletions.  Remember them
     #   as one operation.
-    rl_begin_undo_group()
+    rl_begin_undo_group
 
     # Do the stuff at word2 first, so that we don't have to worry
     #   about word1 moving.
@@ -8348,7 +8348,7 @@ module RbReadline
     @rl_point = w2_end
 
     # I think that does it.
-    rl_end_undo_group()
+    rl_end_undo_group
     word1 = nil
     word2 = nil
 
@@ -8358,7 +8358,7 @@ module RbReadline
   # Re-read the current keybindings file.
   def rl_re_read_init_file(count, ignore)
     r = rl_read_init_file(nil)
-    rl_set_keymap_from_edit_mode()
+    rl_set_keymap_from_edit_mode
     r
   end
 
@@ -8368,7 +8368,7 @@ module RbReadline
       @rl_mark = -1
     end
     if @rl_mark == -1
-      rl_ding()
+      rl_ding
       return -1
     else
       @rl_point, @rl_mark = @rl_mark, @rl_point
@@ -8403,7 +8403,7 @@ module RbReadline
     if !@rl_ignore_completion_duplicates
       matches[1, len] = matches[1, len].sort
     end
-    rl_crlf()
+    rl_crlf
 
     lines = 0
     if !@_rl_print_completions_horizontally
@@ -8423,7 +8423,7 @@ module RbReadline
           end
           l += count
         end
-        rl_crlf()
+        rl_crlf
         lines += 1
         if @_rl_page_completions && lines >= (@_rl_screenheight - 1) && i < count
           lines = _rl_internal_pager(lines)
@@ -8439,7 +8439,7 @@ module RbReadline
         # Have we reached the end of this line?
         if matches[i + 1]
           if (limit > 1) && (i % limit) == 0
-            rl_crlf()
+            rl_crlf
             lines += 1
             if @_rl_page_completions && lines >= @_rl_screenheight - 1
               lines = _rl_internal_pager(lines)
@@ -8451,7 +8451,7 @@ module RbReadline
         end
         i += 1
       end
-      rl_crlf()
+      rl_crlf
     end
   end
 
@@ -8777,7 +8777,7 @@ module RbReadline
     mb_len = 0
     while mb_len < size
       rl_setstate(RL_STATE_MOREINPUT)
-      c = rl_read_key()
+      c = rl_read_key
       rl_unsetstate(RL_STATE_MOREINPUT)
 
       break if c.is_a?(Integer) && c < 0
@@ -8809,7 +8809,7 @@ module RbReadline
       if _rl_get_char_len(mb) == -2
         # Read more for multibyte character
         rl_setstate(RL_STATE_MOREINPUT)
-        c = rl_read_key()
+        c = rl_read_key
         break if c.is_a?(Integer) && c < 0
         rl_unsetstate(RL_STATE_MOREINPUT)
       else
@@ -8835,7 +8835,7 @@ module RbReadline
   # line to draw the prompt on.
   def redraw_prompt(t)
     oldp = @rl_display_prompt
-    rl_save_prompt()
+    rl_save_prompt
 
     @rl_display_prompt = t
     @local_prompt, @prompt_visible_length, @prompt_last_invisible, @prompt_invis_chars_first_line, @prompt_physical_chars =
@@ -8843,10 +8843,10 @@ module RbReadline
     @local_prompt_prefix = nil
     @local_prompt_len = @local_prompt ? @local_prompt.length : 0
 
-    rl_forced_update_display()
+    rl_forced_update_display
 
     @rl_display_prompt = oldp
-    rl_restore_prompt()
+    rl_restore_prompt
   end
 
   # Redisplay the current line after a SIGWINCH is received.
@@ -8867,7 +8867,7 @@ module RbReadline
         _rl_move_vert(0)
       end
     else
-      rl_crlf()
+      rl_crlf
     end
 
     # Redraw only the last line of a multi-line prompt.
@@ -8875,7 +8875,7 @@ module RbReadline
     if t
       redraw_prompt(@rl_display_prompt[(t + 1)..-1])
     else
-      rl_forced_update_display()
+      rl_forced_update_display
     end
   end
 
@@ -8883,16 +8883,16 @@ module RbReadline
     if @readline_echoing_p
       _rl_get_screen_size(@rl_instream.fileno, 1)
       if @rl_redisplay_function != :rl_redisplay
-        rl_forced_update_display()
+        rl_forced_update_display
       else
-        _rl_redisplay_after_sigwinch()
+        _rl_redisplay_after_sigwinch
       end
     end
   end
 
   def rl_sigwinch_handler(sig)
     rl_setstate(RL_STATE_SIGHANDLER)
-    rl_resize_terminal()
+    rl_resize_terminal
     rl_unsetstate(RL_STATE_SIGHANDLER)
   end
 

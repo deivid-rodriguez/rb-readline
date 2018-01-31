@@ -45,8 +45,8 @@ module Readline
       buff = RbReadline.readline(prompt)
     rescue Exception => e
       buff = nil
-      RbReadline.rl_cleanup_after_signal()
-      RbReadline.rl_deprep_terminal()
+      RbReadline.rl_cleanup_after_signal
+      RbReadline.rl_deprep_terminal
       raise e
     end
 
@@ -528,7 +528,7 @@ module Readline
 
   RbReadline.rl_readline_name = "Ruby"
 
-  RbReadline.using_history()
+  RbReadline.using_history
 
   silence_warnings { VERSION = RbReadline.rl_library_version }
 
