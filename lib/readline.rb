@@ -142,13 +142,13 @@ module Readline
 
     matches = ary.length
     return nil if matches == 0
-    result = Array.new(matches+2)
+    result = Array.new(matches + 2)
     for i in 0 ... matches
-      result[i+1] = ary[i].dup
+      result[i + 1] = ary[i].dup
     end
-    result[matches+1] = nil
+    result[matches + 1] = nil
 
-    if(matches==1)
+    if(matches == 1)
       result[0] = result[1].dup
       result[1] = nil
     else
@@ -174,7 +174,7 @@ module Readline
         if low > si
           low = si
         end
-        i+=1
+        i += 1
       end
       result[0] = result[1][0, low]
     end
@@ -204,7 +204,7 @@ module Readline
   def self.completion_append_character=(char)
     if char.nil?
       RbReadline.rl_completion_append_character = ?\0
-    elsif char.length==0
+    elsif char.length == 0
       RbReadline.rl_completion_append_character = ?\0
     else
       RbReadline.rl_completion_append_character = char[0].chr
@@ -349,7 +349,7 @@ module Readline
       if index < 0
         index += RbReadline.history_length
       end
-      entry = RbReadline.history_get(RbReadline.history_base+index)
+      entry = RbReadline.history_get(RbReadline.history_base + index)
       if entry.nil?
         raise IndexError, "invalid index"
       end
@@ -362,7 +362,7 @@ module Readline
     # entry will result in an IndexError.
     #
     def self.[]=(index, str)
-      if index<0
+      if index < 0
         index += RbReadline.history_length
       end
       entry = RbReadline.replace_history_entry(index, str, nil)
@@ -404,8 +404,8 @@ module Readline
     # Removes and returns the last element from the history buffer.
     #
     def self.pop()
-      if RbReadline.history_length>0
-        rb_remove_history(RbReadline.history_length-1)
+      if RbReadline.history_length > 0
+        rb_remove_history(RbReadline.history_length - 1)
       else
         nil
       end
@@ -414,7 +414,7 @@ module Readline
     # Removes and returns the first element from the history buffer.
     #
     def self.shift()
-      if RbReadline.history_length>0
+      if RbReadline.history_length > 0
         rb_remove_history(0)
       else
         nil
