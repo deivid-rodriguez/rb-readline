@@ -108,7 +108,7 @@ class TestReadline < Minitest::Test
         %w[xyx x],
         [" ", " "],
         %W[\t \t],
-        ["", nil],
+        ["", nil]
       ].each do |data, expected|
         Readline.completion_append_character = data
         assert_equal(expected, Readline.completion_append_character,
@@ -162,7 +162,7 @@ class TestReadline < Minitest::Test
       :completer_word_break_characters,
       :basic_quote_characters,
       :completer_quote_characters,
-      :filename_quote_characters,
+      :filename_quote_characters
     ].each do |method|
       begin
         saved = Readline.send(method)
