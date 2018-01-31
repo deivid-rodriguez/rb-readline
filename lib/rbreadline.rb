@@ -7235,7 +7235,7 @@ module RbReadline
 
   def history_arg_extract(first, last, string)
     if first != "$" || last != "$"
-      fail "RbReadline.history_arg_extract called with currently unsupported args."
+      raise "RbReadline.history_arg_extract called with currently unsupported args."
     end
 
     # Find the last index of an unescaped quote character.
