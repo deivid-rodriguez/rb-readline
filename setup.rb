@@ -16,7 +16,7 @@ end
 
 unless File.respond_to?(:read) # Ruby 1.6
   def File.read(fname)
-    open(fname) {|f|
+    open(fname) { |f|
       return f.read
     }
   end
@@ -31,7 +31,7 @@ unless Errno.const_defined?(:ENOTEMPTY) # Windows?
 end
 
 def File.binread(fname)
-  open(fname, "rb") {|f|
+  open(fname, "rb") { |f|
     return f.read
   }
 end
@@ -81,7 +81,7 @@ class ConfigTable
   end
 
   def names
-    @items.map {|i| i.name }
+    @items.map { |i| i.name }
   end
 
   def each(&block)
@@ -103,8 +103,8 @@ class ConfigTable
 
   def remove(name)
     item = lookup(name)
-    @items.delete_if {|i| i.name == name }
-    @table.delete_if {|name, i| i.name == name }
+    @items.delete_if { |i| i.name == name }
+    @table.delete_if { |name, i| i.name == name }
     item
   end
 
@@ -130,8 +130,8 @@ class ConfigTable
   end
 
   def save
-    @items.each {|i| i.value }
-    File.open(savefile, "w") {|f|
+    @items.each { |i| i.value }
+    File.open(savefile, "w") { |f|
       @items.each do |i|
         f.printf "%s=%s\n", i.name, i.value if i.value? and i.value
       end
@@ -185,11 +185,11 @@ class ConfigTable
       siterubyver = siteruby
       siterubyverarch = "$siterubyver/#{c['arch']}"
     end
-    parameterize = lambda {|path|
+    parameterize = lambda { |path|
       path.sub(/\A#{Regexp.quote(c['prefix'])}/, "$prefix")
     }
 
-    if arg = c["configure_args"].split.detect {|arg| /--with-make-prog=/ =~ arg }
+    if arg = c["configure_args"].split.detect { |arg| /--with-make-prog=/ =~ arg }
       makeprog = arg.sub(/'/, "").split(/=/, 2)[1]
     else
       makeprog = "make"
@@ -198,7 +198,7 @@ class ConfigTable
     [
       ExecItem.new("installdirs", "std/site/home",
                    "std: install under libruby; site: install under site_ruby; home: install under $HOME")\
-          {|val, table|
+          { |val, table|
             case val
             when "std"
               table["rbdir"] = "$librubyver"
@@ -599,7 +599,7 @@ module FileOperations
     begin
       File.rename src, dest
     rescue
-      File.open(dest, "wb") {|f|
+      File.open(dest, "wb") { |f|
         f.write File.binread(src)
       }
       File.chmod File.stat(src).mode, dest
@@ -630,12 +630,12 @@ module FileOperations
       verbose_off {
         rm_f realdest if File.exist?(realdest)
       }
-      File.open(realdest, "wb") {|f|
+      File.open(realdest, "wb") { |f|
         f.write str
       }
       File.chmod mode, realdest
 
-      File.open("#{objdir_root}/InstalledFiles", "a") {|f|
+      File.open("#{objdir_root}/InstalledFiles", "a") { |f|
         if prefix
           f.puts realdest.sub(prefix, "")
         else
@@ -653,7 +653,7 @@ module FileOperations
   def command(*args)
     $stderr.puts args.join(" ") if verbose?
     system(*args) or raise RuntimeError,
-        "system(#{args.map{|a| a.inspect }.join(' ')}) failed"
+        "system(#{args.map{ |a| a.inspect }.join(' ')}) failed"
   end
 
   def ruby(*args)
@@ -669,16 +669,16 @@ module FileOperations
   end
 
   def files_of(dir)
-    Dir.open(dir) {|d|
-      return d.select {|ent| File.file?("#{dir}/#{ent}") }
+    Dir.open(dir) { |d|
+      return d.select { |ent| File.file?("#{dir}/#{ent}") }
     }
   end
 
   DIR_REJECT = %w( . .. CVS SCCS RCS CVS.adm .svn )
 
   def directories_of(dir)
-    Dir.open(dir) {|d|
-      return d.select {|ent| File.dir?("#{dir}/#{ent}") } - DIR_REJECT
+    Dir.open(dir) { |d|
+      return d.select { |ent| File.dir?("#{dir}/#{ent}") } - DIR_REJECT
     }
   end
 
@@ -728,19 +728,19 @@ module HookScriptAPI
   end
 
   def srcentries(path = ".")
-    Dir.open("#{curr_srcdir}/#{path}") {|d|
+    Dir.open("#{curr_srcdir}/#{path}") { |d|
       return d.to_a - %w(. ..)
     }
   end
 
   def srcfiles(path = ".")
-    srcentries(path).select {|fname|
+    srcentries(path).select { |fname|
       File.file?(File.join(curr_srcdir, path, fname))
     }
   end
 
   def srcdirectories(path = ".")
-    srcentries(path).select {|fname|
+    srcentries(path).select { |fname|
       File.dir?(File.join(curr_srcdir, path, fname))
     }
   end
@@ -778,7 +778,7 @@ class ToplevelInstaller
   end
 
   def ToplevelInstaller.load_rbconfig
-    if arg = ARGV.detect {|arg| /\A--rbconfig=/ =~ arg }
+    if arg = ARGV.detect { |arg| /\A--rbconfig=/ =~ arg }
       ARGV.delete(arg)
       load File.expand_path(arg.split(/=/, 2)[1])
       $".push "rbconfig.rb"
@@ -886,7 +886,7 @@ class ToplevelInstaller
   end
 
   def valid_task_re
-    @valid_task_re ||= /\A(?:#{TASKS.map {|task, desc| task }.join('|')})\z/
+    @valid_task_re ||= /\A(?:#{TASKS.map { |task, desc| task }.join('|')})\z/
   end
 
   def parsearg_no_options
@@ -1059,7 +1059,7 @@ class ToplevelInstallerMulti < ToplevelInstaller
     end
     with = extract_selection(config("with"))
     without = extract_selection(config("without"))
-    @selected = @installers.keys.select {|name|
+    @selected = @installers.keys.select { |name|
                   (with.empty? or with.include?(name)) \
                       and not without.include?(name)
                 }
@@ -1086,40 +1086,40 @@ class ToplevelInstallerMulti < ToplevelInstaller
 
   def exec_config
     run_hook "pre-config"
-    each_selected_installers {|inst| inst.exec_config }
+    each_selected_installers { |inst| inst.exec_config }
     run_hook "post-config"
     @config.save # must be final
   end
 
   def exec_setup
     run_hook "pre-setup"
-    each_selected_installers {|inst| inst.exec_setup }
+    each_selected_installers { |inst| inst.exec_setup }
     run_hook "post-setup"
   end
 
   def exec_install
     run_hook "pre-install"
-    each_selected_installers {|inst| inst.exec_install }
+    each_selected_installers { |inst| inst.exec_install }
     run_hook "post-install"
   end
 
   def exec_test
     run_hook "pre-test"
-    each_selected_installers {|inst| inst.exec_test }
+    each_selected_installers { |inst| inst.exec_test }
     run_hook "post-test"
   end
 
   def exec_clean
     rm_f @config.savefile
     run_hook "pre-clean"
-    each_selected_installers {|inst| inst.exec_clean }
+    each_selected_installers { |inst| inst.exec_clean }
     run_hook "post-clean"
   end
 
   def exec_distclean
     rm_f @config.savefile
     run_hook "pre-distclean"
-    each_selected_installers {|inst| inst.exec_distclean }
+    each_selected_installers { |inst| inst.exec_distclean }
     run_hook "post-distclean"
   end
 
@@ -1275,8 +1275,8 @@ class Installer
       new = Shebang.new(config("rubypath"))
     end
     $stderr.puts "updating shebang: #{File.basename(path)}" if verbose?
-    open_atomic_writer(path) {|output|
-      File.open(path, "rb") {|f|
+    open_atomic_writer(path) { |output|
+      File.open(path, "rb") { |f|
         f.gets if old # discard
         output.puts new.to_s
         output.print f.read
@@ -1308,7 +1308,7 @@ class Installer
   class Shebang
     def Shebang.load(path)
       line = nil
-      File.open(path) {|f|
+      File.open(path) { |f|
         line = f.gets
       }
       return nil unless /\A#!/ =~ line
@@ -1395,7 +1395,7 @@ class Installer
   end
 
   def mapdir(ents)
-    ents.map {|ent|
+    ents.map { |ent|
       if File.exist?(ent)
       then ent # objdir
       else "#{curr_srcdir}/#{ent}" # srcdir
@@ -1417,19 +1417,19 @@ class Installer
   end
 
   def hookfiles
-    %w( pre-%s post-%s pre-%s.rb post-%s.rb ).map {|fmt|
-      %w( config setup install clean ).map {|t| sprintf(fmt, t) }
+    %w( pre-%s post-%s pre-%s.rb post-%s.rb ).map { |fmt|
+      %w( config setup install clean ).map { |t| sprintf(fmt, t) }
     }.flatten
   end
 
   def glob_select(pat, ents)
     re = globs2re([pat])
-    ents.select {|ent| re =~ ent }
+    ents.select { |ent| re =~ ent }
   end
 
   def glob_reject(pats, ents)
     re = globs2re(pats)
-    ents.reject {|ent| re =~ ent }
+    ents.reject { |ent| re =~ ent }
   end
 
   GLOB2REGEX = {
@@ -1441,7 +1441,7 @@ class Installer
 
   def globs2re(pats)
     /\A(?:#{
-      pats.map {|pat| pat.gsub(/[\.\$\#\*]/) {|ch| GLOB2REGEX[ch] } }.join('|')
+      pats.map { |pat| pat.gsub(/[\.\$\#\*]/) { |ch| GLOB2REGEX[ch] } }.join('|')
     })\z/
   end
 
@@ -1554,7 +1554,7 @@ class Installer
 
   def run_hook(id)
     path = [ "#{curr_srcdir}/#{id}",
-             "#{curr_srcdir}/#{id}.rb" ].detect {|cand| File.file?(cand) }
+             "#{curr_srcdir}/#{id}.rb" ].detect { |cand| File.file?(cand) }
     return unless path
     begin
       instance_eval File.read(path), path, 1

@@ -1639,7 +1639,7 @@ module RbReadline
 
   def rl_set_signals
     if Signal.list["WINCH"]
-      @def_proc = trap "WINCH", Proc.new{rl_sigwinch_handler(0)}
+      @def_proc = trap "WINCH", Proc.new{ rl_sigwinch_handler(0) }
     end
   end
 
@@ -1782,7 +1782,7 @@ module RbReadline
 
   def get_term_capabilities(_buffer)
     hash = {}
-      `infocmp -C`.split(":").select{|x| x =~ /(.*)=(.*)/ and hash[$1] = $2.gsub("\\r", "\r").gsub('\\E', "\e").gsub(/\^(.)/){($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr}}
+      `infocmp -C`.split(":").select{ |x| x =~ /(.*)=(.*)/ and hash[$1] = $2.gsub("\\r", "\r").gsub('\\E', "\e").gsub(/\^(.)/){ ($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr } }
       @_rl_term_at7 = hash["@7"]
       @_rl_term_DC = hash["DC"]
       @_rl_term_IC = hash["IC"]
@@ -2020,7 +2020,7 @@ module RbReadline
     retry_if_interrupted do
       h = Hash[*`stty -a`.scan(/(\w+) = ([^;]+);/).flatten]
     end
-    h.each {|k, v| v.gsub!(/\^(.)/){($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr}}
+    h.each { |k, v| v.gsub!(/\^(.)/){ ($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr } }
     kmap[h["erase"]] = :rl_rubout
     kmap[h["kill"]] = :rl_unix_line_discard
     kmap[h["werase"]] = :rl_unix_word_rubout
@@ -2150,7 +2150,7 @@ module RbReadline
 
     # Check the previous (n) levels of the stack to make sure that
     #   we haven't previously turned off parsing.
-    return 0 if @if_stack.detect {|x| x }
+    return 0 if @if_stack.detect { |x| x }
 
     # Invert the state of parsing if at top level.
     @_rl_parsing_conditionalized_out = !@_rl_parsing_conditionalized_out
@@ -3811,13 +3811,13 @@ module RbReadline
     when "N"
       return (_end - start)
     when "U"
-      str[start ... _end].scan(/./mu).each {|s| width += s.unpack("U").first >= 0x1000 ? 2 : 1 }
+      str[start ... _end].scan(/./mu).each { |s| width += s.unpack("U").first >= 0x1000 ? 2 : 1 }
     when "S"
-      str[start ... _end].scan(/./ms).each {|s| width += s.length }
+      str[start ... _end].scan(/./ms).each { |s| width += s.length }
     when "E"
-      str[start ... _end].scan(/./me).each {|s| width += s.length }
+      str[start ... _end].scan(/./me).each { |s| width += s.length }
     when "X"
-      str[start ... _end].force_encoding(@encoding_name).codepoints.each {|s| width += s > 0x1000 ? 2 : 1 }
+      str[start ... _end].force_encoding(@encoding_name).codepoints.each { |s| width += s > 0x1000 ? 2 : 1 }
     end
     width
   end
@@ -4278,7 +4278,7 @@ module RbReadline
         @rl_last_func = map[key]
       end
     else
-      if(map.keys.detect{|x| x =~ /^#{Regexp.escape(key)}/})
+      if(map.keys.detect{ |x| x =~ /^#{Regexp.escape(key)}/ })
         key += _rl_subseq_getchar(key)
         return _rl_dispatch_subseq(key, map, got_subseq)
       elsif(key.length > 1 && key[1].ord < 0x7f)
@@ -6699,7 +6699,7 @@ module RbReadline
     retry_if_interrupted do
       h = Hash[*`stty -a`.scan(/(\w+) = ([^;]+);/).flatten]
     end
-    h.each {|k, v| v.gsub!(/\^(.)/){($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr}}
+    h.each { |k, v| v.gsub!(/\^(.)/){ ($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr } }
     @_rl_tty_chars.t_erase = h["erase"]
     @_rl_tty_chars.t_kill = h["kill"]
     @_rl_tty_chars.t_intr = h["intr"]
