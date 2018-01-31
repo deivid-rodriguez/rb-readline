@@ -80,7 +80,7 @@ class ConfigTable
   end
 
   def names
-    @items.map { |i| i.name }
+    @items.map(&:name)
   end
 
   def each(&block)
@@ -129,7 +129,7 @@ class ConfigTable
   end
 
   def save
-    @items.each { |i| i.value }
+    @items.each(&:value)
     File.open(savefile, "w") do |f|
       @items.each do |i|
         f.printf "%s=%s\n", i.name, i.value if i.value? && i.value
@@ -650,7 +650,7 @@ module FileOperations
   def command(*args)
     warn args.join(" ") if verbose?
     system(*args) || raise(RuntimeError,
-                           "system(#{args.map{ |a| a.inspect }.join(' ')}) failed")
+                           "system(#{args.map(&:inspect).join(' ')}) failed")
   end
 
   def ruby(*args)
@@ -1077,40 +1077,40 @@ class ToplevelInstallerMulti < ToplevelInstaller
 
   def exec_config
     run_hook "pre-config"
-    each_selected_installers { |inst| inst.exec_config }
+    each_selected_installers(&:exec_config)
     run_hook "post-config"
     @config.save # must be final
   end
 
   def exec_setup
     run_hook "pre-setup"
-    each_selected_installers { |inst| inst.exec_setup }
+    each_selected_installers(&:exec_setup)
     run_hook "post-setup"
   end
 
   def exec_install
     run_hook "pre-install"
-    each_selected_installers { |inst| inst.exec_install }
+    each_selected_installers(&:exec_install)
     run_hook "post-install"
   end
 
   def exec_test
     run_hook "pre-test"
-    each_selected_installers { |inst| inst.exec_test }
+    each_selected_installers(&:exec_test)
     run_hook "post-test"
   end
 
   def exec_clean
     rm_f @config.savefile
     run_hook "pre-clean"
-    each_selected_installers { |inst| inst.exec_clean }
+    each_selected_installers(&:exec_clean)
     run_hook "post-clean"
   end
 
   def exec_distclean
     rm_f @config.savefile
     run_hook "pre-distclean"
-    each_selected_installers { |inst| inst.exec_distclean }
+    each_selected_installers(&:exec_distclean)
     run_hook "post-distclean"
   end
 

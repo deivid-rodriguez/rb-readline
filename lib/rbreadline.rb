@@ -1832,7 +1832,7 @@ module RbReadline
     else
       wr, wc = 0
       retry_if_interrupted do
-        wr, wc = `stty size`.split(" ").map { |x| x.to_i }
+        wr, wc = `stty size`.split(" ").map(&:to_i)
       end
       @_rl_screenwidth = wc
       @_rl_screenheight = wr
