@@ -141,7 +141,7 @@ module Readline
     end
 
     matches = ary.length
-    return nil if (matches == 0)
+    return nil if matches == 0
     result = Array.new(matches+2)
     for i in 0 ... matches
       result[i+1] = ary[i].dup
@@ -155,23 +155,23 @@ module Readline
       i = 1
       low = 100000
 
-      while (i < matches)
-        if (case_fold)
+      while i < matches
+        if case_fold
           si = 0
-          while ((c1 = result[i][si,1].downcase) &&
-                 (c2 = result[i + 1][si,1].downcase))
-            break if (c1 != c2)
+          while (c1 = result[i][si,1].downcase) &&
+                 (c2 = result[i + 1][si,1].downcase)
+            break if c1 != c2
             si += 1
           end
         else
           si = 0
-          while ((c1 = result[i][si,1]) &&
-                 (c2 = result[i + 1][si,1]))
-            break if (c1 != c2)
+          while (c1 = result[i][si,1]) &&
+                 (c2 = result[i + 1][si,1])
+            break if c1 != c2
             si += 1
           end
         end
-        if (low > si)
+        if low > si
           low = si
         end
         i+=1
@@ -393,7 +393,7 @@ module Readline
     #
     def self.rb_remove_history(index)
       entry = RbReadline.remove_history(index)
-      if (entry)
+      if entry
         val = entry.line.dup
         entry = nil
         return val
@@ -474,7 +474,7 @@ module Readline
   class Fcomp
     def self.call(str)
       matches = RbReadline.rl_completion_matches(str, :rl_filename_completion_function)
-      if (matches)
+      if matches
         result = []
         i = 0
         while(matches[i])
@@ -483,7 +483,7 @@ module Readline
           i += 1
         end
         matches = nil
-        if (result.length >= 2)
+        if result.length >= 2
           result.shift
         end
       else
@@ -505,7 +505,7 @@ module Readline
   class Ucomp
     def self.call(str)
       matches = RbReadline.rl_completion_matches(str, :rl_username_completion_function)
-      if (matches)
+      if matches
         result = []
         i = 0
         while(matches[i])
@@ -514,7 +514,7 @@ module Readline
           i += 1
         end
         matches = nil
-        if (result.length >= 2)
+        if result.length >= 2
           result.shift
         end
       else
