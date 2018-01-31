@@ -337,9 +337,7 @@ class ConfigTable
       true
     end
 
-    def value
-      @value
-    end
+    attr_reader :value
 
     def resolve(table)
       @value.gsub(%r{\$([^/]+)}) { table[Regexp.last_match(1)] }
