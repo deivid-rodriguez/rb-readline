@@ -1048,7 +1048,7 @@ class ToplevelInstallerMulti < ToplevelInstaller
     without = extract_selection(config("without"))
     @selected = @installers.keys.select do |name|
                   (with.empty? || with.include?(name)) \
-                      && (not without.include?(name))
+                      && (!without.include?(name))
     end
   end
 
