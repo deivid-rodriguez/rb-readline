@@ -881,7 +881,7 @@ class ToplevelInstaller
 
   def parsearg_no_options
     unless ARGV.empty?
-      task = caller(0).first.slice(%r{`parsearg_(\w+)'}, 1)
+      task = caller(0).first.slice(/`parsearg_(\w+)'/, 1)
       setup_rb_error "#{task}: unknown options: #{ARGV.join(' ')}"
     end
   end
