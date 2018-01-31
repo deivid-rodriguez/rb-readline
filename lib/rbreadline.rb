@@ -1821,7 +1821,6 @@ module RbReadline
   #   values of $LINES and $COLUMNS.  The tests for TERM_STRING_BUFFER being
   #   non-null serve to check whether or not we have initialized termcap.
   def _rl_get_screen_size(_tty, ignore_env)
-
     if @hConsoleHandle
       csbi = Fiddle::Pointer.malloc(24)
       @GetConsoleScreenBufferInfo.Call(@hConsoleHandle, csbi)
@@ -2028,7 +2027,6 @@ module RbReadline
   end
 
   def _rl_init_eightbit
-
   end
 
   # Do key bindings from a file.  If FILENAME is NULL it defaults
@@ -2179,7 +2177,6 @@ module RbReadline
   # Handle a parser directive.  STATEMENT is the line of the directive
   #   without any leading `$'.
   def handle_parser_directive(statement)
-
     directive, args = statement.split(" ")
 
     case directive.downcase
@@ -2394,7 +2391,6 @@ module RbReadline
   #   a variable binding command looks like: set variable value.
   #   A new-style keybinding looks like "\C-x\C-x": exchange-point-and-mark.
   def rl_parse_and_bind(string)
-
     # If this is a parser directive, act on it.
     if string[0, 1] == "$"
       handle_parser_directive(string[1..-1])
@@ -4801,7 +4797,6 @@ module RbReadline
   # Delete the string between FROM and TO.  FROM is inclusive, TO is not.
   #   Returns the number of characters deleted.
   def rl_delete_text(from, to)
-
     # Fix it if the caller is confused.
     from, to = to, from if from > to
 
@@ -5404,7 +5399,6 @@ module RbReadline
   #   If C introduces a multibyte character sequence, read the entire sequence
   #   before starting the overwrite loop.
   def _rl_overwrite_char(count, c)
-
     # Read an entire multibyte character sequence to insert COUNT times.
     if count > 0 && !@rl_byte_oriented
       mbkey = ""
@@ -8234,7 +8228,6 @@ module RbReadline
   #   if point is invalied (point < 0 || more than string length),
   #   it returns -1
   def _rl_adjust_point(string, point)
-
     length = string.length
     return -1 if point < 0
     return -1 if length < point
