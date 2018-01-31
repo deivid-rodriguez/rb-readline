@@ -1380,9 +1380,9 @@ module RbReadline
         #     check against the list of matches
         #  FI
         if @rl_filename_completion_desired &&
-            @rl_filename_dequoting_function &&
-            @rl_completion_found_quote &&
-            @rl_filename_quoting_desired
+           @rl_filename_dequoting_function &&
+           @rl_completion_found_quote &&
+           @rl_filename_quoting_desired
 
           dtext = send(@rl_filename_dequoting_function, text, @rl_completion_quote_character)
           text = dtext
@@ -1555,7 +1555,7 @@ module RbReadline
         end
 
     if dpos == 0 || cr_faster(dpos, @_rl_last_c_pos) ||
-        (@_rl_term_autowrap && i == @_rl_screenwidth)
+       (@_rl_term_autowrap && i == @_rl_screenwidth)
       @rl_outstream.write(@_rl_term_cr)
       cpos = @_rl_last_c_pos = 0
     end
@@ -2676,7 +2676,7 @@ module RbReadline
       @_rl_last_c_pos - w_offset(@_rl_last_v_pos, @visible_wrap_offset)
            end
     if temp == @_rl_screenwidth && @_rl_term_autowrap && !@_rl_horizontal_scroll_mode &&
-        @_rl_last_v_pos == current_line - 1
+       @_rl_last_v_pos == current_line - 1
 
       if !@rl_byte_oriented
         # This fixes only double-column characters, but if the wrapped
@@ -2882,8 +2882,8 @@ module RbReadline
     lendiff = @local_prompt_len
 
     if current_line == 0 && !@_rl_horizontal_scroll_mode &&
-        @_rl_term_cr && lendiff > @prompt_visible_length && @_rl_last_c_pos > 0 &&
-        ofd >= lendiff && @_rl_last_c_pos < prompt_ending_index
+       @_rl_term_cr && lendiff > @prompt_visible_length && @_rl_last_c_pos > 0 &&
+       ofd >= lendiff && @_rl_last_c_pos < prompt_ending_index
       @rl_outstream.write(@_rl_term_cr)
       _rl_output_some_chars(@local_prompt, 0, lendiff)
       if !@rl_byte_oriented
@@ -2907,8 +2907,8 @@ module RbReadline
     # of invisible characters in the prompt string.  Let's see if setting this
     # when we make sure we're at the end of the drawn prompt string works.
     if current_line == 0 && !@rl_byte_oriented &&
-        (@_rl_last_c_pos > 0 || o_cpos > 0) &&
-        @_rl_last_c_pos == @prompt_physical_chars
+       (@_rl_last_c_pos > 0 || o_cpos > 0) &&
+       @_rl_last_c_pos == @prompt_physical_chars
       @cpos_adjusted = true
     end
 
@@ -2927,7 +2927,7 @@ module RbReadline
     #   the spot of first difference is before the end of the invisible chars,
     #   lendiff needs to be adjusted.
     if current_line == 0 && !@_rl_horizontal_scroll_mode &&
-        current_invis_chars != @visible_wrap_offset
+       current_invis_chars != @visible_wrap_offset
       if !@rl_byte_oriented
         lendiff += @visible_wrap_offset - current_invis_chars
         col_lendiff += @visible_wrap_offset - current_invis_chars
@@ -3028,7 +3028,7 @@ module RbReadline
         #   prompt string, don't bother.  It screws up the assumptions
         #   about what's on the screen.
         if @_rl_horizontal_scroll_mode && @_rl_last_c_pos == 0 &&
-            -lendiff == @visible_wrap_offset
+           -lendiff == @visible_wrap_offset
           col_lendiff = 0
         end
 
@@ -3506,10 +3506,10 @@ module RbReadline
                       vis_llen(linenum), inv_llen(linenum), inv_botlin)
 
           if linenum == 0 && !@rl_byte_oriented &&
-              !@cpos_adjusted &&
-              @_rl_last_c_pos != o_cpos &&
-              @_rl_last_c_pos > @wrap_offset &&
-              o_cpos < @prompt_last_invisible
+             !@cpos_adjusted &&
+             @_rl_last_c_pos != o_cpos &&
+             @_rl_last_c_pos > @wrap_offset &&
+             o_cpos < @prompt_last_invisible
             @_rl_last_c_pos -= @wrap_offset
           end
 
@@ -3520,9 +3520,9 @@ module RbReadline
           # and the new line is shorter than the old.  Make sure we are
           # at the end of the new line before clearing.
           if linenum == 0 &&
-              inv_botlin == 0 && @_rl_last_c_pos == out &&
-              (@wrap_offset > @visible_wrap_offset) &&
-              (@_rl_last_c_pos < @visible_first_line_len)
+             inv_botlin == 0 && @_rl_last_c_pos == out &&
+             (@wrap_offset > @visible_wrap_offset) &&
+             (@_rl_last_c_pos < @visible_first_line_len)
             nleft = if !@rl_byte_oriented
                       @_rl_screenwidth - @_rl_last_c_pos
             else
@@ -3572,7 +3572,7 @@ module RbReadline
         #   invisible character in the prompt string.
         nleft = @prompt_visible_length + @wrap_offset
         if cursor_linenum == 0 && @wrap_offset > 0 && @_rl_last_c_pos > 0 &&
-            @_rl_last_c_pos < prompt_ending_index && @local_prompt
+           @_rl_last_c_pos < prompt_ending_index && @local_prompt
           @rl_outstream.write(@_rl_term_cr) if @_rl_term_cr
           _rl_output_some_chars(@local_prompt, 0, nleft)
           @_rl_last_c_pos = if !@rl_byte_oriented
@@ -3683,8 +3683,8 @@ module RbReadline
         #   the new line, we need to clear to eol.
         t = @_rl_last_c_pos - m_offset(lmargin, @wrap_offset)
         if (m_offset(lmargin, @wrap_offset) > @visible_wrap_offset) &&
-            (@_rl_last_c_pos == out) &&
-            t < @visible_first_line_len
+           (@_rl_last_c_pos == out) &&
+           t < @visible_first_line_len
 
           nleft = @_rl_screenwidth - t
           _rl_clear_to_eol(nleft)
@@ -4597,7 +4597,7 @@ module RbReadline
     # If the application writer has told us to erase the entire line if
     #   the only character typed was something bound to rl_newline, do so.
     if @rl_erase_empty_line && @rl_done && @rl_last_func == :rl_newline &&
-        @rl_point == 0 && @rl_end == 0
+       @rl_point == 0 && @rl_end == 0
       _rl_erase_entire_line
     end
   end
@@ -4759,10 +4759,10 @@ module RbReadline
     unless @_rl_doing_an_undo
       # If possible and desirable, concatenate the undos.
       if (l == 1) &&
-          @rl_undo_list &&
-          (@rl_undo_list.what == UNDO_INSERT) &&
-          (@rl_undo_list.end == @rl_point) &&
-          (@rl_undo_list.end - @rl_undo_list.start < 20)
+         @rl_undo_list &&
+         (@rl_undo_list.what == UNDO_INSERT) &&
+         (@rl_undo_list.end == @rl_point) &&
+         (@rl_undo_list.end - @rl_undo_list.start < 20)
         @rl_undo_list.end += 1
       else
         rl_add_undo(UNDO_INSERT, @rl_point, @rl_point + l, nil)
@@ -5503,7 +5503,7 @@ module RbReadline
     # If the cursor is the only thing on an otherwise-blank last line,
     #   compensate so we don't print an extra CRLF.
     if @_rl_vis_botlin && @_rl_last_c_pos == 0 &&
-        @visible_line[@vis_lbreaks[@_rl_vis_botlin], 1] == 0.chr
+       @visible_line[@vis_lbreaks[@_rl_vis_botlin], 1] == 0.chr
       @_rl_vis_botlin -= 1
       full_lines = true
     end
@@ -6007,7 +6007,7 @@ module RbReadline
         # Call the application-specific function to tell us whether
         #   this word break character is quoted and should be skipped.
         if @rl_char_is_quoted_p && found_quote != 0 &&
-            send(@rl_char_is_quoted_p, @rl_line_buffer, @rl_point)
+           send(@rl_char_is_quoted_p, @rl_line_buffer, @rl_point)
           next
         end
 
@@ -6029,7 +6029,7 @@ module RbReadline
       isbrk = if @rl_char_is_quoted_p
                 (found_quote == 0 ||
                          !send(@rl_char_is_quoted_p, @rl_line_buffer, @rl_point)) &&
-                         brkchars.include?(scan)
+                  brkchars.include?(scan)
       else
         brkchars.include?(scan)
               end
@@ -6038,8 +6038,8 @@ module RbReadline
         # If the character that caused the word break was a quoting
         #   character, then remember it as the delimiter.
         if @rl_basic_quote_characters &&
-            @rl_basic_quote_characters.include?(scan) &&
-            (_end - @rl_point) > 1
+           @rl_basic_quote_characters.include?(scan) &&
+           (_end - @rl_point) > 1
           delimiter = scan
         end
 
@@ -6157,8 +6157,8 @@ module RbReadline
     replacement = match
 
     should_quote = match && @rl_completer_quote_characters &&
-      @rl_filename_completion_desired &&
-      @rl_filename_quoting_desired
+                   @rl_filename_completion_desired &&
+                   @rl_filename_quoting_desired
 
     if should_quote
       should_quote = should_quote && (qc.nil? || qc == 0.chr ||
@@ -6193,12 +6193,12 @@ module RbReadline
     if replacement
       # Don't double an opening quote character.
       if qc && !qc.empty? && start != 0 && @rl_line_buffer[start - 1, 1] == qc &&
-          replacement[0, 1] == qc
+         replacement[0, 1] == qc
         start -= 1
         # If make_quoted_replacement changed the quoting character, remove
         # the opening quote and insert the (fully-quoted) replacement.
       elsif qc && (qc != oqc) && start != 0 && @rl_line_buffer[start - 1, 1] == oqc &&
-             replacement[0, 1] != oqc
+            replacement[0, 1] != oqc
         start -= 1
       end
       _rl_replace_text(replacement, start, @rl_point - 1)
@@ -7147,7 +7147,7 @@ module RbReadline
   #   yank back some other text.
   def rl_yank_pop(_count, _key)
     if ((@rl_last_func != :rl_yank_pop) && (@rl_last_func != :rl_yank)) ||
-        @rl_kill_ring.nil?
+       @rl_kill_ring.nil?
       _rl_abort_internal
       return -1
     end
@@ -8094,7 +8094,7 @@ module RbReadline
     temp_string = 0.chr * 4
     temp_string_index = 0
     if quote_char && @rl_point > 0 && !@rl_completion_suppress_quote &&
-        @rl_line_buffer[@rl_point - 1, 1] != quote_char
+       @rl_line_buffer[@rl_point - 1, 1] != quote_char
       temp_string[temp_string_index] = quote_char
       temp_string_index += 1
     end

@@ -155,14 +155,14 @@ module Readline
         if case_fold
           si = 0
           while (c1 = result[i][si, 1].downcase) &&
-                 (c2 = result[i + 1][si, 1].downcase)
+                (c2 = result[i + 1][si, 1].downcase)
             break if c1 != c2
             si += 1
           end
         else
           si = 0
           while (c1 = result[i][si, 1]) &&
-                 (c2 = result[i + 1][si, 1])
+                (c2 = result[i + 1][si, 1])
             break if c1 != c2
             si += 1
           end
