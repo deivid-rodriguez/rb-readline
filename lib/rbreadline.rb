@@ -1544,11 +1544,11 @@ module RbReadline
     # It may be faster to output a CR, and then move forwards instead
     #   of moving backwards.
     # i == current physical cursor position.
-    if !@rl_byte_oriented
-      i = @_rl_last_c_pos
+    i = if !@rl_byte_oriented
+      @_rl_last_c_pos
     else
-      i = @_rl_last_c_pos - woff
-    end
+      @_rl_last_c_pos - woff
+        end
 
     if dpos == 0 || cr_faster(dpos, @_rl_last_c_pos) ||
         (@_rl_term_autowrap && i == @_rl_screenwidth)
@@ -2114,13 +2114,13 @@ module RbReadline
       # `$if term=sun-cmd' into their .inputrc.
       @_rl_parsing_conditionalized_out = (args[5..-1] != tname && args[5..-1] != @rl_terminal_name.downcase)
     elsif args =~ /^mode=/
-      if args[5..-1] == "emacs"
-        mode = @emacs_mode
+      mode = if args[5..-1] == "emacs"
+        @emacs_mode
       elsif args[5..-1] == "vi"
-        mode = @vi_mode
+        @vi_mode
       else
-        mode = @no_mode
-      end
+        @no_mode
+             end
     @_rl_parsing_conditionalized_out = (mode != @rl_editing_mode)
     # Check to see if the first word in ARGS is the same as the
     #   value stored in rl_readline_name.
@@ -2669,11 +2669,11 @@ module RbReadline
       new.force_encoding("ASCII-8BIT")
     end
 
-    if !@rl_byte_oriented
-      temp = @_rl_last_c_pos
+    temp = if !@rl_byte_oriented
+      @_rl_last_c_pos
     else
-      temp = @_rl_last_c_pos - w_offset(@_rl_last_v_pos, @visible_wrap_offset)
-    end
+      @_rl_last_c_pos - w_offset(@_rl_last_v_pos, @visible_wrap_offset)
+           end
     if temp == @_rl_screenwidth && @_rl_term_autowrap && !@_rl_horizontal_scroll_mode &&
         @_rl_last_v_pos == current_line - 1
 
@@ -2916,11 +2916,11 @@ module RbReadline
     #   col_lendiff == difference on screen
     #   When not using multibyte characters, these are equal
     lendiff = (nls - nfd) - (ols - ofd)
-    if !@rl_byte_oriented
-      col_lendiff = _rl_col_width(new, nfd, nls) - _rl_col_width(old, ostart + ofd, ostart + ols)
+    col_lendiff = if !@rl_byte_oriented
+      _rl_col_width(new, nfd, nls) - _rl_col_width(old, ostart + ofd, ostart + ols)
     else
-      col_lendiff = lendiff
-    end
+      lendiff
+                  end
 
     # If we are changing the number of invisible characters in a line, and
     #   the spot of first difference is before the end of the invisible chars,
@@ -2938,11 +2938,11 @@ module RbReadline
 
     # Insert (diff (len (old), len (new)) ch.
     temp = ne - nfd
-    if !@rl_byte_oriented
-      col_temp = _rl_col_width(new, nfd, ne)
+    col_temp = if !@rl_byte_oriented
+      _rl_col_width(new, nfd, ne)
     else
-      col_temp = temp
-    end
+      temp
+               end
     if col_lendiff > 0 # XXX - was lendiff
 
       # Non-zero if we're increasing the number of lines.
@@ -3070,11 +3070,11 @@ module RbReadline
         end
 
         lendiff = oe - ne
-        if !@rl_byte_oriented
-          col_lendiff = _rl_col_width(old, ostart, ostart + oe) - _rl_col_width(new, 0, ne)
+        col_lendiff = if !@rl_byte_oriented
+          _rl_col_width(old, ostart, ostart + oe) - _rl_col_width(new, 0, ne)
         else
-          col_lendiff = lendiff
-        end
+          lendiff
+                      end
 
         if col_lendiff != 0
           if @_rl_term_autowrap && current_line < inv_botlin
@@ -3248,11 +3248,11 @@ module RbReadline
                                             (newlines == 0 ? @wrap_offset : 0))
 
       @inv_lbreaks[newlines += 1] = temp
-      if !@rl_byte_oriented
-        lpos -= _rl_col_width(@local_prompt, n0, num)
+      lpos -= if !@rl_byte_oriented
+        _rl_col_width(@local_prompt, n0, num)
       else
-        lpos -= @_rl_screenwidth
-      end
+        @_rl_screenwidth
+              end
     end
     @prompt_last_screen_line = newlines
 
@@ -3290,14 +3290,14 @@ module RbReadline
         break
       end
       if !@rl_byte_oriented
-        case @encoding
+        wc_width = case @encoding
         when "U"
-          wc_width = wc && wc.unpack("U").first >= 0x1000 ? 2 : 1
+          wc && wc.unpack("U").first >= 0x1000 ? 2 : 1
         when "X"
-          wc_width = wc && wc.ord > 0x1000 ? 2 : 1
+          wc && wc.ord > 0x1000 ? 2 : 1
         else
-          wc_width = wc ? wc.length : 1
-        end
+          wc ? wc.length : 1
+                   end
       end
       if out + 8 >= @line_size # XXX - 8 for \t
         @line_size *= 2
@@ -3483,11 +3483,11 @@ module RbReadline
         #   only display a screenful.  We should display the last screen,
         #   not the first.
         if out >= @_rl_screenchars
-          if !@rl_byte_oriented
-            out = _rl_find_prev_mbchar(line, @_rl_screenchars, MB_FIND_ANY)
+          out = if !@rl_byte_oriented
+            _rl_find_prev_mbchar(line, @_rl_screenchars, MB_FIND_ANY)
           else
-            out = @_rl_screenchars - 1
-          end
+            @_rl_screenchars - 1
+                end
         end
 
         # The first line is at character position 0 in the buffer.  The
@@ -3522,11 +3522,11 @@ module RbReadline
               inv_botlin == 0 && @_rl_last_c_pos == out &&
               (@wrap_offset > @visible_wrap_offset) &&
               (@_rl_last_c_pos < @visible_first_line_len)
-            if !@rl_byte_oriented
-              nleft = @_rl_screenwidth - @_rl_last_c_pos
+            nleft = if !@rl_byte_oriented
+              @_rl_screenwidth - @_rl_last_c_pos
             else
-              nleft = @_rl_screenwidth + @wrap_offset - @_rl_last_c_pos
-            end
+              @_rl_screenwidth + @wrap_offset - @_rl_last_c_pos
+                    end
             _rl_clear_to_eol(nleft) if nleft != 0
           end
 
@@ -3574,11 +3574,11 @@ module RbReadline
             @_rl_last_c_pos < prompt_ending_index && @local_prompt
           @rl_outstream.write(@_rl_term_cr) if @_rl_term_cr
           _rl_output_some_chars(@local_prompt, 0, nleft)
-          if !@rl_byte_oriented
-            @_rl_last_c_pos = _rl_col_width(@local_prompt, 0, nleft) - @wrap_offset
+          @_rl_last_c_pos = if !@rl_byte_oriented
+            _rl_col_width(@local_prompt, 0, nleft) - @wrap_offset
           else
-            @_rl_last_c_pos = nleft
-          end
+            nleft
+                            end
         end
 
         # Where on that line?  And where does that line start
@@ -3599,11 +3599,11 @@ module RbReadline
 
         if @wrap_offset != 0 && cursor_linenum == 0 && nleft < @_rl_last_c_pos
           # TX == new physical cursor position in multibyte locale.
-          if !@rl_byte_oriented
-            tx = _rl_col_width(@visible_line, pos, pos + nleft) - @visible_wrap_offset
+          tx = if !@rl_byte_oriented
+            _rl_col_width(@visible_line, pos, pos + nleft) - @visible_wrap_offset
           else
-            tx = nleft
-          end
+            nleft
+               end
           if tx >= 0 && @_rl_last_c_pos > tx
             _rl_backspace(@_rl_last_c_pos - tx) # XXX
             @_rl_last_c_pos = tx
@@ -3706,11 +3706,11 @@ module RbReadline
     # If we are displaying on a single line, and last_lmargin is > 0, we
     #   are not displaying any invisible characters, so set visible_wrap_offset
     #   to 0.
-    if @_rl_horizontal_scroll_mode && @last_lmargin != 0
-      @visible_wrap_offset = 0
+    @visible_wrap_offset = if @_rl_horizontal_scroll_mode && @last_lmargin != 0
+      0
     else
-      @visible_wrap_offset = @wrap_offset
-    end
+      @wrap_offset
+                           end
   end
 
   def rl_line_buffer
@@ -3835,17 +3835,17 @@ module RbReadline
 
     # If the prompt contains newlines, take the last tail.
     prompt_last_line = rl_prompt.rindex("\n")
-    if prompt_last_line.nil?
-      prompt_last_line = @rl_prompt
+    prompt_last_line = if prompt_last_line.nil?
+      @rl_prompt
     else
-      prompt_last_line = @rl_prompt[prompt_last_line..-1]
-    end
+      @rl_prompt[prompt_last_line..-1]
+                       end
     l = prompt_last_line.length
-    if !@rl_byte_oriented
-      @_rl_last_c_pos = _rl_col_width(prompt_last_line, 0, l)
+    @_rl_last_c_pos = if !@rl_byte_oriented
+      _rl_col_width(prompt_last_line, 0, l)
     else
-      @_rl_last_c_pos = l
-    end
+      l
+                      end
 
     # Dissect prompt_last_line into screen lines. Note that here we have
     #   to use the real screenwidth. Readline's notion of screenwidth might be
@@ -4073,19 +4073,19 @@ module RbReadline
         if !_rl_walphabetic(cval)
           rl_ding
         else
-          if !@rl_byte_oriented
-            n = _rl_find_next_mbchar(@rl_line_buffer, wstart, 1, MB_FIND_NONZERO)
+          n = if !@rl_byte_oriented
+            _rl_find_next_mbchar(@rl_line_buffer, wstart, 1, MB_FIND_NONZERO)
           else
-            n = wstart + 1
-          end
+            wstart + 1
+              end
           while n < @rl_end
             cval = _rl_char_value(@rl_line_buffer, n)
             break if !_rl_walphabetic(cval)
-            if !@rl_byte_oriented
-              n = _rl_find_next_mbchar(@rl_line_buffer, n, 1, MB_FIND_NONZERO)
+            n = if !@rl_byte_oriented
+              _rl_find_next_mbchar(@rl_line_buffer, n, 1, MB_FIND_NONZERO)
             else
-              n = n + 1
-            end
+              n + 1
+                end
           end
           wlen = n - wstart + 1
           if cxt.search_string_index + wlen + 1 >= cxt.search_string_size
@@ -4216,11 +4216,11 @@ module RbReadline
     #   history lines at all, so put point back in its original position.
     if cxt.sline_index < 0
 
-      if cxt.last_found_line == cxt.save_line
-        cxt.sline_index = cxt.save_point
+      cxt.sline_index = if cxt.last_found_line == cxt.save_line
+        cxt.save_point
       else
-        cxt.sline_index = @rl_line_buffer.delete(0.chr).length
-      end
+        @rl_line_buffer.delete(0.chr).length
+                        end
       @rl_mark = cxt.save_mark
     end
 
@@ -4400,15 +4400,15 @@ module RbReadline
 
   rescue LoadError # If we're not on Windows try...
 
-    if ENV["LANG"] =~ /\.UTF-8/
-      @encoding = "U"
+    @encoding = if ENV["LANG"] =~ /\.UTF-8/
+      "U"
     elsif ENV["LANG"] =~ /\.EUC/
-      @encoding = "E"
+      "E"
     elsif ENV["LANG"] =~ /\.SHIFT/
-      @encoding = "S"
+      "S"
     else
-      @encoding = "N"
-    end
+      "N"
+                end
 
     def rl_getc(stream)
       begin
@@ -5119,17 +5119,17 @@ module RbReadline
   def _rl_current_display_line
     # Find out whether or not there might be invisible characters in the
     #   editing buffer.
-    if @rl_display_prompt == @rl_prompt
-      nleft = @_rl_last_c_pos - @_rl_screenwidth - @rl_visible_prompt_length
+    nleft = if @rl_display_prompt == @rl_prompt
+      @_rl_last_c_pos - @_rl_screenwidth - @rl_visible_prompt_length
     else
-      nleft = @_rl_last_c_pos - @_rl_screenwidth
-    end
+      @_rl_last_c_pos - @_rl_screenwidth
+            end
 
-    if nleft > 0
-      ret = 1 + nleft / @_rl_screenwidth
+    ret = if nleft > 0
+      1 + nleft / @_rl_screenwidth
     else
-      ret = 0
-    end
+      0
+          end
 
     ret
   end
@@ -5670,11 +5670,11 @@ module RbReadline
       rl_kill_text(xpoint, @rl_point)
       @rl_point = xpoint
     else
-      if !@rl_byte_oriented
-        xpoint = _rl_find_next_mbchar(@rl_line_buffer, @rl_point, 1, MB_FIND_NONZERO)
+      xpoint = if !@rl_byte_oriented
+        _rl_find_next_mbchar(@rl_line_buffer, @rl_point, 1, MB_FIND_NONZERO)
       else
-        xpoint = @rl_point + 1
-      end
+        @rl_point + 1
+               end
 
       rl_delete_text(@rl_point, xpoint)
     end
@@ -5713,11 +5713,11 @@ module RbReadline
     if @_rl_last_command_was_kill && @rl_editing_mode != @vi_mode
       old = @rl_kill_ring[slot]
 
-      if append
-        new = old + text
+      new = if append
+        old + text
       else
-        new = text + old
-      end
+        text + old
+            end
       old = nil
       text = nil
       @rl_kill_ring[slot] = new
@@ -5985,13 +5985,13 @@ module RbReadline
           quote_char = @rl_line_buffer[scan, 1]
           @rl_point = scan + 1
           # Shell-like quoting conventions.
-          if quote_char == "'"
-            found_quote |= RL_QF_SINGLE_QUOTE
+          found_quote |= if quote_char == "'"
+            RL_QF_SINGLE_QUOTE
           elsif quote_char == '"'
-            found_quote |= RL_QF_DOUBLE_QUOTE
+            RL_QF_DOUBLE_QUOTE
           else
-            found_quote |= RL_QF_OTHER_QUOTE
-          end
+            RL_QF_OTHER_QUOTE
+                         end
         end
       end
     end
@@ -6029,13 +6029,13 @@ module RbReadline
     #   if it is found in rl_completer_word_break_characters.  Don't bother
     #   if we're at the end of the line, though.
     if scan != 0.chr
-      if @rl_char_is_quoted_p
-        isbrk = (found_quote == 0 ||
+      isbrk = if @rl_char_is_quoted_p
+        (found_quote == 0 ||
                  !send(@rl_char_is_quoted_p, @rl_line_buffer, @rl_point)) &&
                  brkchars.include?(scan)
       else
-        isbrk = brkchars.include?(scan)
-      end
+        brkchars.include?(scan)
+              end
 
       if isbrk
         # If the character that caused the word break was a quoting
@@ -6228,18 +6228,18 @@ module RbReadline
   def fnprint(to_print)
     printed_len = 0
 
-    case @encoding
+    arr = case @encoding
     when "E"
-      arr = to_print.scan(/./me)
+      to_print.scan(/./me)
     when "S"
-      arr = to_print.scan(/./ms)
+      to_print.scan(/./ms)
     when "U"
-      arr = to_print.scan(/./mu)
+      to_print.scan(/./mu)
     when "X"
-      arr = to_print.dup.force_encoding(@encoding_name).chars
+      to_print.dup.force_encoding(@encoding_name).chars
     else
-      arr = to_print.scan(/./m)
-    end
+      to_print.scan(/./m)
+          end
 
     arr.each do |s|
       if(ctrl_char(s))
@@ -6250,13 +6250,13 @@ module RbReadline
         printed_len += 2
       else
         @rl_outstream.write(s)
-        if @encoding == "U"
-          printed_len += s.unpack("U").first >= 0x1000 ? 2 : 1
+        printed_len += if @encoding == "U"
+          s.unpack("U").first >= 0x1000 ? 2 : 1
         elsif @encoding == "X"
-          printed_len += s.ord >= 0x1000 ? 2 : 1
+          s.ord >= 0x1000 ? 2 : 1
         else
-          printed_len += s.length
-        end
+          s.length
+                       end
       end
 
     end
@@ -6316,11 +6316,11 @@ module RbReadline
       # name before checking for the stat character.
       if to_print != full_pathname
 
-        if full_pathname.nil? || full_pathname.length == 0
-          dn = "/"
+        dn = if full_pathname.nil? || full_pathname.length == 0
+          "/"
         else
-          dn = File.dirname(full_pathname)
-        end
+          File.dirname(full_pathname)
+             end
         s = File.expand_path(dn)
         send(@rl_directory_completion_hook, s) if @rl_directory_completion_hook
 
@@ -7233,11 +7233,11 @@ module RbReadline
       @history_skip = 0 if @history_skip < 0
     end
 
-    if @explicit_arg_p
-      retval = rl_yank_nth_arg_internal(@count_passed, key, @history_skip)
+    retval = if @explicit_arg_p
+      rl_yank_nth_arg_internal(@count_passed, key, @history_skip)
     else
-      retval = rl_yank_nth_arg_internal("$", key, @history_skip)
-    end
+      rl_yank_nth_arg_internal("$", key, @history_skip)
+             end
     @undo_needed = retval == 0
     retval
   end
@@ -7288,11 +7288,11 @@ module RbReadline
       begin
         if _rl_is_mbchar_matched(@rl_line_buffer, pos, @rl_end, smbchar, len) != 0
           count -= 1
-          if dir < 0
-            @rl_point = dir == BTO ? pos + 1 : pos
+          @rl_point = if dir < 0
+            dir == BTO ? pos + 1 : pos
           else
-            @rl_point = dir == FTO ? pos - 1 : pos
-          end
+            dir == FTO ? pos - 1 : pos
+                      end
           break
         end
         prepos = pos
@@ -7631,11 +7631,11 @@ module RbReadline
     while start < _end
       c = _rl_char_value(@rl_line_buffer, start)
       #  This assumes that the upper and lower case versions are the same width.
-      if !@rl_byte_oriented
-        _next = _rl_find_next_mbchar(@rl_line_buffer, start, 1, MB_FIND_NONZERO)
+      _next = if !@rl_byte_oriented
+        _rl_find_next_mbchar(@rl_line_buffer, start, 1, MB_FIND_NONZERO)
       else
-        _next = start + 1
-      end
+        start + 1
+              end
 
       if !_rl_walphabetic(c)
         inword = false
@@ -7759,11 +7759,11 @@ module RbReadline
     return -1 if history_set_pos(pos) == 0
 
     rl_setstate(RL_STATE_SEARCH)
-    if string[0, 1] == "^"
-      ret = history_search_prefix(string + 1, dir)
+    ret = if string[0, 1] == "^"
+      history_search_prefix(string + 1, dir)
     else
-      ret = history_search(string, dir)
-    end
+      history_search(string, dir)
+          end
     rl_unsetstate(RL_STATE_SEARCH)
 
     ret = where_history if ret != -1
@@ -7812,11 +7812,11 @@ module RbReadline
     _p = @rl_prompt ? @rl_prompt.rindex("\n") : nil
     if _p.nil?
       len = @rl_prompt && @rl_prompt.length > 0  ? @rl_prompt.length : 0
-      if len > 0
-        pmt = @rl_prompt.dup
+      pmt = if len > 0
+        @rl_prompt.dup
       else
-        pmt = ""
-      end
+        ""
+            end
       pmt << pchar
     else
       _p += 1

@@ -188,11 +188,11 @@ class ConfigTable
       path.sub(/\A#{Regexp.quote(c['prefix'])}/, "$prefix")
     }
 
-    if arg = c["configure_args"].split.detect { |arg| /--with-make-prog=/ =~ arg }
-      makeprog = arg.sub(/'/, "").split(/=/, 2)[1]
+    makeprog = if arg = c["configure_args"].split.detect { |arg| /--with-make-prog=/ =~ arg }
+      arg.sub(/'/, "").split(/=/, 2)[1]
     else
-      makeprog = "make"
-    end
+      "make"
+               end
 
     [
       ExecItem.new("installdirs", "std/site/home",
