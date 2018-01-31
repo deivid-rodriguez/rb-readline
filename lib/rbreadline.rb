@@ -1298,7 +1298,7 @@ module RbReadline
     else # There were no matches.
       match_list = nil
     end
-    return match_list
+    match_list
   end
 
   def _rl_to_lower(char)
@@ -1409,7 +1409,7 @@ module RbReadline
       end
     end
 
-    return matches
+    matches
   end
 
 
@@ -1719,7 +1719,7 @@ module RbReadline
     lip = last
     niflp = invfl
     vlp = physchars
-    return [ret, lp, lip, niflp, vlp]
+    [ret, lp, lip, niflp, vlp]
   end
 
 
@@ -2010,7 +2010,7 @@ module RbReadline
     bind_termcap_arrow_keys(@vi_movement_keymap)
     bind_termcap_arrow_keys(@vi_insertion_keymap)
 
-    return 0
+    0
   end
 
   # New public way to set the system default editing chars to their readline
@@ -2062,7 +2062,7 @@ module RbReadline
       return 0 if _rl_read_init_file(filename, 0) == 0
       filename = "~/_inputrc"
     end
-    return _rl_read_init_file(filename, 0)
+    _rl_read_init_file(filename, 0)
   end
 
   def _rl_read_init_file(filename, include_level)
@@ -2096,7 +2096,7 @@ module RbReadline
       rl_parse_and_bind(line)
     end
 
-    return 0
+    0
   end
 
   # Push _rl_parsing_conditionalized_out, and set parser state based
@@ -2138,7 +2138,7 @@ module RbReadline
     else
       @_rl_parsing_conditionalized_out = true
     end
-    return 0
+    0
   end
 
   # Invert the current parser state if there is anything on the stack.
@@ -2154,7 +2154,7 @@ module RbReadline
 
     # Invert the state of parsing if at top level.
     @_rl_parsing_conditionalized_out = !@_rl_parsing_conditionalized_out
-    return 0
+    0
   end
 
   # Terminate a conditional, popping the value of
@@ -2181,7 +2181,7 @@ module RbReadline
     @current_readline_init_lineno = old_line_number
     @current_readline_init_include_level = old_include_level
 
-    return r
+    r
   end
 
   # Handle a parser directive.  STATEMENT is the line of the directive
@@ -2206,7 +2206,7 @@ module RbReadline
     end
 
     # _rl_init_file_error("unknown parser directive")
-    return 1
+    1
   end
 
 
@@ -2603,7 +2603,7 @@ module RbReadline
   # Return the history entry at the current position, as determined by
   #   history_offset.  If there is no entry there, return a NULL pointer.
   def current_history
-    return ((@history_offset == @history_length) || @the_history.nil?) ? nil : @the_history[@history_offset]
+    ((@history_offset == @history_length) || @the_history.nil?) ? nil : @the_history[@history_offset]
   end
 
   def meta_char(c)
@@ -3789,11 +3789,11 @@ module RbReadline
     # Each line starts in insert mode (the default).
     _rl_set_insert_mode(RL_IM_DEFAULT, 1)
 
-    return 0
+    0
   end
 
   def _rl_strip_prompt(pmt)
-    return expand_prompt(pmt).first
+    expand_prompt(pmt).first
   end
 
   def _rl_col_width(string, start, _end)
@@ -3886,7 +3886,7 @@ module RbReadline
 
     @rl_display_prompt = @rl_prompt # XXX - make sure it's set
 
-    return 0
+    0
   end
 
   def readline_internal_setup
@@ -3942,7 +3942,7 @@ module RbReadline
       end
       return 0
     end
-    return -1
+    -1
   end
 
   def _rl_search_getchar(cxt)
@@ -4260,7 +4260,7 @@ module RbReadline
   #   another key, and dispatch into that map.
   def _rl_dispatch(key, map)
     @_rl_dispatching_keymap = map
-    return _rl_dispatch_subseq(key, map, false)
+    _rl_dispatch_subseq(key, map, false)
   end
 
 
@@ -4309,7 +4309,7 @@ module RbReadline
     @push_index += 1
     @push_index = 0 if @push_index >= @ibuffer_len
 
-    return 1
+    1
   end
 
   begin
@@ -4412,7 +4412,7 @@ module RbReadline
       return 0 if(chars_avail <= 0)
       k = send(@rl_getc_function, @rl_instream)
       rl_stuff_char(k)
-      return 1
+      1
     end
 
   rescue LoadError # If we're not on Windows try...
@@ -4433,7 +4433,7 @@ module RbReadline
       rescue Errno::EINTR
         c = rl_getc(stream)
       end
-      return c ? c : EOF
+      c ? c : EOF
     end
 
     def rl_gather_tyi
@@ -4441,7 +4441,7 @@ module RbReadline
       return 0 if result.nil?
       k = send(@rl_getc_function, @rl_instream)
       rl_stuff_char(k)
-      return 1
+      1
     end
   end
 
@@ -4480,7 +4480,7 @@ module RbReadline
       end
     end
 
-    return c
+    c
   end
 
 
@@ -4488,9 +4488,9 @@ module RbReadline
   #   characters.
   def ibuffer_space
     if @pop_index > @push_index
-      return (@pop_index - @push_index - 1)
+      (@pop_index - @push_index - 1)
     else
-      return (@ibuffer_len - (@push_index - @pop_index))
+      (@ibuffer_len - (@push_index - @pop_index))
     end
   end
 
@@ -4504,7 +4504,7 @@ module RbReadline
 
     @pop_index = 0 if @pop_index >= @ibuffer_len
 
-    return key
+    key
   end
 
   # Stuff KEY into the *front* of the input buffer.
@@ -4517,7 +4517,7 @@ module RbReadline
       @ibuffer[@pop_index] = key
       return 1
     end
-    return 0
+    0
   end
 
   def _rl_subseq_getchar(key)
@@ -4527,7 +4527,7 @@ module RbReadline
     rl_unsetstate(RL_STATE_MOREINPUT)
     rl_unsetstate(RL_STATE_METANEXT) if key == ESC
 
-    return k
+    k
   end
 
   # Clear to the end of the line.  COUNT is the minimum
@@ -4577,7 +4577,7 @@ module RbReadline
   def rl_crlf
     @_rl_out_stream.write(@_rl_term_cr) if @_rl_term_cr
     @_rl_out_stream.write("\n")
-    return 0
+    0
   end
 
   # Move to the start of the current line.
@@ -4841,11 +4841,11 @@ module RbReadline
     end
     @rl_end -= diff
     @rl_line_buffer[@rl_end, 1] = 0.chr
-    return diff
+    diff
   end
 
   def rl_copy_text(from, to)
-    return @rl_line_buffer[from...to]
+    @rl_line_buffer[from...to]
   end
 
   # Fix up point so that it is within the line boundaries after killing
@@ -4956,7 +4956,7 @@ module RbReadline
     end
 
     @rl_end = 0 if @rl_end < 0
-    return 0
+    0
   end
 
   # Move forward COUNT characters.
@@ -5044,7 +5044,7 @@ module RbReadline
   def rl_alphabetic(c)
     return true if c =~ /\w/
 
-    return !!(@_rl_allow_pathname_alphabetic_chars &&
+    !!(@_rl_allow_pathname_alphabetic_chars &&
               @pathname_alphabetic_chars[c])
   end
 
@@ -5361,7 +5361,7 @@ module RbReadline
   end
 
   def _rl_any_typein
-    return (@push_index != @pop_index)
+    (@push_index != @pop_index)
   end
 
   def _rl_insert_typein(c)
@@ -5417,7 +5417,7 @@ module RbReadline
       rl_insert_text(incoming)
     end
 
-    return 0
+    0
   end
 
   # Overwrite the character at point (or next COUNT characters) with C.
@@ -5443,7 +5443,7 @@ module RbReadline
 
     rl_end_undo_group
 
-    return 0
+    0
   end
 
   def rl_insert(count, c)
@@ -5513,7 +5513,7 @@ module RbReadline
 
   # Is the command C a VI mode text modification command?
   def _rl_vi_textmod_command(c)
-    return @vi_textmod[c]
+    @vi_textmod[c]
   end
 
   def _rl_vi_reset_last
@@ -5585,7 +5585,7 @@ module RbReadline
     return (((pos | 7) + 1) - pos) if c == "\t"
     return 2 if ctrl_char(c) || c == RUBOUT
 
-    return (isprint(c) ? 1 : 2)
+    (isprint(c) ? 1 : 2)
   end
 
   # This is different from what vi does, so the code's not shared.  Emacs
@@ -5835,9 +5835,9 @@ module RbReadline
   #   to delete forward or backward that many characters.
   def rl_rubout_or_delete(count, key)
     if @rl_end != 0 && @rl_point == @rl_end
-      return _rl_rubout_char(count, key)
+      _rl_rubout_char(count, key)
     else
-      return rl_delete(count, key)
+      rl_delete(count, key)
     end
   end
 
@@ -5870,9 +5870,9 @@ module RbReadline
   #   delete-char-or-list-or-eof, as long as it's bound to the eof character.
   def rl_delete_or_show_completions(count, key)
     if @rl_end != 0 && @rl_point == @rl_end
-      return rl_possible_completions(count, key)
+      rl_possible_completions(count, key)
     else
-      return rl_delete(count, key)
+      rl_delete(count, key)
     end
   end
 
@@ -5904,7 +5904,7 @@ module RbReadline
     temp.data = nil
     temp.timestamp = ts
 
-    return temp
+    temp
   end
 
   def hist_inittime
@@ -6079,7 +6079,7 @@ module RbReadline
       end
     end
 
-    return [quote_char, found_quote != 0, delimiter]
+    [quote_char, found_quote != 0, delimiter]
   end
 
   def gen_completion_matches(text, start, _end, our_func, found_quote, quote_char)
@@ -6305,7 +6305,7 @@ module RbReadline
   end
 
   def path_isdir(filename)
-    return File.directory?(filename)
+    File.directory?(filename)
   end
 
   # Return the character which best describes FILENAME.
@@ -6624,15 +6624,15 @@ module RbReadline
   #   rl_completion_matches ()).  The default is to do filename completion.
   def rl_complete(ignore, invoking_key)
     if @rl_inhibit_completion
-      return _rl_insert_char(ignore, invoking_key)
+      _rl_insert_char(ignore, invoking_key)
     elsif @rl_last_func == :rl_complete && !@completion_changed_buffer
-      return rl_complete_internal("?")
+      rl_complete_internal("?")
     elsif @_rl_complete_show_all
-      return rl_complete_internal("!")
+      rl_complete_internal("!")
     elsif @_rl_complete_show_unmodified
-      return rl_complete_internal("@")
+      rl_complete_internal("@")
     else
-      return rl_complete_internal(TAB)
+      rl_complete_internal(TAB)
     end
   end
 
@@ -6640,7 +6640,7 @@ module RbReadline
   #   OFFSET is relative to history_base.
   def history_get(offset)
     local_index = offset - @history_base
-    return (local_index >= @history_length || local_index < 0 || @the_history.nil?) ?
+    (local_index >= @history_length || local_index < 0 || @the_history.nil?) ?
       nil : @the_history[local_index]
   end
 
@@ -7230,7 +7230,7 @@ module RbReadline
     rl_insert_text(arg)
     arg = nil
     rl_end_undo_group
-    return 0
+    0
   end
 
   # Yank the COUNTth argument from the previous history line.
@@ -7571,7 +7571,7 @@ module RbReadline
       break if r <= 0 || !rl_isstate(RL_STATE_NUMERICARG)
     end
 
-    return r
+    r
   end
 
   # Start a numeric argument with initial value KEY
@@ -7692,7 +7692,7 @@ module RbReadline
 
   def isascii(c)
     int_val = c[0].to_i # 1.8 + 1.9 compat.
-    return (int_val < 128 && int_val > 0)
+    (int_val < 128 && int_val > 0)
   end
 
   # Search non-interactively through the history list.  DIR < 0 means to
@@ -8194,14 +8194,14 @@ module RbReadline
   def unstifle_history
     if @history_stifled
       @history_stifled = false
-      return @history_max_entries
+      @history_max_entries
     else
-      return -@history_max_entries
+      -@history_max_entries
     end
   end
 
   def history_is_stifled
-    return @history_stifled
+    @history_stifled
   end
 
   def clear_history

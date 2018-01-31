@@ -50,7 +50,7 @@ module Readline
 
     RbReadline.add_history(buff) if add_history && buff
 
-    return buff ? buff.dup : nil
+    buff ? buff.dup : nil
   end
 
   # Sets the input stream (an IO object) for readline interaction. The
@@ -210,7 +210,7 @@ module Readline
   #
   def self.completion_append_character
     return nil if RbReadline.rl_completion_append_character == ?\0
-    return RbReadline.rl_completion_append_character
+    RbReadline.rl_completion_append_character
   end
 
   # Sets the character string that signal a break between words for the
@@ -469,7 +469,7 @@ module Readline
       else
         result = nil
       end
-      return result
+      result
     end
   end
 
@@ -498,7 +498,7 @@ module Readline
       else
         result = nil
       end
-      return result
+      result
     end
   end
 
