@@ -1511,7 +1511,7 @@ module RbReadline
   #   buffer index.)
   #   DATA is the contents of the screen line of interest; i.e., where
   #   the movement is being done.
-  def _rl_move_cursor_relative(new, data, start=0)
+  def _rl_move_cursor_relative(new, data, start = 0)
     woff = w_offset(@_rl_last_v_pos, @wrap_offset)
     cpos = @_rl_last_c_pos
 
