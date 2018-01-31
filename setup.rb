@@ -16,9 +16,9 @@ end
 
 unless File.respond_to?(:read) # Ruby 1.6
   def File.read(fname)
-    open(fname) { |f|
+    open(fname) do |f|
       return f.read
-    }
+    end
   end
 end
 
@@ -31,9 +31,9 @@ unless Errno.const_defined?(:ENOTEMPTY) # Windows?
 end
 
 def File.binread(fname)
-  open(fname, "rb") { |f|
+  open(fname, "rb") do |f|
     return f.read
-  }
+  end
 end
 
 # for corrupted Windows' stat(2)
@@ -130,11 +130,11 @@ class ConfigTable
 
   def save
     @items.each { |i| i.value }
-    File.open(savefile, "w") { |f|
+    File.open(savefile, "w") do |f|
       @items.each do |i|
         f.printf "%s=%s\n", i.name, i.value if i.value? and i.value
       end
-    }
+    end
   end
 
   def load_standard_entries
@@ -197,7 +197,7 @@ class ConfigTable
     [
       ExecItem.new("installdirs", "std/site/home",
                    "std: install under libruby; site: install under site_ruby; home: install under $HOME")\
-          { |val, table|
+          do |val, table|
             case val
             when "std"
               table["rbdir"] = "$librubyver"
@@ -211,7 +211,7 @@ class ConfigTable
               table["rbdir"] = "$libdir/ruby"
               table["sodir"] = "$libdir/ruby"
             end
-          },
+          end,
       PathItem.new("prefix", "path", c["prefix"],
                    "path prefix of target environment"),
       PathItem.new("bindir", "path", parameterize.call(c["bindir"]),
@@ -597,9 +597,9 @@ module FileOperations
     begin
       File.rename src, dest
     rescue
-      File.open(dest, "wb") { |f|
+      File.open(dest, "wb") do |f|
         f.write File.binread(src)
-      }
+      end
       File.chmod File.stat(src).mode, dest
       File.unlink src
     end
@@ -625,21 +625,21 @@ module FileOperations
     realdest = File.join(realdest, File.basename(from)) if File.dir?(realdest)
     str = File.binread(from)
     if diff?(str, realdest)
-      verbose_off {
+      verbose_off do
         rm_f realdest if File.exist?(realdest)
-      }
-      File.open(realdest, "wb") { |f|
+      end
+      File.open(realdest, "wb") do |f|
         f.write str
-      }
+      end
       File.chmod mode, realdest
 
-      File.open("#{objdir_root}/InstalledFiles", "a") { |f|
+      File.open("#{objdir_root}/InstalledFiles", "a") do |f|
         if prefix
           f.puts realdest.sub(prefix, "")
         else
           f.puts realdest
         end
-      }
+      end
     end
   end
 
@@ -667,17 +667,17 @@ module FileOperations
   end
 
   def files_of(dir)
-    Dir.open(dir) { |d|
+    Dir.open(dir) do |d|
       return d.select { |ent| File.file?("#{dir}/#{ent}") }
-    }
+    end
   end
 
   DIR_REJECT = %w( . .. CVS SCCS RCS CVS.adm .svn ).freeze
 
   def directories_of(dir)
-    Dir.open(dir) { |d|
+    Dir.open(dir) do |d|
       return d.select { |ent| File.dir?("#{dir}/#{ent}") } - DIR_REJECT
-    }
+    end
   end
 
 end
@@ -725,21 +725,21 @@ module HookScriptAPI
   end
 
   def srcentries(path = ".")
-    Dir.open("#{curr_srcdir}/#{path}") { |d|
+    Dir.open("#{curr_srcdir}/#{path}") do |d|
       return d.to_a - %w(. ..)
-    }
+    end
   end
 
   def srcfiles(path = ".")
-    srcentries(path).select { |fname|
+    srcentries(path).select do |fname|
       File.file?(File.join(curr_srcdir, path, fname))
-    }
+    end
   end
 
   def srcdirectories(path = ".")
-    srcentries(path).select { |fname|
+    srcentries(path).select do |fname|
       File.dir?(File.join(curr_srcdir, path, fname))
-    }
+    end
   end
 
 end
@@ -1054,10 +1054,10 @@ class ToplevelInstallerMulti < ToplevelInstaller
     end
     with = extract_selection(config("with"))
     without = extract_selection(config("without"))
-    @selected = @installers.keys.select { |name|
+    @selected = @installers.keys.select do |name|
                   (with.empty? or with.include?(name)) \
                       and not without.include?(name)
-                }
+                end
   end
 
   def extract_selection(list)
@@ -1269,13 +1269,13 @@ class Installer
       new = Shebang.new(config("rubypath"))
     end
     $stderr.puts "updating shebang: #{File.basename(path)}" if verbose?
-    open_atomic_writer(path) { |output|
-      File.open(path, "rb") { |f|
+    open_atomic_writer(path) do |output|
+      File.open(path, "rb") do |f|
         f.gets if old # discard
         output.puts new.to_s
         output.print f.read
-      }
-    }
+      end
+    end
   end
 
   def new_shebang(old)
@@ -1302,9 +1302,9 @@ class Installer
   class Shebang
     def Shebang.load(path)
       line = nil
-      File.open(path) { |f|
+      File.open(path) do |f|
         line = f.gets
-      }
+      end
       return nil unless /\A#!/ =~ line
       parse(line)
     end
@@ -1389,12 +1389,12 @@ class Installer
   end
 
   def mapdir(ents)
-    ents.map { |ent|
+    ents.map do |ent|
       if File.exist?(ent)
       then ent # objdir
       else "#{curr_srcdir}/#{ent}" # srcdir
       end
-    }
+    end
   end
 
   # picked up many entries from cvs-1.11.1/src/ignore.c
@@ -1411,9 +1411,9 @@ class Installer
   end
 
   def hookfiles
-    %w( pre-%s post-%s pre-%s.rb post-%s.rb ).map { |fmt|
+    %w( pre-%s post-%s pre-%s.rb post-%s.rb ).map do |fmt|
       %w( config setup install clean ).map { |t| sprintf(fmt, t) }
-    }.flatten
+    end.flatten
   end
 
   def glob_select(pat, ents)
@@ -1521,14 +1521,14 @@ class Installer
   end
 
   def traverse(task, rel, mid)
-    dive_into(rel) {
+    dive_into(rel) do
       run_hook "pre-#{task}"
       __send__ mid, rel.sub(%r[\A.*?(?:/|\z)], "")
       directories_of(curr_srcdir).each do |d|
         traverse task, "#{rel}/#{d}", mid
       end
       run_hook "post-#{task}"
-    }
+    end
   end
 
   def dive_into(rel)
