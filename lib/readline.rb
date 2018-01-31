@@ -139,7 +139,7 @@ module Readline
     matches = ary.length
     return nil if matches == 0
     result = Array.new(matches + 2)
-    for i in 0 ... matches
+    for i in 0...matches
       result[i + 1] = ary[i].dup
     end
     result[matches + 1] = nil
@@ -408,7 +408,7 @@ module Readline
     # Iterates over each entry in the history buffer.
     #
     def self.each
-      for i in 0 ... RbReadline.history_length
+      for i in 0...RbReadline.history_length
         entry = RbReadline.history_get(RbReadline.history_base + i)
         break if entry.nil?
         yield entry.line.dup

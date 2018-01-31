@@ -639,7 +639,7 @@ module RbReadline
   # True if this is `real' readline as opposed to some stub substitute.
   @rl_gnu_readline_p = true
 
-  for i in 32 .. 255
+  for i in 32..255
     @emacs_standard_keymap[i.chr] = :rl_insert unless @emacs_standard_keymap[i.chr]
     @vi_insertion_keymap[i.chr] = :rl_insert unless @vi_insertion_keymap[i.chr]
   end
@@ -1389,7 +1389,7 @@ module RbReadline
 
         si = text.length
         if si <= low
-          for i in 1 .. matches
+          for i in 1..matches
             if match_list[i][0, si] == text
               match_list[0] = match_list[i][0, low]
               break
@@ -1663,7 +1663,7 @@ module RbReadline
     rl = 0
     ignoring = false
     last = ninvis = physchars = 0
-    for pi in 0 ... pmt.length
+    for pi in 0...pmt.length
       # This code strips the invisible character string markers
       # RL_PROMPT_START_IGNORE and RL_PROMPT_END_IGNORE
       if !ignoring && pmt[pi, 1] == RL_PROMPT_START_IGNORE # XXX - check ignoring?
@@ -2623,7 +2623,7 @@ module RbReadline
   end
 
   def vis_chars(line)
-    @visible_line[@vis_lbreaks[line] .. -1]
+    @visible_line[@vis_lbreaks[line]..-1]
   end
 
   def vis_pos(line)
@@ -2635,7 +2635,7 @@ module RbReadline
   end
 
   def inv_line(line)
-    @invisible_line[@inv_lbreaks[line] .. -1]
+    @invisible_line[@inv_lbreaks[line]..-1]
   end
 
   def m_offset(margin, offset)
@@ -3391,7 +3391,7 @@ module RbReadline
         if !@rl_byte_oriented
           _rl_wrapped_multicolumn = 0
           if @_rl_screenwidth < lpos + wc_width
-            for i in lpos ... @_rl_screenwidth
+            for i in lpos...@_rl_screenwidth
               # The space will be removed in update_line()
               line[out, 1] = " "
               out += 1
@@ -3410,7 +3410,7 @@ module RbReadline
           end
           line[out, wc_bytes] = @rl_line_buffer[_in, wc_bytes]
           out += wc_bytes
-          for i in 0 ... wc_width
+          for i in 0...wc_width
             lpos += 1
             if lpos >= @_rl_screenwidth
               @inv_lbreaks[newlines += 1] = out
@@ -3796,13 +3796,13 @@ module RbReadline
     when "N"
       return (_end - start)
     when "U"
-      str[start ... _end].scan(/./mu).each { |s| width += s.unpack("U").first >= 0x1000 ? 2 : 1 }
+      str[start..._end].scan(/./mu).each { |s| width += s.unpack("U").first >= 0x1000 ? 2 : 1 }
     when "S"
-      str[start ... _end].scan(/./ms).each { |s| width += s.length }
+      str[start..._end].scan(/./ms).each { |s| width += s.length }
     when "E"
-      str[start ... _end].scan(/./me).each { |s| width += s.length }
+      str[start..._end].scan(/./me).each { |s| width += s.length }
     when "X"
-      str[start ... _end].force_encoding(@encoding_name).codepoints.each { |s| width += s > 0x1000 ? 2 : 1 }
+      str[start..._end].force_encoding(@encoding_name).codepoints.each { |s| width += s > 0x1000 ? 2 : 1 }
     end
     width
   end
@@ -4115,7 +4115,7 @@ module RbReadline
         cxt.search_string_size += 128
       end
       if !@rl_byte_oriented
-        for j in 0 ... cxt.mb.length
+        for j in 0...cxt.mb.length
           cxt.search_string << cxt.mb[j, 1]
           cxt.search_string_index += 1
         end
@@ -4907,7 +4907,7 @@ module RbReadline
     end
 
     last = -1
-    for i in 0 ... @history_length
+    for i in 0...@history_length
       entry = @the_history[i]
       next if entry.nil?
       if entry.data == old
@@ -6331,7 +6331,7 @@ module RbReadline
         else
           new_full_pathname[slen, 1] = "/"
         end
-        new_full_pathname[slen .. -1] = "/" + to_print
+        new_full_pathname[slen..-1] = "/" + to_print
 
         if @rl_visible_stats
           extension_char = stat_char(new_full_pathname)
@@ -6972,7 +6972,7 @@ module RbReadline
     #   and remember those lines.
     cxt.hlen = i
     cxt.lines = []
-    for i in 0 ... cxt.hlen
+    for i in 0...cxt.hlen
       cxt.lines[i] = hlist[i].line
     end
 
@@ -8037,9 +8037,9 @@ module RbReadline
     lines = 0
     if !@_rl_print_completions_horizontally
       # Print the sorted items, up-and-down alphabetically, like ls.
-      for i in 1 .. count
+      for i in 1..count
         l = i
-        for j in 0 ... limit
+        for j in 0...limit
           if l > len || matches[l].nil?
             break
           else
@@ -8437,7 +8437,7 @@ module RbReadline
   def _rl_is_mbchar_matched(string, seed, _end, mbchar, length)
     return 0 if (_end - seed) < length
 
-    for i in 0 ... length
+    for i in 0...length
       return 0 if string[seed + i] != mbchar[i]
     end
     1
