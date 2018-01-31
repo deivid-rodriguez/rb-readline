@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # encoding: US-ASCII
 #
 # rbreadline.rb -- a general facility for reading lines of input

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # encoding: US-ASCII
 
 # Stub file to conform gem name (rb-readline)
