@@ -1192,7 +1192,8 @@ class Installer
 
   def verbose_off
     begin
-      save, @config.verbose = @config.verbose?, false
+      save = @config.verbose?
+      @config.verbose = false
       yield
     ensure
       @config.verbose = save

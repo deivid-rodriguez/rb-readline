@@ -120,7 +120,10 @@ module RbReadline
   # The actions that undo knows how to undo.  Notice that UNDO_DELETE means
   #   to insert some text, and UNDO_INSERT means to delete some text.   I.e.,
   #   the code tells undo what to undo, not how to undo it.
-  UNDO_DELETE, UNDO_INSERT, UNDO_BEGIN, UNDO_END = 0, 1, 2, 3
+  UNDO_DELETE = 0
+  UNDO_INSERT = 1
+  UNDO_BEGIN = 2
+  UNDO_END = 3
 
   # Definitions used when searching the line for characters.
   # NOTE: it is necessary that opposite directions are inverses
@@ -2407,7 +2410,8 @@ module RbReadline
     end
 
     if string =~ /"(.*)"\s*:\s*(.*)$/
-      key, funname = Regexp.last_match(1), Regexp.last_match(2)
+      key = Regexp.last_match(1)
+      funname = Regexp.last_match(2)
       func = rl_named_function(funname)
       rl_bind_key(key, func) if func
     end
@@ -8237,21 +8241,24 @@ module RbReadline
     case @encoding
     when "E"
       x = string.scan(/./me)
-      i, len = 0, x.length
+      i = 0
+      len = x.length
       while pos < point && i < len
         pos += x[i].length
         i += 1
       end
     when "S"
       x = string.scan(/./ms)
-      i, len = 0, x.length
+      i = 0
+      len = x.length
       while pos < point && i < len
         pos += x[i].length
         i += 1
       end
     when "U"
       x = string.scan(/./mu)
-      i, len = 0, x.length
+      i = 0
+      len = x.length
       while pos < point && i < len
         pos += x[i].length
         i += 1
