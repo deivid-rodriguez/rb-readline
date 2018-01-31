@@ -233,7 +233,7 @@ class ConfigTable
       PathItem.new("librubyverarch", "path", librubyverarch,
                    "the directory for standard ruby extensions"),
       PathItem.new("siteruby", "path", siteruby,
-          "the directory for version-independent aux ruby libraries"),
+                   "the directory for version-independent aux ruby libraries"),
       PathItem.new("siterubyver", "path", siterubyver,
                    "the directory for aux ruby libraries"),
       PathItem.new("siterubyverarch", "path", siterubyverarch,
@@ -651,7 +651,7 @@ module FileOperations
   def command(*args)
     $stderr.puts args.join(" ") if verbose?
     system(*args) or raise RuntimeError,
-        "system(#{args.map{ |a| a.inspect }.join(' ')}) failed"
+                           "system(#{args.map{ |a| a.inspect }.join(' ')}) failed"
   end
 
   def ruby(*args)
@@ -1049,8 +1049,8 @@ class ToplevelInstallerMulti < ToplevelInstaller
     @installers = {}
     @packages.each do |pack|
       @installers[pack] = Installer.new(@config,
-                                       "#{@ardir}/packages/#{pack}",
-                                       "packages/#{pack}")
+                                        "#{@ardir}/packages/#{pack}",
+                                        "packages/#{pack}")
     end
     with = extract_selection(config("with"))
     without = extract_selection(config("without"))

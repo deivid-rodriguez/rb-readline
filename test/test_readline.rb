@@ -111,7 +111,7 @@ class TestReadline < Minitest::Test
       ].each do |data, expected|
         Readline.completion_append_character = data
         assert_equal(expected, Readline.completion_append_character,
-          "failed case: [#{data.inspect}, #{expected.inspect}]")
+                     "failed case: [#{data.inspect}, #{expected.inspect}]")
       end
     ensure
       Readline.completion_append_character = orig_char
@@ -168,7 +168,7 @@ class TestReadline < Minitest::Test
         expecteds.each do |e|
           Readline.send("#{method}=".to_sym, e)
           assert_equal(e, Readline.send(method),
-            "failed case #{e.inspect} for method #{method}")
+                       "failed case #{e.inspect} for method #{method}")
         end
       ensure
         Readline.send("#{method}=".to_sym, saved) if saved

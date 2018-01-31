@@ -1101,11 +1101,11 @@ module RbReadline
   @filename_len = 0
 
   attr_accessor :rl_attempted_completion_function, :rl_deprep_term_function,
-    :rl_event_hook, :rl_attempted_completion_over, :rl_basic_quote_characters,
-    :rl_basic_word_break_characters, :rl_completer_quote_characters,
-    :rl_completer_word_break_characters, :rl_completion_append_character,
-    :rl_filename_quote_characters, :rl_instream, :rl_library_version, :rl_outstream,
-    :rl_readline_name, :history_length, :history_base, :rl_point
+                :rl_event_hook, :rl_attempted_completion_over, :rl_basic_quote_characters,
+                :rl_basic_word_break_characters, :rl_completer_quote_characters,
+                :rl_completer_word_break_characters, :rl_completion_append_character,
+                :rl_filename_quote_characters, :rl_instream, :rl_library_version, :rl_outstream,
+                :rl_readline_name, :history_length, :history_base, :rl_point
 
   module_function
 
@@ -8508,17 +8508,17 @@ module RbReadline
   end
 
   module_function :rl_attempted_completion_function, :rl_deprep_term_function,
-    :rl_event_hook, :rl_attempted_completion_over, :rl_basic_quote_characters,
-    :rl_basic_word_break_characters, :rl_completer_quote_characters,
-    :rl_completer_word_break_characters, :rl_completion_append_character,
-    :rl_filename_quote_characters, :rl_instream, :rl_library_version, :rl_outstream,
-    :rl_readline_name,
-    :rl_attempted_completion_function=, :rl_deprep_term_function=,
-    :rl_event_hook=, :rl_attempted_completion_over=, :rl_basic_quote_characters=,
-    :rl_basic_word_break_characters=, :rl_completer_quote_characters=,
-    :rl_completer_word_break_characters=, :rl_completion_append_character=,
-    :rl_filename_quote_characters=, :rl_instream=, :rl_library_version=, :rl_outstream=,
-    :rl_readline_name=, :history_length, :history_base, :rl_point
+                  :rl_event_hook, :rl_attempted_completion_over, :rl_basic_quote_characters,
+                  :rl_basic_word_break_characters, :rl_completer_quote_characters,
+                  :rl_completer_word_break_characters, :rl_completion_append_character,
+                  :rl_filename_quote_characters, :rl_instream, :rl_library_version, :rl_outstream,
+                  :rl_readline_name,
+                  :rl_attempted_completion_function=, :rl_deprep_term_function=,
+                  :rl_event_hook=, :rl_attempted_completion_over=, :rl_basic_quote_characters=,
+                  :rl_basic_word_break_characters=, :rl_completer_quote_characters=,
+                  :rl_completer_word_break_characters=, :rl_completion_append_character=,
+                  :rl_filename_quote_characters=, :rl_instream=, :rl_library_version=, :rl_outstream=,
+                  :rl_readline_name=, :history_length, :history_base, :rl_point
 
   def no_terminal?
     term = ENV["TERM"]
