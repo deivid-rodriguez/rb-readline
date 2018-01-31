@@ -1234,14 +1234,14 @@ module RbReadline
   def rl_username_completion_function(text, state)
     return nil if RUBY_PLATFORM =~ /mswin|mingw/
 
-      if state == 0
-        first_char = text[0, 1]
-        first_char_loc = (first_char == "~" ? 1 : 0)
+    if state == 0
+      first_char = text[0, 1]
+      first_char_loc = (first_char == "~" ? 1 : 0)
 
-        username = text[first_char_loc..-1]
-        namelen = username.length
-        Etc.setpwent
-      end
+      username = text[first_char_loc..-1]
+      namelen = username.length
+      Etc.setpwent
+    end
 
     while (entry = Etc.getpwent)
       # Null usernames should result in all users as possible completions.
@@ -1775,37 +1775,37 @@ module RbReadline
 
   def get_term_capabilities(_buffer)
     hash = {}
-      `infocmp -C`.split(":").select{ |x| x =~ /(.*)=(.*)/ and hash[$1] = $2.gsub("\\r", "\r").gsub('\\E', "\e").gsub(/\^(.)/){ ($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr } }
-      @_rl_term_at7 = hash["@7"]
-      @_rl_term_DC = hash["DC"]
-      @_rl_term_IC = hash["IC"]
-      @_rl_term_clreol = hash["ce"]
-      @_rl_term_clrpag = hash["cl"]
-      @_rl_term_cr = hash["cr"]
-      @_rl_term_dc = hash["dc"]
-      @_rl_term_ei = hash["ei"]
-      @_rl_term_ic = hash["ic"]
-      @_rl_term_im = hash["im"]
-      @_rl_term_kD = hash["kD"]
-      @_rl_term_kH = hash["kH"]
-      @_rl_term_kI = hash["kI"]
-      @_rl_term_kd = hash["kd"]
-      @_rl_term_ke = hash["ke"]
-      @_rl_term_kh = hash["kh"]
-      @_rl_term_kl = hash["kl"]
-      @_rl_term_kr = hash["kr"]
-      @_rl_term_ks = hash["ks"]
-      @_rl_term_ku = hash["ku"]
-      @_rl_term_backspace = hash["le"]
-      @_rl_term_mm = hash["mm"]
-      @_rl_term_mo = hash["mo"]
-      @_rl_term_forward_char = hash["nd"]
-      @_rl_term_pc = hash["pc"]
-      @_rl_term_up = hash["up"]
-      @_rl_visible_bell = hash["vb"]
-      @_rl_term_vs = hash["vs"]
-      @_rl_term_ve = hash["ve"]
-      @tcap_initialized = true
+    `infocmp -C`.split(":").select{ |x| x =~ /(.*)=(.*)/ and hash[$1] = $2.gsub("\\r", "\r").gsub('\\E', "\e").gsub(/\^(.)/){ ($1[0].ord ^ ((?a..?z).include?($1[0]) ? 0x60 : 0x40)).chr } }
+    @_rl_term_at7 = hash["@7"]
+    @_rl_term_DC = hash["DC"]
+    @_rl_term_IC = hash["IC"]
+    @_rl_term_clreol = hash["ce"]
+    @_rl_term_clrpag = hash["cl"]
+    @_rl_term_cr = hash["cr"]
+    @_rl_term_dc = hash["dc"]
+    @_rl_term_ei = hash["ei"]
+    @_rl_term_ic = hash["ic"]
+    @_rl_term_im = hash["im"]
+    @_rl_term_kD = hash["kD"]
+    @_rl_term_kH = hash["kH"]
+    @_rl_term_kI = hash["kI"]
+    @_rl_term_kd = hash["kd"]
+    @_rl_term_ke = hash["ke"]
+    @_rl_term_kh = hash["kh"]
+    @_rl_term_kl = hash["kl"]
+    @_rl_term_kr = hash["kr"]
+    @_rl_term_ks = hash["ks"]
+    @_rl_term_ku = hash["ku"]
+    @_rl_term_backspace = hash["le"]
+    @_rl_term_mm = hash["mm"]
+    @_rl_term_mo = hash["mo"]
+    @_rl_term_forward_char = hash["nd"]
+    @_rl_term_pc = hash["pc"]
+    @_rl_term_up = hash["up"]
+    @_rl_visible_bell = hash["vb"]
+    @_rl_term_vs = hash["vs"]
+    @_rl_term_ve = hash["ve"]
+    @tcap_initialized = true
   end
 
   # Set the environment variables LINES and COLUMNS to lines and cols,
@@ -2121,7 +2121,7 @@ module RbReadline
       else
         @no_mode
              end
-    @_rl_parsing_conditionalized_out = (mode != @rl_editing_mode)
+      @_rl_parsing_conditionalized_out = (mode != @rl_editing_mode)
     # Check to see if the first word in ARGS is the same as the
     #   value stored in rl_readline_name.
     elsif args == @rl_readline_name
@@ -6557,17 +6557,17 @@ module RbReadline
     # see if it was a directory.  If so, and the `mark-directories'
     # variable is set, add a '/' to the name.  If not, and we
     # are at the end of the line, then add a space.
-    if matches[1]
-      if what_to_do == "!"
-        display_matches(matches)
-      elsif what_to_do == "@"
-        display_matches(matches) if !nontrivial_lcd
-      elsif @rl_editing_mode != @vi_mode
-        rl_ding # There are other matches remaining.
+      if matches[1]
+        if what_to_do == "!"
+          display_matches(matches)
+        elsif what_to_do == "@"
+          display_matches(matches) if !nontrivial_lcd
+        elsif @rl_editing_mode != @vi_mode
+          rl_ding # There are other matches remaining.
+        end
+      else
+        append_to_match(matches[0], delimiter, quote_char, nontrivial_lcd)
       end
-    else
-      append_to_match(matches[0], delimiter, quote_char, nontrivial_lcd)
-    end
     when "*"
       insert_all_matches(matches, start, quote_char)
     when "?"
