@@ -1118,7 +1118,7 @@ module RbReadline
     if state == 0
       # If we were interrupted before closing the directory or reading
       # all of its contents, close it.
-      if(@directory)
+      if (@directory)
         @directory.close
         @directory = nil
       end
@@ -1181,7 +1181,7 @@ module RbReadline
 
     # Now that we have some state, we can read the directory.
     entry = nil
-    while(@directory && (entry = @directory.read))
+    while (@directory && (entry = @directory.read))
       d_name = entry
       # Special case for no filename.  If the user has disabled the
       #   `match-hidden-files' variable, skip filenames beginning with `.'.
@@ -1316,13 +1316,13 @@ module RbReadline
 
     i = 1
     low = 100000
-    while(i < matches)
+    while (i < matches)
       if @_rl_completion_case_fold
         si = 0
-        while((c1 = _rl_to_lower(match_list[i][si])) &&
+        while ((c1 = _rl_to_lower(match_list[i][si])) &&
               (c2 = _rl_to_lower(match_list[i + 1][si])))
           if !@rl_byte_oriented
-            if(!_rl_compare_chars(match_list[i], si, match_list[i + 1], si))
+            if (!_rl_compare_chars(match_list[i], si, match_list[i + 1], si))
               break
             elsif (v = _rl_get_char_len(match_list[i][si..-1])) > 1
               si += v - 1
@@ -1334,10 +1334,10 @@ module RbReadline
         end
       else
         si = 0
-        while((c1 = match_list[i][si]) &&
+        while ((c1 = match_list[i][si]) &&
               (c2 = match_list[i + 1][si]))
           if !@rl_byte_oriented
-            if(!_rl_compare_chars(match_list[i], si, match_list[i + 1], si))
+            if (!_rl_compare_chars(match_list[i], si, match_list[i + 1], si))
               break
             elsif (v = _rl_get_char_len(match_list[i][si..-1])) > 1
               si += v - 1
@@ -1457,7 +1457,7 @@ module RbReadline
       _rl_replace_text(homedir, start, _end)
       return 0
     elsif @rl_line_buffer[start, 1] != "~"
-      while(!whitespace(@rl_line_buffer[start, 1]) && start >= 0)
+      while (!whitespace(@rl_line_buffer[start, 1]) && start >= 0)
         start -= 1
       end
       start += 1
@@ -2782,7 +2782,7 @@ module RbReadline
           old_offset = ostart
           ofd = 0
           nfd = 0
-          while(ofd < omax && old[ostart + ofd, 1] != 0.chr &&
+          while (ofd < omax && old[ostart + ofd, 1] != 0.chr &&
                 _rl_compare_chars(old, old_offset, new, new_offset))
 
             old_offset = _rl_find_next_mbchar(old, old_offset, 1, MB_FIND_ANY)
@@ -2795,7 +2795,7 @@ module RbReadline
     else
       ofd = 0
       nfd = 0
-      while(ofd < omax && old[ostart + ofd, 1] != 0.chr && old[ostart + ofd, 1] == new[nfd, 1])
+      while (ofd < omax && old[ostart + ofd, 1] != 0.chr && old[ostart + ofd, 1] == new[nfd, 1])
         ofd += 1
         nfd += 1
       end
@@ -3282,10 +3282,10 @@ module RbReadline
       wc_bytes = 1
     end
 
-    while(_in < @rl_end)
+    while (_in < @rl_end)
 
       c = @rl_line_buffer[_in, 1]
-      if(c == 0.chr)
+      if (c == 0.chr)
         @rl_end = _in
         break
       end
@@ -3541,7 +3541,7 @@ module RbReadline
         # We may have deleted some lines.  If so, clear the left over
         #   blank ones at the bottom out.
         if @_rl_vis_botlin > inv_botlin
-          while(linenum <= @_rl_vis_botlin)
+          while (linenum <= @_rl_vis_botlin)
             tt = vis_chars(linenum)
             _rl_move_vert(linenum)
             _rl_move_cursor_relative(0, tt)
@@ -4261,10 +4261,10 @@ module RbReadline
         @rl_last_func = map[key]
       end
     else
-      if(map.keys.detect{ |x| x =~ /^#{Regexp.escape(key)}/ })
+      if (map.keys.detect{ |x| x =~ /^#{Regexp.escape(key)}/ })
         key += _rl_subseq_getchar(key)
         return _rl_dispatch_subseq(key, map, got_subseq)
-      elsif(key.length > 1 && key[1].ord < 0x7f)
+      elsif (key.length > 1 && key[1].ord < 0x7f)
         _rl_abort_internal
         return -1
       else
@@ -4392,7 +4392,7 @@ module RbReadline
 
     def rl_gather_tyi
       chars_avail = @kbhit.Call
-      return 0 if(chars_avail <= 0)
+      return 0 if (chars_avail <= 0)
       k = send(@rl_getc_function, @rl_instream)
       rl_stuff_char(k)
       1
@@ -5375,7 +5375,7 @@ module RbReadline
       end
     end
 
-    if(count > 1)
+    if (count > 1)
       string = incoming * count
       rl_insert_text(string)
       string = nil
@@ -6132,7 +6132,7 @@ module RbReadline
     @rl_point = point
     if matches[1]
       i = 1
-      while(matches[i])
+      while (matches[i])
         rp = make_quoted_replacement(matches[i], SINGLE_MATCH, qc)
         rl_insert_text(rp)
         rl_insert_text(" ")
@@ -6242,7 +6242,7 @@ module RbReadline
           end
 
     arr.each do |s|
-      if(ctrl_char(s))
+      if (ctrl_char(s))
         @rl_outstream.write("^" + (s[0].ord | 0x40).chr.upcase)
         printed_len += 2
       elsif s == RUBOUT
@@ -6362,7 +6362,7 @@ module RbReadline
 
   # The user must press "y" or "n". Non-zero return means "y" pressed.
   def get_y_or_n(for_pager)
-    while(true)
+    while (true)
 
       rl_setstate(RL_STATE_MOREINPUT)
       c = rl_read_key
@@ -6447,7 +6447,7 @@ module RbReadline
     #   and find the maximum printed length of a single entry.
     max = 0
     i = 1
-    while(matches[i])
+    while (matches[i])
       temp = printable_part(matches[i])
       len = fnwidth(temp)
 
@@ -6901,7 +6901,7 @@ module RbReadline
     return 0 if rl_isstate(RL_STATE_CALLBACK)
 
     r = -1
-    while(true)
+    while (true)
       _rl_search_getchar(cxt)
       # We might want to handle EOF here (c == 0)
       r = _rl_isearch_dispatch(cxt, cxt.lastc)
@@ -6966,7 +6966,7 @@ module RbReadline
     hlist = history_list
     rl_maybe_replace_line
     i = 0
-    i += 1 while(hlist[i]) if hlist
+    i += 1 while (hlist[i]) if hlist
 
     # Allocate space for this many lines, +1 for the current input line,
     #   and remember those lines.
@@ -8060,7 +8060,7 @@ module RbReadline
     else
       # Print the sorted items, across alphabetically, like ls -x.
       i = 1
-      while(matches[i])
+      while (matches[i])
         temp = printable_part(matches[i])
         printed_len = print_filename(temp, matches[i])
         # Have we reached the end of this line?

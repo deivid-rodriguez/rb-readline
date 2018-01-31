@@ -144,7 +144,7 @@ module Readline
     end
     result[matches + 1] = nil
 
-    if(matches == 1)
+    if (matches == 1)
       result[0] = result[1].dup
       result[1] = nil
     else
@@ -459,7 +459,7 @@ module Readline
       if matches
         result = []
         i = 0
-        while(matches[i])
+        while (matches[i])
           result << matches[i].dup
           matches[i] = nil
           i += 1
@@ -488,7 +488,7 @@ module Readline
       if matches
         result = []
         i = 0
-        while(matches[i])
+        while (matches[i])
           result << matches[i].dup
           matches[i] = nil
           i += 1
