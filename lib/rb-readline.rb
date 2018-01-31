@@ -16,4 +16,3 @@ if (defined? Readline) && !defined? RbReadline
   Object.send(:remove_const, :Readline)
   require File.join(File.dirname(__FILE__), "readline")
 end
-
