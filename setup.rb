@@ -185,7 +185,7 @@ class ConfigTable
       siterubyver = siteruby
       siterubyverarch = "$siterubyver/#{c['arch']}"
     end
-    parameterize = lambda { |path|
+    parameterize = ->(path) {
       path.sub(/\A#{Regexp.quote(c['prefix'])}/, "$prefix")
     }
 
