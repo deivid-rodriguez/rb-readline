@@ -189,7 +189,7 @@ class ConfigTable
     }
 
     makeprog = if arg = c["configure_args"].split.detect { |arg| /--with-make-prog=/ =~ arg }
-      arg.sub(/'/, "").split(/=/, 2)[1]
+                 arg.sub(/'/, "").split(/=/, 2)[1]
     else
       "make"
                end
