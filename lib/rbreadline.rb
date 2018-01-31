@@ -1246,7 +1246,7 @@ module RbReadline
 
     while (entry = Etc.getpwent)
       # Null usernames should result in all users as possible completions.
-      break if namelen == 0 || entry.name =~ /^#{username}/ 
+      break if namelen == 0 || entry.name =~ /^#{username}/
     end
 
     if entry.nil?
@@ -1357,7 +1357,7 @@ module RbReadline
     # If there were multiple matches, but none matched up to even the
     #   first character, and the user typed something, use that as the
     #   value of matches[0].
-    if low == 0 && text && !text.empty? 
+    if low == 0 && text && !text.empty?
       match_list[0] = text.dup
     else
       # XXX - this might need changes in the presence of multibyte chars
@@ -1453,7 +1453,7 @@ module RbReadline
     _end = @rl_point
     start = _end - 1
 
-    if @rl_point == @rl_end && @rl_line_buffer[@rl_point, 1] == "~" 
+    if @rl_point == @rl_end && @rl_line_buffer[@rl_point, 1] == "~"
       homedir = File.expand_path("~")
       _rl_replace_text(homedir, start, _end)
       return 0
@@ -2845,7 +2845,7 @@ module RbReadline
           ols += 1
         end
       end
-      if new[nls, 1] != 0.chr 
+      if new[nls, 1] != 0.chr
         if !@rl_byte_oriented
           nls = _rl_find_next_mbchar(new, nls, 1, MB_FIND_ANY)
         else
@@ -5277,7 +5277,7 @@ module RbReadline
     0
   end
 
-  def _rl_history_set_point 
+  def _rl_history_set_point
     @rl_point = @_rl_history_preserve_point && @_rl_history_saved_point != -1 ?
       @_rl_history_saved_point : @rl_end
     @rl_point = @rl_end if @rl_point > @rl_end
@@ -5501,7 +5501,7 @@ module RbReadline
     # If the cursor is the only thing on an otherwise-blank last line,
     #   compensate so we don't print an extra CRLF.
     if @_rl_vis_botlin && @_rl_last_c_pos == 0 &&
-        @visible_line[@vis_lbreaks[@_rl_vis_botlin], 1] == 0.chr 
+        @visible_line[@vis_lbreaks[@_rl_vis_botlin], 1] == 0.chr
       @_rl_vis_botlin -= 1
       full_lines = true
     end
@@ -6043,7 +6043,7 @@ module RbReadline
 
         # If the character isn't needed to determine something special
         #   about what kind of completion to perform, then advance past it.
-        if @rl_special_prefixes.nil? || !@rl_special_prefixes.include?(scan) 
+        if @rl_special_prefixes.nil? || !@rl_special_prefixes.include?(scan)
           @rl_point += 1
         end
       end
@@ -6321,7 +6321,7 @@ module RbReadline
 
         slen = s.length
         new_full_pathname = s.dup
-        if s[-1, 1] == "/" 
+        if s[-1, 1] == "/"
           slen -= 1
         else
           new_full_pathname[slen, 1] = "/"
@@ -8117,7 +8117,7 @@ module RbReadline
           # This is clumsy.  Avoid putting in a double slash if point
           # is at the end of the line and the previous character is a
           # slash.
-          if @rl_point > 0 && @rl_line_buffer[@rl_point, 1] == 0.chr && @rl_line_buffer[@rl_point - 1, 1] == "/" 
+          if @rl_point > 0 && @rl_line_buffer[@rl_point, 1] == 0.chr && @rl_line_buffer[@rl_point - 1, 1] == "/"
 
           elsif @rl_line_buffer[@rl_point, 1] != "/"
             rl_insert_text("/")
