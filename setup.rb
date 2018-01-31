@@ -342,7 +342,7 @@ class ConfigTable
     end
 
     def resolve(table)
-      @value.gsub(%r<\$([^/]+)>) { table[$1] }
+      @value.gsub(%r{\$([^/]+)}) { table[$1] }
     end
 
     def set(val)
@@ -540,7 +540,7 @@ module FileOperations
     return if no_harm?
 
     # Does not check '/', it's too abnormal.
-    dirs = File.expand_path(dirname).split(%r<(?=/)>)
+    dirs = File.expand_path(dirname).split(%r{(?=/)})
     if /\A[a-z]:\z/i =~ dirs[0]
       disk = dirs.shift
       dirs[0] = disk + dirs[0]
@@ -673,7 +673,7 @@ module FileOperations
     end
   end
 
-  DIR_REJECT = %w(. .. CVS SCCS RCS CVS.adm .svn).freeze
+  DIR_REJECT = %w[. .. CVS SCCS RCS CVS.adm .svn].freeze
 
   def directories_of(dir)
     Dir.open(dir) do |d|
@@ -727,7 +727,7 @@ module HookScriptAPI
 
   def srcentries(path = ".")
     Dir.open("#{curr_srcdir}/#{path}") do |d|
-      return d.to_a - %w(. ..)
+      return d.to_a - %w[. ..]
     end
   end
 
@@ -888,7 +888,7 @@ class ToplevelInstaller
 
   def parsearg_no_options
     unless ARGV.empty?
-      task = caller(0).first.slice(%r<`parsearg_(\w+)'>, 1)
+      task = caller(0).first.slice(%r{`parsearg_(\w+)'}, 1)
       setup_rb_error "#{task}: unknown options: #{ARGV.join(' ')}"
     end
   end
@@ -1152,7 +1152,7 @@ end # class ToplevelInstallerMulti
 
 class Installer
 
-  FILETYPES = %w(bin lib ext data conf man).freeze
+  FILETYPES = %w[bin lib ext data conf man].freeze
 
   include FileOperations
   include HookScriptAPI
@@ -1374,7 +1374,7 @@ class Installer
   end
 
   def libfiles
-    glob_reject(%w(*.y *.output), targetfiles)
+    glob_reject(%w[*.y *.output], targetfiles)
   end
 
   def rubyextentions(_dir)
@@ -1399,21 +1399,21 @@ class Installer
   end
 
   # picked up many entries from cvs-1.11.1/src/ignore.c
-  JUNK_FILES = %w( 
+  JUNK_FILES = %w[ 
     core RCSLOG tags TAGS .make.state
     .nse_depinfo #* .#* cvslog.* ,* .del-* *.olb
     *~ *.old *.bak *.BAK *.orig *.rej _$* *$
 
     *.org *.in .*
-  ).freeze
+  ].freeze
 
   def existfiles
     glob_reject(JUNK_FILES, (files_of(curr_srcdir) | files_of(".")))
   end
 
   def hookfiles
-    %w(pre-%s post-%s pre-%s.rb post-%s.rb).map do |fmt|
-      %w(config setup install clean).map { |t| sprintf(fmt, t) }
+    %w[pre-%s post-%s pre-%s.rb post-%s.rb].map do |fmt|
+      %w[config setup install clean].map { |t| sprintf(fmt, t) }
     end.flatten
   end
 
@@ -1524,7 +1524,7 @@ class Installer
   def traverse(task, rel, mid)
     dive_into(rel) do
       run_hook "pre-#{task}"
-      __send__ mid, rel.sub(%r[\A.*?(?:/|\z)], "")
+      __send__ mid, rel.sub(%r{\A.*?(?:/|\z)}, "")
       directories_of(curr_srcdir).each do |d|
         traverse task, "#{rel}/#{d}", mid
       end

@@ -48,5 +48,5 @@ spec = Gem::Specification.new do |s|
   # documentation
   s.rdoc_options << "--main" << "README.md" << "--title" << "Rb-Readline - Documentation"
 
-  s.extra_rdoc_files = %w(README.md LICENSE CHANGES)
+  s.extra_rdoc_files = %w[README.md LICENSE CHANGES]
 end
